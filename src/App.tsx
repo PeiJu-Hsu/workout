@@ -1,55 +1,36 @@
 import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
-import { Reset } from "styled-reset";
-// import "./App.css";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
+// import { Reset } from "styled-reset";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import SignIn from "./pages/SignIn";
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
-
-  /* body {
-    font-family: 'Noto Sans TC', sans-serif;
+  body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  
   }
 
-  #root {
-    min-height: 100vh;
-    padding: 140px 0 115px;
-    position: relative;
-
-    @media screen and (max-width: 1279px) {
-      padding: 102px 0 208px;
-    }
-  } */
+  
 `;
 function App() {
-  const [count, setCount] = useState(0);
+  const [isLogin, setIsLogin] = useState(false);
 
   return (
     <>
-      <Reset />
+      {/* <Reset /> */}
       <GlobalStyle />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          {/* <img src={viteLogo} className="logo" alt="Vite logo" /> */}
-        </a>
-        <a href="https://react.dev" target="_blank">
-          {/* <img src={reactLogo} className="logo react" alt="React logo" /> */}
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isLogin ? <Header /> : null}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={isLogin ? <Home /> : <SignIn />} />
+        </Routes>
+      </BrowserRouter>
+      {isLogin ? <Footer /> : null}
     </>
   );
 }
