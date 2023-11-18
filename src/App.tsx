@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
-// import { Reset } from "styled-reset";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
+import { useUserStore } from "./stores/UserStore";
+import { Routes } from "./utils/Routes";
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -18,19 +16,14 @@ const GlobalStyle = createGlobalStyle`
   
 `;
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-
+  const isLogin = useUserStore((state) => state.isLogin);
+  const routing = useRoutes(Routes);
   return (
     <>
-      {/* <Reset /> */}
       <GlobalStyle />
-      {isLogin ? <Header /> : null}
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={isLogin ? <Home /> : <SignIn />} />
-        </Routes>
-      </BrowserRouter>
-      {isLogin ? <Footer /> : null}
+      {isLogin && <Header />}
+      {routing}
+      {isLogin && <Footer />}
     </>
   );
 }

@@ -1,4 +1,3 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   MDBBtn,
   MDBCard,
@@ -10,37 +9,31 @@ import {
   MDBRadio,
   MDBRow,
 } from "mdb-react-ui-kit";
-import { useState } from "react";
-import { auth } from "../../firebase";
-interface signUpData {
-  email: string;
-  password: string;
-  role: number;
-}
-async function handleSignUp(signUpData: signUpData) {
-  console.log("signUpData", signUpData);
-  try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      signUpData.email,
-      signUpData.password,
-      signUpData.role
-    );
-
-    const user = userCredential.user;
-    console.log(user);
-  } catch (error) {
-    console.log(error.message);
-  }
-}
+import { auth, db, googleProvider } from "../../firebase";
+import { useUserStore } from "../../stores/UserStore";
 
 export default function SignIn() {
-  const initialState: signUpData = {
-    email: "",
-    password: "",
-    role: 0,
-  };
-  const [signUpData, setSignUpData] = useState(initialState);
+  const {
+    uerRole,
+    signUp,
+    signUpEmail,
+    signUpPassword,
+    selectRole,
+    keyInEmail,
+    keyInPassWord,
+    googleLogin,
+    nativeLogin,
+    getAuth,
+  } = useUserStore();
+  async function handleGoogleLogin() {
+    if (uerRole !== 0) {
+      googleLogin(auth, googleProvider);
+      getAuth(auth, db);
+    } else {
+      alert("Plz select a role");
+    }
+  }
+
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
@@ -56,28 +49,22 @@ export default function SignIn() {
               </p>
               <MDBRadio
                 name="role"
-                value={0}
                 label="Coach"
+                // value 1 means is coach
+                value={1}
                 inline
                 onChange={(e) => {
-                  const newData = {
-                    ...signUpData,
-                    role: Number(e.target.value),
-                  };
-                  setSignUpData(newData);
+                  selectRole(Number(e.target.value));
                 }}
               />
               <MDBRadio
                 name="role"
-                value={1}
                 label="Student"
+                // value 2 means is student
+                value={2}
                 inline
                 onChange={(e) => {
-                  const newData = {
-                    ...signUpData,
-                    role: Number(e.target.value),
-                  };
-                  setSignUpData(newData);
+                  selectRole(Number(e.target.value));
                 }}
               />
 
@@ -85,22 +72,24 @@ export default function SignIn() {
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-white"
                 label="Email address"
+                id="signUpEmail"
                 type="email"
                 size="lg"
+                style={{ color: "white" }}
                 onChange={(e) => {
-                  const newData = { ...signUpData, email: e.target.value };
-                  setSignUpData(newData);
+                  keyInEmail(e.target.value);
                 }}
               />
               <MDBInput
                 wrapperClass="mb-4 mx-5 w-100"
                 labelClass="text-white"
                 label="Password"
+                id="signUpPassword"
                 type="password"
                 size="lg"
+                style={{ color: "white" }}
                 onChange={(e) => {
-                  const newData = { ...signUpData, password: e.target.value };
-                  setSignUpData(newData);
+                  keyInPassWord(e.target.value);
                 }}
               />
 
@@ -114,12 +103,42 @@ export default function SignIn() {
                 className="mx-2 px-5"
                 color="white"
                 size="lg"
-                onClick={() => handleSignUp(signUpData)}
+                onClick={() => {
+                  if (uerRole !== 0) {
+                    signUp(auth, signUpEmail, signUpPassword);
+                  } else {
+                    alert("Plz select a role");
+                  }
+                }}
               >
                 Sign Up
               </MDBBtn>
-              <MDBBtn outline className="mx-2 px-5" color="white" size="lg">
+              <MDBBtn
+                outline
+                className="mx-2 px-5"
+                color="white"
+                size="lg"
+                onClick={() => {
+                  if (uerRole !== 0) {
+                    nativeLogin(auth, signUpEmail, signUpPassword);
+                    getAuth(auth, db);
+                  } else {
+                    alert("Plz select a role");
+                  }
+                }}
+              >
                 Login
+              </MDBBtn>
+              <MDBBtn
+                outline
+                className="mx-2 px-5"
+                color="white"
+                size="lg"
+                onClick={() => {
+                  handleGoogleLogin();
+                }}
+              >
+                Google Login
               </MDBBtn>
 
               <div className="d-flex flex-row mt-3 mb-5">
