@@ -14,7 +14,7 @@ import { useUserStore } from "../../stores/UserStore";
 
 export default function SignIn() {
   const {
-    uerRole,
+    signUpRole,
     signUp,
     signUpEmail,
     signUpPassword,
@@ -26,14 +26,13 @@ export default function SignIn() {
     getAuth,
   } = useUserStore();
   async function handleGoogleLogin() {
-    if (uerRole !== 0) {
+    if (signUpRole !== 0) {
       googleLogin(auth, googleProvider);
       getAuth(auth, db);
     } else {
       alert("Plz select a role");
     }
   }
-
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
@@ -104,7 +103,7 @@ export default function SignIn() {
                 color="white"
                 size="lg"
                 onClick={() => {
-                  if (uerRole !== 0) {
+                  if (signUpRole !== 0) {
                     signUp(auth, signUpEmail, signUpPassword);
                   } else {
                     alert("Plz select a role");
@@ -119,7 +118,7 @@ export default function SignIn() {
                 color="white"
                 size="lg"
                 onClick={() => {
-                  if (uerRole !== 0) {
+                  if (signUpRole !== 0) {
                     nativeLogin(auth, signUpEmail, signUpPassword);
                     getAuth(auth, db);
                   } else {
