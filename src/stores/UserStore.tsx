@@ -8,6 +8,7 @@ import {
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { auth } from "../firebase";
 import { createSelectors } from "../utils/createSelectors";
 
 interface userState {
@@ -30,7 +31,7 @@ interface userState {
 export const useUserStore = createSelectors(
   create<userState>()(
     immer((set, get) => ({
-      isLogin: false,
+      isLogin: Boolean(auth),
       bears: 0,
       uerRole: 0,
       userEmail: "",
