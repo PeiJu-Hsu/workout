@@ -8,15 +8,17 @@ import {
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { createSelectors } from "../utils/createSelectors";
 
 interface userState {
   isLogin: boolean;
-  uerRole: number;
-  userEmail: string;
+  signUpRole: number;
   signUpEmail: string;
   signUpPassword: string;
+  currentUserEmail: string;
+  currentUserName: string;
+  currentUserRole: number;
   logIn: () => void;
   logOut: () => void;
   selectRole: (value: number) => void;
@@ -27,26 +29,30 @@ interface userState {
   googleLogin: (auth: any, googleProvider: any) => Promise<void>;
   nativeLogin: (auth: any, email: string, password: string) => Promise<void>;
   getAuth: (auth: any, db: any) => Promise<void>;
+  getCurrentUserInfo: () => Promise<void>;
 }
 export const useUserStore = createSelectors(
   create<userState>()(
     immer((set, get) => ({
       isLogin: Boolean(auth),
       bears: 0,
-      uerRole: 0,
-      userEmail: "",
+      signUpRole: 0,
       signUpEmail: "",
       signUpPassword: "",
+      currentUserEmail: "",
+      currentUserName: "",
+      currentUserRole: 0,
+
       logIn: () => {
         set({ isLogin: true });
-        set({ uerRole: 0 });
+        set({ signUpRole: 0 });
       },
       logOut: () => {
         set({ isLogin: false });
-        set({ uerRole: 0 });
+        set({ signUpRole: 0 });
       },
       selectRole: (value) => {
-        set({ uerRole: value });
+        set({ signUpRole: value });
       },
       keyInEmail: (value) => {
         set({ signUpEmail: value });
@@ -61,8 +67,6 @@ export const useUserStore = createSelectors(
             email,
             password
           );
-          const user = userCredential.user;
-          console.log("signUp", user);
         } catch (e) {
           console.log(e.message);
         }
@@ -70,7 +74,6 @@ export const useUserStore = createSelectors(
       signOut: async (auth) => {
         try {
           await signOut(auth);
-          console.log("signOUT");
         } catch (e) {
           console.error(e);
         }
@@ -79,7 +82,7 @@ export const useUserStore = createSelectors(
         try {
           await signInWithPopup(auth, googleProvider);
           set({ isLogin: true });
-          set({ uerRole: 0 });
+          set({ signUpRole: 0 });
         } catch (e) {
           console.error(e);
         }
@@ -91,19 +94,16 @@ export const useUserStore = createSelectors(
             email,
             password
           );
-          const user = userCredential.user;
-          console.log("nativeLogin", user);
           set({ isLogin: true });
-          set({ uerRole: 0 });
+          set({ signUpRole: 0 });
         } catch (e) {
           console.error(e);
         }
       },
       getAuth: async (auth, db) => {
         const userCol = collection(db, "users");
-        const uerRole = get().uerRole;
+        const signUpRole = get().signUpRole;
         onAuthStateChanged(auth, async (user) => {
-          console.log("getAuthUser", user);
           if (user) {
             const userRef = doc(userCol, user.uid);
             const docSnap = await getDoc(userRef);
@@ -114,12 +114,23 @@ export const useUserStore = createSelectors(
                 id: user.uid,
                 email: user.email,
                 name: user.displayName,
-                role: uerRole,
+                role: signUpRole,
               },
               { merge: true }
             );
           }
         });
+      },
+      getCurrentUserInfo: async () => {
+        if (auth.currentUser) {
+          const CurrentUserId = auth.currentUser.uid;
+          const userRef = doc(db, "users", CurrentUserId);
+          const docUserSnap = await getDoc(userRef);
+          const currentUserInfo = docUserSnap.data();
+          set({ currentUserEmail: currentUserInfo.email });
+          set({ currentUserName: currentUserInfo.name });
+          set({ currentUserRole: currentUserInfo.role });
+        }
       },
     }))
   )
