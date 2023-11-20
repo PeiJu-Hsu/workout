@@ -35,7 +35,7 @@ export const useUserStore = createSelectors(
   create<userState>()(
     immer((set, get) => ({
       isLogin: Boolean(auth),
-      bears: 0,
+
       signUpRole: 0,
       signUpEmail: "",
       signUpPassword: "",
@@ -127,6 +127,7 @@ export const useUserStore = createSelectors(
           const userRef = doc(db, "users", CurrentUserId);
           const docUserSnap = await getDoc(userRef);
           const currentUserInfo = docUserSnap.data();
+          if (!currentUserInfo) return;
           set({ currentUserEmail: currentUserInfo.email });
           set({ currentUserName: currentUserInfo.name });
           set({ currentUserRole: currentUserInfo.role });

@@ -28,6 +28,7 @@ interface InBodyStore {
   calculateBMI: () => string;
   calculateFatRatio: () => string;
   fetchInBodyData: () => Promise<DocumentData[] | undefined>;
+  setInBodyStatus: (inBodyData: DocumentData) => void;
   addInBodyData: () => Promise<void>;
   setInputNumberToState: (targetState: any, value: number | Date) => void;
 }
@@ -72,8 +73,25 @@ export const InBodyStore = create<InBodyStore>()(
         const docInBodySnap = await getDocs(orderedQuery);
         const inBodyData = docInBodySnap.docs.map((doc) => doc.data());
         console.log("fetchBodyData", inBodyData);
+        get().setInBodyStatus(inBodyData[0]);
+        console.log("set", get().measureTime);
         return inBodyData;
       }
+    },
+    setInBodyStatus: (inBodyData) => {
+      set({ measureTime: inBodyData.measureTime });
+      set({ inBodyScore: inBodyData.inBodyScore });
+      set({ height: inBodyData.height });
+      set({ weight: inBodyData.weight });
+      set({ bodyWater: inBodyData.bodyWater });
+      set({ bodyFat: inBodyData.bodyFat });
+      set({ bodyMineral: inBodyData.bodyMineral });
+      set({ bodyMuscle: inBodyData.bodyMuscle });
+      set({ bmi: inBodyData.bmi });
+      set({ controlWeight: inBodyData.controlWeight });
+      set({ controlFat: inBodyData.controlFat });
+      set({ controlMuscle: inBodyData.controlMuscle });
+      set({ fatRatio: inBodyData.fatRatio });
     },
 
     addInBodyData: async () => {
@@ -100,7 +118,7 @@ export const InBodyStore = create<InBodyStore>()(
           fatRatio: get().fatRatio,
           bmi: get().fatRatio,
         };
-        console.log("addinBodyData", inBodyData);
+        console.log("addInBodyData", inBodyData);
         await setDoc(newDocRef, { ...inBodyData, id }, { merge: true });
       }
     },

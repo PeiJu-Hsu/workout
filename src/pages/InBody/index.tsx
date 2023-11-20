@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { InBodyStore } from "../../stores/InBodyStore";
 interface labelTexts {
   type: string;
@@ -88,9 +87,7 @@ export default function InBody() {
   const calculateBMI = InBodyStore((state) => state.calculateBMI);
 
   const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
-  useEffect(() => {
-    fetchInBodyData();
-  }, []);
+
   return (
     <>
       <div>
