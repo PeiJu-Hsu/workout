@@ -1,20 +1,30 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 import { ProtectedRoute, PublicRoute } from "./ProtectRouter";
 // import ProtectedRoute from './ProtectedRoute'
 
 import Home from "../pages/Home";
+import InBody from "../pages/InBody";
 import SignIn from "../pages/SignIn";
-
 export const Routes = [
   {
     path: "/",
     // 將所有需要保護的路由，用 <ProtectedRoute> 包起來
     element: (
       <ProtectedRoute>
-        <Home />
+        <Outlet />
       </ProtectedRoute>
     ),
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "inBody",
+        element: <InBody />,
+      },
+    ],
   },
   //   {
   //     path: "/reservation",
