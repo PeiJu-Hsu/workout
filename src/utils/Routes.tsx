@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { ProtectedRoute, PublicRoute } from "./ProtectRouter";
+import { ProtectedRoute, PublicRoute } from "../utils/ProtectRouter.jsx";
 // import ProtectedRoute from './ProtectedRoute'
 
 import Home from "../pages/Home";

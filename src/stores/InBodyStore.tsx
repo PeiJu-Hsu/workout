@@ -31,7 +31,7 @@ interface InBodyStore {
   fetchInBodyData: () => Promise<DocumentData[] | undefined>;
   setInBodyStatus: (inBodyData: DocumentData) => void;
   addInBodyData: () => Promise<void>;
-  setInputNumberToState: (targetState: any, value: number | Date) => void;
+  setInputNumberToState: (targetState: string, value: number | Date) => void;
 }
 interface TimeStamp {
   seconds: number;
@@ -92,7 +92,7 @@ export const InBodyStore = create<InBodyStore>()(
           obj.formatTime = getformatTime(obj.measureTime);
         });
         get().setInBodyStatus(inBodyData);
-        console.log(get().InBodyHistory);
+
         return inBodyData;
       }
     },

@@ -1,5 +1,4 @@
 import ReactECharts from "echarts-for-react";
-import { useEffect } from "react";
 import { InBodyStore } from "../stores/InBodyStore";
 interface InBodyObj {
   measureTime: Date;
@@ -19,10 +18,6 @@ interface InBodyObj {
   formatTime: string;
 }
 export const WeightChart = () => {
-  useEffect(() => {
-    const usingData = [weightData, bodyMuscleData, fatRatioData];
-    console.log("usingData", usingData);
-  });
   const InBodyHistory = InBodyStore((state) => state.InBodyHistory);
   //   const legendData = [
   //     "Email",

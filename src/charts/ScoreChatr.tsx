@@ -53,7 +53,7 @@ export const ScoreChart = () => {
           fontSize: 20,
           distance: -60,
           rotate: "tangential",
-          formatter: function (value) {
+          formatter: function (value: number) {
             if (value === 0.875) {
               return "Grade A";
             } else if (value === 0.625) {
@@ -74,7 +74,7 @@ export const ScoreChart = () => {
           fontSize: 30,
           offsetCenter: [0, "-35%"],
           valueAnimation: true,
-          formatter: function (value) {
+          formatter: function (value: number) {
             return Math.round(value * 100) + "";
           },
           color: "inherit",

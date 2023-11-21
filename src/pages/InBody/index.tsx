@@ -66,21 +66,12 @@ const labelTexts: labelTexts[] = [
     id: "controlMuscle",
   },
 ];
-const getformatTime = (timestamp: Date) => {
-  const newTime = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-  );
-  const date = newTime.toDateString();
-  const atTime = newTime.toLocaleTimeString();
-  const newTimeString = date + atTime;
-  return newTimeString;
-};
+
 export default function InBody() {
   const height = InBodyStore((state) => state.height);
   const weight = InBodyStore((state) => state.weight);
   const bodyFat = InBodyStore((state) => state.bodyFat);
   const addInBodyData = InBodyStore((state) => state.addInBodyData);
-  const fetchInBodyData = InBodyStore((state) => state.fetchInBodyData);
   const setInputNumberToState = InBodyStore(
     (state) => state.setInputNumberToState
   );
