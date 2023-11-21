@@ -25,6 +25,7 @@ interface InBodyStore {
   controlMuscle: number;
   fatRatio: number;
   bmi: number;
+  InBodyHistory: DocumentData;
   calculateBMI: () => string;
   calculateFatRatio: () => string;
   fetchInBodyData: () => Promise<DocumentData[] | undefined>;
@@ -32,6 +33,19 @@ interface InBodyStore {
   addInBodyData: () => Promise<void>;
   setInputNumberToState: (targetState: any, value: number | Date) => void;
 }
+interface TimeStamp {
+  seconds: number;
+  nanoseconds: number;
+}
+const getformatTime = (timestamp: TimeStamp) => {
+  const newTime = new Date(
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+  );
+  const date = newTime.toLocaleDateString();
+  const newTimeString = date;
+
+  return newTimeString;
+};
 export const InBodyStore = create<InBodyStore>()(
   immer((set, get) => ({
     measureTime: new Date(),
@@ -48,6 +62,7 @@ export const InBodyStore = create<InBodyStore>()(
     controlMuscle: 0,
     fatRatio: 0,
     bmi: 0,
+    InBodyHistory: [],
     calculateBMI: () => {
       const BMI = (
         (get().weight * 10000) /
@@ -62,6 +77,7 @@ export const InBodyStore = create<InBodyStore>()(
       set({ fatRatio: Number(fatRatio) });
       return fatRatio;
     },
+
     fetchInBodyData: async () => {
       if (auth.currentUser) {
         const CurrentUserId = auth.currentUser.uid;
@@ -72,26 +88,29 @@ export const InBodyStore = create<InBodyStore>()(
         );
         const docInBodySnap = await getDocs(orderedQuery);
         const inBodyData = docInBodySnap.docs.map((doc) => doc.data());
-        console.log("fetchBodyData", inBodyData);
-        get().setInBodyStatus(inBodyData[0]);
-        console.log("set", get().measureTime);
+        inBodyData.map((obj) => {
+          obj.formatTime = getformatTime(obj.measureTime);
+        });
+        get().setInBodyStatus(inBodyData);
+        console.log(get().InBodyHistory);
         return inBodyData;
       }
     },
     setInBodyStatus: (inBodyData) => {
-      set({ measureTime: inBodyData.measureTime });
-      set({ inBodyScore: inBodyData.inBodyScore });
-      set({ height: inBodyData.height });
-      set({ weight: inBodyData.weight });
-      set({ bodyWater: inBodyData.bodyWater });
-      set({ bodyFat: inBodyData.bodyFat });
-      set({ bodyMineral: inBodyData.bodyMineral });
-      set({ bodyMuscle: inBodyData.bodyMuscle });
-      set({ bmi: inBodyData.bmi });
-      set({ controlWeight: inBodyData.controlWeight });
-      set({ controlFat: inBodyData.controlFat });
-      set({ controlMuscle: inBodyData.controlMuscle });
-      set({ fatRatio: inBodyData.fatRatio });
+      set({ measureTime: inBodyData[0].measureTime });
+      set({ inBodyScore: inBodyData[0].inBodyScore });
+      set({ height: inBodyData[0].height });
+      set({ weight: inBodyData[0].weight });
+      set({ bodyWater: inBodyData[0].bodyWater });
+      set({ bodyFat: inBodyData[0].bodyFat });
+      set({ bodyMineral: inBodyData[0].bodyMineral });
+      set({ bodyMuscle: inBodyData[0].bodyMuscle });
+      set({ bmi: inBodyData[0].bmi });
+      set({ controlWeight: inBodyData[0].controlWeight });
+      set({ controlFat: inBodyData[0].controlFat });
+      set({ controlMuscle: inBodyData[0].controlMuscle });
+      set({ fatRatio: inBodyData[0].fatRatio });
+      set({ InBodyHistory: inBodyData });
     },
 
     addInBodyData: async () => {
@@ -118,7 +137,6 @@ export const InBodyStore = create<InBodyStore>()(
           fatRatio: get().fatRatio,
           bmi: get().fatRatio,
         };
-        console.log("addInBodyData", inBodyData);
         await setDoc(newDocRef, { ...inBodyData, id }, { merge: true });
       }
     },

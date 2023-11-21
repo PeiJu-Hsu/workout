@@ -1,13 +1,17 @@
 import { useEffect } from "react";
+import { ScoreChart } from "../../charts/ScoreChatr";
+import { WeightChart } from "../../charts/WeightChart";
 import { InBodyStore } from "../../stores/InBodyStore";
 import { useUserStore } from "../../stores/UserStore";
 export default function Home() {
   const weight = InBodyStore((state) => state.weight);
   const fetchInBodyData = InBodyStore((state) => state.fetchInBodyData);
+
   const currentUserName = useUserStore((state) => state.currentUserName);
   const currentUserEmail = useUserStore((state) => state.currentUserEmail);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
+
   useEffect(() => {
     getCurrentUserInfo();
     fetchInBodyData();
@@ -18,6 +22,11 @@ export default function Home() {
         Hi {currentUserName ? currentUserName : currentUserEmail}{" "}
         {currentUserRole === 1 ? "教練" : "學員"}
       </h1>
+      <div style={{ display: "flex" }}>
+        <ScoreChart />
+        <WeightChart />
+      </div>
+
       <p>{weight}</p>
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
         只有教練看得到
