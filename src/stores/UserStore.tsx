@@ -34,8 +34,7 @@ interface userState {
 export const useUserStore = createSelectors(
   create<userState>()(
     immer((set, get) => ({
-      isLogin: Boolean(auth),
-
+      isLogin: false,
       signUpRole: 0,
       signUpEmail: "",
       signUpPassword: "",
@@ -104,7 +103,10 @@ export const useUserStore = createSelectors(
         const userCol = collection(db, "users");
         const signUpRole = get().signUpRole;
         onAuthStateChanged(auth, async (user) => {
+          console.log("noUser");
           if (user) {
+            set({ isLogin: true });
+            console.log("User");
             const userRef = doc(userCol, user.uid);
             const docSnap = await getDoc(userRef);
             if (docSnap.exists()) return;
@@ -122,7 +124,8 @@ export const useUserStore = createSelectors(
         });
       },
       getCurrentUserInfo: async () => {
-        if (auth.currentUser) {
+        console.log(auth);
+        if (auth) {
           const CurrentUserId = auth.currentUser.uid;
           const userRef = doc(db, "users", CurrentUserId);
           const docUserSnap = await getDoc(userRef);
@@ -131,6 +134,7 @@ export const useUserStore = createSelectors(
           set({ currentUserEmail: currentUserInfo.email });
           set({ currentUserName: currentUserInfo.name });
           set({ currentUserRole: currentUserInfo.role });
+          console.log("object");
         }
       },
     }))

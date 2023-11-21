@@ -5,7 +5,7 @@ import { ProtectedRoute, PublicRoute } from "./ProtectRouter";
 
 import Home from "../pages/Home";
 import InBody from "../pages/InBody";
-import SignIn from "../pages/SignIn";
+import SignIn from "../pages/LogIn";
 export const Routes = [
   {
     path: "/",

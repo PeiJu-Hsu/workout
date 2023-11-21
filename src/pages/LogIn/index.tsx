@@ -12,7 +12,7 @@ import {
 import { auth, db, googleProvider } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
 
-export default function SignIn() {
+export default function LogIn() {
   const {
     signUpRole,
     signUp,
@@ -33,6 +33,7 @@ export default function SignIn() {
       alert("Plz select a role");
     }
   }
+
   return (
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">

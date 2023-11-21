@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useRoutes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { auth, db } from "../src/firebase";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { useUserStore } from "./stores/UserStore";
@@ -16,8 +18,12 @@ const GlobalStyle = createGlobalStyle`
   
 `;
 function App() {
+  const getAuth = useUserStore((state) => state.getAuth);
   const isLogin = useUserStore((state) => state.isLogin);
   const routing = useRoutes(Routes);
+  useEffect(() => {
+    getAuth(auth, db);
+  }, []);
   return (
     <>
       <GlobalStyle />
