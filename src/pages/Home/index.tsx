@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { ScoreChart } from "../../charts/ScoreChatr";
+import { ScoreChart } from "../../charts/ScoreChart";
 import { WeightChart } from "../../charts/WeightChart";
 import { InBodyStore } from "../../stores/InBodyStore";
 import { useUserStore } from "../../stores/UserStore";
 export default function Home() {
-  const weight = InBodyStore((state) => state.weight);
   const fetchInBodyData = InBodyStore((state) => state.fetchInBodyData);
 
   const currentUserName = useUserStore((state) => state.currentUserName);
@@ -26,8 +25,6 @@ export default function Home() {
         <ScoreChart />
         <WeightChart />
       </div>
-
-      <p>{weight}</p>
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
         只有教練看得到
       </div>

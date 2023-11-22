@@ -7,11 +7,14 @@ interface MenuStore {
   runCount: string | number;
   menuList: { itemName: string; loading: number; runCount: number }[];
   setItemGroup: (value: string) => void;
-  setItemGroupIndex: (value: string) => void;
+  setItemGroupIndex: (value: number) => void;
   setItemName: (value: string) => void;
   setLoading: (value: number) => void;
   setRunCount: (value: number) => void;
   setMenuList: () => void;
+  resetMenuList: (
+    value: { itemName: string; loading: number; runCount: number }[]
+  ) => void;
 }
 export const MenuStore = create<MenuStore>()((set, get) => ({
   itemGroup: "default",
@@ -46,5 +49,8 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
         },
       ],
     }));
+  },
+  resetMenuList: (value) => {
+    set({ menuList: value });
   },
 }));

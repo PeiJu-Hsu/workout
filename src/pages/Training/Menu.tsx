@@ -16,6 +16,7 @@ export default function Menu() {
     setLoading,
     setRunCount,
     setMenuList,
+    resetMenuList,
   } = MenuStore();
   const group1 = {
     sectionName: "胸",
@@ -50,6 +51,7 @@ export default function Menu() {
   };
 
   const group = [group1, group2, group3, group4, group5, group6];
+  const groupList = group.map((item) => item.sectionName);
   const createNewArray: CreateNewArray = (length, content) => {
     const filledArray = new Array(length).fill(content);
     return filledArray;
@@ -58,22 +60,18 @@ export default function Menu() {
     <div>
       <select
         value={itemGroup}
-        defaultValue={"default"}
+        id="test"
         onChange={(e) => {
           setItemGroup(e.target.value);
-          setItemGroupIndex(e.target.id.toString());
+          setItemGroupIndex(groupList.indexOf(e.target.value));
         }}
       >
         <option value={"default"} disabled>
           Choose a section
         </option>
-        {group.map((item, index) => {
+        {group.map((item) => {
           return (
-            <option
-              key={item.sectionName}
-              id={index.toString()}
-              value={item.sectionName}
-            >
+            <option key={item.sectionName} value={item.sectionName}>
               {item.sectionName}
             </option>
           );
@@ -95,7 +93,7 @@ export default function Menu() {
           );
         })}
       </select>
-      <select
+      {/* <select
         value={loading}
         defaultValue={"default"}
         onChange={(e) => setLoading(Number(e.target.value))}
@@ -106,7 +104,12 @@ export default function Menu() {
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={15}>15</option>
-      </select>
+      </select> */}
+      <input
+        type="number"
+        placeholder="輸入重量 (kg)"
+        onChange={(e) => setLoading(Number(e.target.value))}
+      />
       <select
         value={runCount}
         defaultValue={"default"}
@@ -141,6 +144,23 @@ export default function Menu() {
             {createNewArray(item.runCount, item.loading).map((item) => {
               return <input type="number" defaultValue={item} />;
             })}
+            <button
+              type="button"
+              id={index.toString()}
+              onClick={(e) => {
+                const target = e.target as HTMLButtonElement;
+                const indexRemove = target.id;
+                console.log("Button clicked with index:", index);
+                // resetMenuList(menuList.splice(Number(index), 1));
+                const newMenuList = menuList.filter(
+                  (_, index) => index !== Number(indexRemove)
+                );
+                console.log("menuList:", newMenuList);
+                resetMenuList(newMenuList);
+              }}
+            >
+              刪除
+            </button>
           </div>
         );
       })}
