@@ -43,15 +43,20 @@ export default function Header() {
               <a
                 className="nav-link"
                 onClick={() => {
-                  navigate("/inBody");
+                  navigate("/inbody");
                 }}
               >
-                inBody
+                InBody
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Team
+              <a
+                className="nav-link"
+                onClick={() => {
+                  navigate("/training");
+                }}
+              >
+                Training
               </a>
             </li>
             <li className="nav-item">
