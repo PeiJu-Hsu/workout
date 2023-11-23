@@ -44,10 +44,10 @@ export const useUserStore = create<userState>()((set, get) => ({
   currentUserRole: 0,
 
   logOut: () => {
-    set({ isLogin: false });
-    set({ signUpRole: 0 });
     localStorage.removeItem("UID");
-    localStorage.removeItem("currentPathname");
+    localStorage.removeItem("menuList");
+    set({ signUpRole: 0 });
+    set({ isLogin: false });
   },
   selectRole: (value) => {
     set({ signUpRole: value });

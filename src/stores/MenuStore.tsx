@@ -41,7 +41,8 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   itemName: "default",
   loading: "default",
   runCount: "default",
-  menuList: JSON.parse(menuListString),
+  // menuList: JSON.parse(menuListString),
+  menuList: [],
   menuPublic: true,
   setItemGroup: (value) => {
     set({ itemGroup: value });
