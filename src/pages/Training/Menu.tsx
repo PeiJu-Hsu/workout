@@ -1,7 +1,4 @@
 import { MenuStore } from "../../stores/MenuStore";
-interface CreateNewArray {
-  (length: number, content: React.ReactNode): string[];
-}
 export default function Menu() {
   const {
     itemGroup,
@@ -16,8 +13,12 @@ export default function Menu() {
     setLoading,
     setRunCount,
     setMenuList,
+    menuPublic,
+    setMenuPublic,
     resetMenuList,
+    addMenuRecord,
   } = MenuStore();
+
   const group1 = {
     sectionName: "胸",
     sectionItems: ["卧推", "上斜推舉", "下斜推舉", "飛鳥", "夾胸"],
@@ -52,18 +53,33 @@ export default function Menu() {
 
   const group = [group1, group2, group3, group4, group5, group6];
   const groupList = group.map((item) => item.sectionName);
-  const createNewArray: CreateNewArray = (length, content) => {
-    const filledArray = new Array(length).fill(content);
-    return filledArray;
-  };
+  // const createNewArray: CreateNewArray = (length, content) => {
+  //   const filledArray = new Array(length).fill(content);
+  //   return filledArray;
+  // };
+  function changeItemRecord(
+    objIndex: number,
+    itemIndex: number,
+    itemQuantity: string
+  ) {
+    const newItemRecord = menuList[objIndex].records.map((item, index) =>
+      index === itemIndex ? Number(itemQuantity) : item
+    );
+    const newMenuList = menuList.map((item, index) =>
+      index === objIndex ? { ...item, records: newItemRecord } : item
+    );
+    resetMenuList(newMenuList);
+    console.log("newMenuList:", menuList);
+  }
+
   return (
     <div>
       <select
         value={itemGroup}
-        id="test"
         onChange={(e) => {
           setItemGroup(e.target.value);
           setItemGroupIndex(groupList.indexOf(e.target.value));
+          setItemName("default");
         }}
       >
         <option value={"default"} disabled>
@@ -77,11 +93,7 @@ export default function Menu() {
           );
         })}
       </select>
-      <select
-        value={itemName}
-        defaultValue={"default"}
-        onChange={(e) => setItemName(e.target.value)}
-      >
+      <select value={itemName} onChange={(e) => setItemName(e.target.value)}>
         <option value={"default"} disabled>
           Choose an option
         </option>
@@ -93,18 +105,7 @@ export default function Menu() {
           );
         })}
       </select>
-      {/* <select
-        value={loading}
-        defaultValue={"default"}
-        onChange={(e) => setLoading(Number(e.target.value))}
-      >
-        <option value={"default"} disabled>
-          設定重量
-        </option>
-        <option value={5}>5</option>
-        <option value={10}>10</option>
-        <option value={15}>15</option>
-      </select> */}
+
       <input
         type="number"
         placeholder="輸入重量 (kg)"
@@ -112,7 +113,6 @@ export default function Menu() {
       />
       <select
         value={runCount}
-        defaultValue={"default"}
         onChange={(e) => setRunCount(Number(e.target.value))}
       >
         <option value={"default"} disabled>
@@ -133,6 +133,7 @@ export default function Menu() {
       </button>
       <h2>Menu as below</h2>
       {menuList.map((item, index) => {
+        const objIndex = index;
         // const inputNumber = <input type="number" />
         // const filledArray = new Array({item.runCount}).fill(inputNumber)
         // console.log(filledArray)
@@ -141,8 +142,19 @@ export default function Menu() {
             <input type="checkbox" />
             {item.itemName}
             {/* {createNewArray(item.runCount, `${(<input type="number" />)}`)} */}
-            {createNewArray(item.runCount, item.loading).map((item) => {
-              return <input type="number" defaultValue={item} />;
+            {item.records.map((load, index) => {
+              return (
+                <input
+                  key={index}
+                  type="number"
+                  defaultValue={load}
+                  onChange={(e) => {
+                    const target = e.target as HTMLInputElement;
+                    const value = target.value;
+                    changeItemRecord(objIndex, index, value);
+                  }}
+                />
+              );
             })}
             <button
               type="button"
@@ -164,6 +176,9 @@ export default function Menu() {
           </div>
         );
       })}
+      <input id="setMenuPublic" type="checkbox" onChange={setMenuPublic} />
+      <label htmlFor="setMenuPublic">{menuPublic ? "公開" : "不公開"}</label>
+      <button type="button" onClick={addMenuRecord}></button>
     </div>
   );
 }
