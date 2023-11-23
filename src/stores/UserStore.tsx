@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { Firestore, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { create } from "zustand";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 
 interface userState {
   isLogin: boolean;
@@ -19,7 +19,6 @@ interface userState {
   currentUserEmail: string;
   currentUserName: string;
   currentUserRole: number;
-  logIn: () => void;
   logOut: () => void;
   selectRole: (value: number) => void;
   keyInEmail: (value: string) => void;
@@ -36,20 +35,19 @@ interface userState {
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
-  isLogin: false,
+  isLogin: Boolean(window.localStorage.getItem("UID")),
   signUpRole: 0,
   signUpEmail: "",
   signUpPassword: "",
   currentUserEmail: "",
   currentUserName: "",
   currentUserRole: 0,
-  logIn: () => {
-    set({ isLogin: true });
-    set({ signUpRole: 0 });
-  },
+
   logOut: () => {
     set({ isLogin: false });
     set({ signUpRole: 0 });
+    localStorage.removeItem("UID");
+    localStorage.removeItem("currentPathname");
   },
   selectRole: (value) => {
     set({ signUpRole: value });
@@ -108,6 +106,7 @@ export const useUserStore = create<userState>()((set, get) => ({
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         set({ isLogin: true });
+        localStorage.setItem("UID", user.uid);
         const userRef = doc(userCol, user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) return;
@@ -125,8 +124,9 @@ export const useUserStore = create<userState>()((set, get) => ({
     });
   },
   getCurrentUserInfo: async () => {
-    if (auth.currentUser) {
-      const CurrentUserId = auth.currentUser.uid;
+    const UID = localStorage.getItem("UID");
+    if (UID) {
+      const CurrentUserId = UID;
       const userRef = doc(db, "users", CurrentUserId);
       const docUserSnap = await getDoc(userRef);
       const currentUserInfo = docUserSnap.data();
