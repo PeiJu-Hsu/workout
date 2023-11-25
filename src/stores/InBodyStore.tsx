@@ -79,9 +79,8 @@ export const InBodyStore = create<InBodyStore>()(
     },
 
     fetchInBodyData: async () => {
-      const UID = localStorage.getItem("UID");
-      if (UID) {
-        const CurrentUserId = UID;
+      if (auth.currentUser) {
+        const CurrentUserId = auth.currentUser.uid;
         const docInBodyCol = collection(db, "users", CurrentUserId, "inBody");
         const orderedQuery = query(
           docInBodyCol,

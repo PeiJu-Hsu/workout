@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { useUserStore } from "../stores/UserStore";
 export default function Header() {
+  const currentUserImg = useUserStore((state) => state.currentUserImg);
+  const invitations = useUserStore((state) => state.invitations);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
   const navigate = useNavigate();
@@ -72,9 +74,9 @@ export default function Header() {
           {/* //Icon */}
           <div
             className="text-reset me-3"
-            onClick={() => {
+            onClick={async () => {
+              await signOut(auth);
               logOut();
-              signOut(auth);
             }}
           >
             <i className="fas fa-arrow-right-from-bracket"></i>
@@ -91,7 +93,7 @@ export default function Header() {
             >
               <i className="fas fa-bell"></i>
               <span className="badge rounded-pill badge-notification bg-danger">
-                1
+                {invitations.length ? invitations.length : null}
               </span>
             </a>
             <ul
@@ -126,7 +128,7 @@ export default function Header() {
               aria-expanded="false"
             >
               <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                src={currentUserImg}
                 className="rounded-circle"
                 height="25"
                 alt="Black and White Portrait of a Man"

@@ -6,20 +6,18 @@ import {
   MDBContainer,
   MDBIcon,
   MDBInput,
-  MDBRadio,
   MDBRow,
 } from "mdb-react-ui-kit";
+import { useNavigate } from "react-router-dom";
 import { auth, db, googleProvider } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
 import { Loading } from "../LogIn/Loading";
 
 export default function LogIn() {
+  const navigate = useNavigate();
   const {
-    signUpRole,
-    signUp,
     signUpEmail,
     signUpPassword,
-    selectRole,
     keyInEmail,
     keyInPassWord,
     googleLogin,
@@ -27,12 +25,8 @@ export default function LogIn() {
     getAuth,
   } = useUserStore();
   async function handleGoogleLogin() {
-    if (signUpRole !== 0) {
-      googleLogin(auth, googleProvider);
-      getAuth(auth, db);
-    } else {
-      alert("Plz select a role");
-    }
+    googleLogin(auth, googleProvider);
+    getAuth(auth, db);
   }
 
   return (
@@ -50,26 +44,6 @@ export default function LogIn() {
                 <p className="text-white-50 mb-5">
                   Please enter your login and password!
                 </p>
-                <MDBRadio
-                  name="role"
-                  label="Coach"
-                  // value 1 means is coach
-                  value={1}
-                  inline
-                  onChange={(e) => {
-                    selectRole(Number(e.target.value));
-                  }}
-                />
-                <MDBRadio
-                  name="role"
-                  label="Student"
-                  // value 2 means is student
-                  value={2}
-                  inline
-                  onChange={(e) => {
-                    selectRole(Number(e.target.value));
-                  }}
-                />
 
                 <MDBInput
                   wrapperClass="mb-4 mx-5 w-100"
@@ -107,27 +81,8 @@ export default function LogIn() {
                   color="white"
                   size="lg"
                   onClick={() => {
-                    if (signUpRole !== 0) {
-                      signUp(auth, signUpEmail, signUpPassword);
-                    } else {
-                      alert("Plz select a role");
-                    }
-                  }}
-                >
-                  Sign Up
-                </MDBBtn>
-                <MDBBtn
-                  outline
-                  className="mx-2 px-5"
-                  color="white"
-                  size="lg"
-                  onClick={() => {
-                    if (signUpRole !== 0) {
-                      nativeLogin(auth, signUpEmail, signUpPassword);
-                      getAuth(auth, db);
-                    } else {
-                      alert("Plz select a role");
-                    }
+                    nativeLogin(auth, signUpEmail, signUpPassword);
+                    getAuth(auth, db);
                   }}
                 >
                   Login
@@ -176,7 +131,12 @@ export default function LogIn() {
                 <div>
                   <p className="mb-0">
                     Don't have an account?{" "}
-                    <a href="#!" className="text-white-50 fw-bold">
+                    <a
+                      className="text-white-50 fw-bold"
+                      onClick={() => {
+                        navigate("/signup");
+                      }}
+                    >
                       Sign Up
                     </a>
                   </p>
