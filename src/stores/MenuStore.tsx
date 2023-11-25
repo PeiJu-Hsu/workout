@@ -1,4 +1,10 @@
-import { collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { create } from "zustand";
 import { auth, db } from "../firebase";
 interface MenuList {
@@ -13,13 +19,15 @@ interface MenuStore {
   itemName: string;
   loading: string | number;
   runCount: string | number;
-  menuList: MenuList[];
+  targetStudent: string;
+  menuList: MenuList[] | [];
   menuPublic: boolean;
   setItemGroup: (value: string) => void;
   setItemGroupIndex: (value: number) => void;
   setItemName: (value: string) => void;
   setLoading: (value: number) => void;
   setRunCount: (value: number) => void;
+  setTargetStudent: (value: string) => void;
   setMenuList: () => void;
   resetMenuList: (
     value: {
@@ -31,9 +39,13 @@ interface MenuStore {
   ) => void;
   setMenuPublic: () => void;
   addMenuRecord: () => Promise<void>;
+  clearMenuList: () => void;
+  sentToStudent: (currentUserName: string) => Promise<void>;
+  deleteReceivedMenu: (id: string) => Promise<void>;
 }
+
 const menuListString = localStorage.getItem("menuList")
-  ? localStorage.getItem("menuList")
+  ? JSON.parse(localStorage.getItem("menuList")!)
   : [];
 export const MenuStore = create<MenuStore>()((set, get) => ({
   itemGroup: "default",
@@ -41,8 +53,8 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   itemName: "default",
   loading: "default",
   runCount: "default",
-  // menuList: JSON.parse(menuListString),
-  menuList: [],
+  targetStudent: "default",
+  menuList: menuListString,
   menuPublic: true,
   setItemGroup: (value) => {
     set({ itemGroup: value });
@@ -58,6 +70,9 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   },
   setRunCount: (value) => {
     set({ runCount: value });
+  },
+  setTargetStudent: (value) => {
+    set({ targetStudent: value });
   },
   setMenuList: () => {
     console.log("1st", get().menuList);
@@ -86,7 +101,6 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   },
 
   addMenuRecord: async () => {
-    console.log(auth.currentUser);
     if (auth.currentUser) {
       const CurrentUserId = auth.currentUser.uid;
       const docMenuRecordsCol = collection(
@@ -106,7 +120,48 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
         { ...MenuRecord, id, trainingTime: serverTimestamp() },
         { merge: true }
       );
-      console.log("addMenuRecord ok");
+      localStorage.removeItem("menuList");
+      get().resetMenuList([]);
     }
+  },
+  clearMenuList: () => {
+    localStorage.removeItem("menuList");
+    get().resetMenuList([]);
+  },
+  sentToStudent: async (currentUserName) => {
+    if (get().targetStudent === "default" || !get().menuList) {
+      alert("請選擇學員或是新增訓練項目");
+      return;
+    }
+
+    const docMenuRecordsCol = collection(
+      db,
+      "users",
+      get().targetStudent,
+      "receivedMenu"
+    );
+    const newDocRef = doc(docMenuRecordsCol);
+    const { id } = newDocRef;
+    const newMenu = {
+      content: get().menuList,
+      isPublic: get().menuPublic,
+      senderName: currentUserName,
+    };
+    await setDoc(
+      newDocRef,
+      { ...newMenu, id, sendTime: serverTimestamp() },
+      { merge: true }
+    );
+    alert("已傳送");
+  },
+  deleteReceivedMenu: async (id) => {
+    const docMenuRecordsCol = collection(
+      db,
+      "users",
+      auth.currentUser?.uid,
+      "receivedMenu"
+    );
+    const docRef = doc(docMenuRecordsCol, id);
+    await deleteDoc(docRef);
   },
 }));

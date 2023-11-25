@@ -3,10 +3,20 @@ import { auth } from "../firebase";
 import { useUserStore } from "../stores/UserStore";
 export default function Header() {
   const currentUserImg = useUserStore((state) => state.currentUserImg);
+  const waitingMenus = useUserStore((state) => state.waitingMenus);
   const invitations = useUserStore((state) => state.invitations);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
   const navigate = useNavigate();
+  const calculateTotalMessage = () => {
+    const result = invitations.length + waitingMenus.length;
+    // setTotalMessage(result);
+    return result;
+  };
+  // const [totalMessage, setTotalMessage] = useState(0);
+  // useEffect(() => {
+  //   calculateTotalMessage();
+  // });
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {/* Container wrapper */}
@@ -93,7 +103,7 @@ export default function Header() {
             >
               <i className="fas fa-bell"></i>
               <span className="badge rounded-pill badge-notification bg-danger">
-                {invitations.length ? invitations.length : null}
+                {calculateTotalMessage() !== 0 ? calculateTotalMessage() : null}
               </span>
             </a>
             <ul
@@ -128,7 +138,13 @@ export default function Header() {
               aria-expanded="false"
             >
               <img
-                src={currentUserImg}
+                src={
+                  currentUserImg
+                    ? currentUserImg
+                    : `https://i.pravatar.cc/150?u=${localStorage.getItem(
+                        "UID"
+                      )}`
+                }
                 className="rounded-circle"
                 height="25"
                 alt="Black and White Portrait of a Man"

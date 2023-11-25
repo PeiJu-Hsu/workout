@@ -45,8 +45,10 @@ interface userState {
   invitations: DocumentData[];
   myCoach: string;
   coachList: DocumentData[];
+  studentList: DocumentData[];
   calenderURL: string;
   reserveURL: string;
+  waitingMenus: DocumentData[];
   logOut: () => void;
   selectRole: (value: number) => void;
   keyInEmail: (value: string) => void;
@@ -61,6 +63,7 @@ interface userState {
   ) => Promise<void>;
   nativeLogin: (auth: Auth, email: string, password: string) => Promise<void>;
   getAuth: (auth: Auth, db: Firestore) => Promise<void>;
+  getName: (currentUserId: string) => Promise<string | undefined>;
   sendInvitation: (
     coachId: string | null,
     currentUserId: string
@@ -68,6 +71,7 @@ interface userState {
   replyInvitation: (e: any, state: string) => Promise<void>;
   getCurrentUserInfo: () => Promise<void>;
   getCoachList: () => Promise<DocumentData[] | null>;
+  getStudentList: () => Promise<DocumentData[] | null>;
   uploadImage: (image: File | null, path: string) => Promise<void>;
   getUploadImage: (image: File | null, path: string) => Promise<void>;
   unsubscribeInvitations: () => void;
@@ -93,8 +97,10 @@ export const useUserStore = create<userState>()((set, get) => ({
   //myCoach是要coachId
   myCoach: "",
   coachList: [],
+  studentList: [],
   calenderURL: "",
   reserveURL: "",
+  waitingMenus: [],
 
   logOut: () => {
     localStorage.clear();
@@ -118,6 +124,8 @@ export const useUserStore = create<userState>()((set, get) => ({
   },
   setInputTextToState: (targetState, value) => {
     set({ [targetState]: value });
+    console.log("targetState", targetState);
+    console.log("value", value);
   },
   signUp: async (auth, email, password) => {
     try {
@@ -188,6 +196,12 @@ export const useUserStore = create<userState>()((set, get) => ({
       }
     });
   },
+  getName: async (currentUserId: string) => {
+    const userRef = doc(db, "users", currentUserId);
+    const docUserSnap = await getDoc(userRef);
+    const currentUserInfo = docUserSnap.data();
+    return currentUserInfo?.name;
+  },
   sendInvitation: async (coachId, currentUserId) => {
     console.log("StartSendCoachId", coachId);
     if (!coachId) return;
@@ -197,8 +211,14 @@ export const useUserStore = create<userState>()((set, get) => ({
     const docSnap = await getDoc(newInvitationRef);
     if (docSnap.exists()) return;
     const { id } = newInvitationRef;
+    // const getName = async (currentUserId: string) => {
+    //   const userRef = doc(db, "users", currentUserId);
+    //   const docUserSnap = await getDoc(userRef);
+    //   const currentUserInfo = docUserSnap.data();
+    //   return currentUserInfo?.name;
+    // };
     const invitationData = {
-      senderId: currentUserId,
+      senderName: await get().getName(currentUserId),
       state: "waiting",
     };
     await setDoc(
@@ -271,6 +291,20 @@ export const useUserStore = create<userState>()((set, get) => ({
     set({ coachList: coachListData });
     return coachListData;
   },
+  getStudentList: async () => {
+    const UID = localStorage.getItem("UID");
+    const invitationCol = collection(db, "users", UID, "invitation");
+    const queryCoach = query(invitationCol, where("state", "==", "accept"));
+    const docStudentSnap = await getDocs(queryCoach);
+    if (!docStudentSnap) return null;
+    const studentListData = docStudentSnap.docs.map((doc) => doc.data());
+    // const coachList = coachListData.map((obj) =>
+    //   obj.name ? obj.name : obj.email
+    // );
+    console.log("studentListData", studentListData);
+    set({ studentList: studentListData });
+    return studentListData;
+  },
 
   uploadImage: async (image, signUpEmail) => {
     if (!image) return;
@@ -300,7 +334,16 @@ export const useUserStore = create<userState>()((set, get) => ({
       where("state", "==", "waiting"),
       orderBy("sendTime", "desc")
     );
+    const receivedMenu = query(
+      collection(db, "users", UID, "receivedMenu"),
+      orderBy("sendTime", "desc")
+    );
     const user = query(collection(db, "users"), where("id", "==", UID));
+    onSnapshot(receivedMenu, (querySnapshot) => {
+      const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
+      set({ waitingMenus: waitingMenus });
+      console.log("waitingMenus", waitingMenus);
+    });
     onSnapshot(waitingInvitation, (querySnapshot) => {
       const Invitations = querySnapshot.docs.map((doc) => doc.data());
       set({ invitations: Invitations });

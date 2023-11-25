@@ -1,4 +1,7 @@
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import { useEffect } from "react";
 import { MenuStore } from "../../stores/MenuStore";
+import { useUserStore } from "../../stores/UserStore";
 export default function Menu() {
   const {
     itemGroup,
@@ -12,12 +15,21 @@ export default function Menu() {
     setItemName,
     setLoading,
     setRunCount,
+    setTargetStudent,
     setMenuList,
     menuPublic,
     setMenuPublic,
     resetMenuList,
     addMenuRecord,
+    targetStudent,
+    clearMenuList,
+    sentToStudent,
+    deleteReceivedMenu,
   } = MenuStore();
+  const getStudentList = useUserStore((state) => state.getStudentList);
+  const currentUserName = useUserStore((state) => state.currentUserName);
+  const studentList = useUserStore((state) => state.studentList);
+  const waitingMenus = useUserStore((state) => state.waitingMenus);
 
   const group1 = {
     sectionName: "胸",
@@ -72,6 +84,11 @@ export default function Menu() {
     console.log("newMenuList:", menuList);
   }
 
+  useEffect(() => {
+    getStudentList().then((res) => {
+      if (res) console.log(res);
+    });
+  }, []);
   return (
     <div>
       <select
@@ -97,9 +114,9 @@ export default function Menu() {
         <option value={"default"} disabled>
           Choose an option
         </option>
-        {group[itemGroupIndex].sectionItems.map((item) => {
+        {group[itemGroupIndex].sectionItems.map((item, index) => {
           return (
-            <option key={item} value={item}>
+            <option key={index} value={item}>
               {item}
             </option>
           );
@@ -131,7 +148,92 @@ export default function Menu() {
       <button type="button" onClick={setMenuList}>
         新增項目
       </button>
+      <Accordion variant="splitted">
+        {waitingMenus.map((item, index) => {
+          return (
+            <AccordionItem
+              key={index}
+              aria-label="Accordion 1"
+              title={item.senderName}
+            >
+              {item.content.map((item, index) => {
+                const objIndex = index;
+                return (
+                  <div key={index}>
+                    {item.itemName}
+                    {item.records.map((load, index) => {
+                      return (
+                        <input
+                          key={index}
+                          type="number"
+                          defaultValue={load}
+                          onChange={(e) => {
+                            const target = e.target as HTMLInputElement;
+                            const value = target.value;
+                            changeItemRecord(objIndex, index, value);
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
+              <button
+                id={index.toString()}
+                type="button"
+                onClick={() => {
+                  resetMenuList(waitingMenus[index].content);
+                  deleteReceivedMenu(waitingMenus[index].id);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                id={index.toString()}
+                type="button"
+                onClick={() => {
+                  deleteReceivedMenu(waitingMenus[index].id);
+                }}
+              >
+                No
+              </button>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+
       <h2>Menu as below</h2>
+      <button
+        type="button"
+        onClick={() => {
+          sentToStudent(currentUserName);
+        }}
+      >
+        sentToStudent
+      </button>
+      <p>{targetStudent}</p>
+
+      <select
+        value={targetStudent}
+        id="targetStudent"
+        onChange={(e) => setTargetStudent(e.target.value)}
+      >
+        <option value={"default"} disabled>
+          Choose a student
+        </option>
+
+        {studentList ? (
+          studentList.map((item, index) => {
+            return (
+              <option key={index} value={item.id}>
+                {item.senderName}
+              </option>
+            );
+          })
+        ) : (
+          <option>No Student</option>
+        )}
+      </select>
       {menuList.map((item, index) => {
         const objIndex = index;
         // const inputNumber = <input type="number" />
@@ -176,9 +278,14 @@ export default function Menu() {
           </div>
         );
       })}
+      <button type="button" onClick={clearMenuList}>
+        Clear
+      </button>
       <input id="setMenuPublic" type="checkbox" onChange={setMenuPublic} />
       <label htmlFor="setMenuPublic">{menuPublic ? "公開" : "不公開"}</label>
-      <button type="button" onClick={addMenuRecord}></button>
+      <button type="button" onClick={addMenuRecord}>
+        submit
+      </button>
     </div>
   );
 }
