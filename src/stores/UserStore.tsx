@@ -342,7 +342,6 @@ export const useUserStore = create<userState>()((set, get) => ({
     onSnapshot(receivedMenu, (querySnapshot) => {
       const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
       set({ waitingMenus: waitingMenus });
-      console.log("waitingMenus", waitingMenus);
     });
     onSnapshot(waitingInvitation, (querySnapshot) => {
       const Invitations = querySnapshot.docs.map((doc) => doc.data());

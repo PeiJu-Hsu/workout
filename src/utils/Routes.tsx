@@ -6,6 +6,7 @@ import { ProtectedRoute, PublicRoute } from "../utils/ProtectRouter.jsx";
 import Home from "../pages/Home";
 import InBody from "../pages/InBody";
 import SignIn from "../pages/LogIn";
+import Record from "../pages/Record";
 import SignUp from "../pages/SignUp";
 import Training from "../pages/Training";
 export const Routes = [
@@ -29,6 +30,10 @@ export const Routes = [
       {
         path: "training",
         element: <Training />,
+      },
+      {
+        path: "record",
+        element: <Record />,
       },
     ],
   },
