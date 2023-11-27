@@ -39,7 +39,7 @@ interface TimeStamp {
 }
 const getformatTime = (timestamp: TimeStamp) => {
   const newTime = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000,
   );
   const date = newTime.toLocaleDateString();
   const newTimeString = date;
@@ -84,10 +84,11 @@ export const InBodyStore = create<InBodyStore>()(
         const docInBodyCol = collection(db, "users", CurrentUserId, "inBody");
         const orderedQuery = query(
           docInBodyCol,
-          orderBy("measureTime", "desc")
+          orderBy("measureTime", "desc"),
         );
         const docInBodySnap = await getDocs(orderedQuery);
         const inBodyData = docInBodySnap.docs.map((doc) => doc.data());
+        if (inBodyData.length === 0) return;
         inBodyData.map((obj) => {
           obj.formatTime = getformatTime(obj.measureTime);
         });
@@ -143,5 +144,5 @@ export const InBodyStore = create<InBodyStore>()(
     setInputNumberToState: (targetState, value) => {
       set({ [targetState]: value });
     },
-  }))
+  })),
 );
