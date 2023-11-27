@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useRoutes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import NavBar from "./components/NavBar";
 import { auth, db } from "./firebase";
 import { useUserStore } from "./stores/UserStore";
 import { Routes } from "./utils/Routes";
@@ -19,13 +18,15 @@ const GlobalStyle = createGlobalStyle`
 `;
 function App() {
   const getAuth = useUserStore((state) => state.getAuth);
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const unsubscribeInvitations = useUserStore(
-    (state) => state.unsubscribeInvitations
+    (state) => state.unsubscribeInvitations,
   );
   const isLogin = useUserStore((state) => state.isLogin);
   const routing = useRoutes(Routes);
   getAuth(auth, db);
   useEffect(() => {
+    getCurrentUserInfo();
     unsubscribeInvitations();
     return () => {
       unsubscribeInvitations();
@@ -34,9 +35,13 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {isLogin && <Header />}
+      {isLogin && (
+        <>
+          <NavBar />
+        </>
+      )}
       {routing}
-      {isLogin && <Footer />}
+      {/* {isLogin && <Footer />} */}
     </>
   );
 }

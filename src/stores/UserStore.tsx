@@ -59,14 +59,14 @@ interface userState {
   signOut: (auth: Auth) => Promise<void>;
   googleLogin: (
     auth: Auth,
-    googleProvider: GoogleAuthProvider
+    googleProvider: GoogleAuthProvider,
   ) => Promise<void>;
   nativeLogin: (auth: Auth, email: string, password: string) => Promise<void>;
   getAuth: (auth: Auth, db: Firestore) => Promise<void>;
   getName: (currentUserId: string) => Promise<string | undefined>;
   sendInvitation: (
     coachId: string | null,
-    currentUserId: string
+    currentUserId: string,
   ) => Promise<void>;
   replyInvitation: (e: any, state: string) => Promise<void>;
   getCurrentUserInfo: () => Promise<void>;
@@ -132,7 +132,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       console.log("userCredential", userCredential);
     } catch (e) {
@@ -160,7 +160,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       console.log(userCredential);
       set({ isLogin: true });
@@ -191,7 +191,7 @@ export const useUserStore = create<userState>()((set, get) => ({
             myCoach: get().signUpWithCoach,
             userImage: get().signUpImageURL,
           },
-          { merge: true }
+          { merge: true },
         );
       }
     });
@@ -224,7 +224,7 @@ export const useUserStore = create<userState>()((set, get) => ({
     await setDoc(
       newInvitationRef,
       { ...invitationData, id, sendTime: serverTimestamp() },
-      { merge: true }
+      { merge: true },
     );
     console.log("EndSendCoachId", coachId);
   },
@@ -332,17 +332,16 @@ export const useUserStore = create<userState>()((set, get) => ({
     const waitingInvitation = query(
       collection(db, "users", UID, "invitation"),
       where("state", "==", "waiting"),
-      orderBy("sendTime", "desc")
+      orderBy("sendTime", "desc"),
     );
     const receivedMenu = query(
       collection(db, "users", UID, "receivedMenu"),
-      orderBy("sendTime", "desc")
+      orderBy("sendTime", "desc"),
     );
     const user = query(collection(db, "users"), where("id", "==", UID));
     onSnapshot(receivedMenu, (querySnapshot) => {
       const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
       set({ waitingMenus: waitingMenus });
-      console.log("waitingMenus", waitingMenus);
     });
     onSnapshot(waitingInvitation, (querySnapshot) => {
       const Invitations = querySnapshot.docs.map((doc) => doc.data());
