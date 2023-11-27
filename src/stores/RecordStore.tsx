@@ -8,6 +8,9 @@ import {
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { db } from "../firebase";
+interface maxValue {
+  [key: string]: number | undefined;
+}
 
 interface RecordStore {
   itemGroup: string;
@@ -67,21 +70,29 @@ export const RecordStore = create<RecordStore>()(
     getItemMaxRecords: () => {
       const itemRecords = get().itemRecords;
       const itemName = get().itemName;
-      //recordsContent = [Array(1), Array(2), Array(1), Array(2)], 裡面一個array 是一次運動紀錄
-      const recordsContent = itemRecords.map((item) => item.content);
-      //targetRecords = [Array(3), Array(2), Array(3)], array內是每次 itemName的重量紀錄
-      const targetRecords = recordsContent
-        .flatMap((arr) => arr.filter((item) => item.itemName === itemName))
-        .map((item) => item.records);
-      const maxRecordsValue = Math.max(...targetRecords.flat());
-      console.log(Boolean(maxRecordsValue));
-      console.log(`maxRecordsValue of ${itemName}`, maxRecordsValue);
+      const maxRecords = itemRecords.map((item) => item.MaxSummary);
+      console.log("maxRecords", maxRecords);
+      const maxValue: maxValue = {};
 
-      set({
-        itemMaxRecord: maxRecordsValue === -Infinity ? 0 : maxRecordsValue,
+      maxRecords.forEach((record) => {
+        const maxRecordValue = record[itemName];
+        console.log("maxRecordValue", maxRecordValue);
+        if (maxRecordValue !== undefined) {
+          const existingMaxValue = maxValue[itemName];
+
+          if (
+            existingMaxValue === undefined ||
+            maxRecordValue > existingMaxValue
+          ) {
+            maxValue[itemName] = maxRecordValue;
+          }
+        }
       });
 
-      return maxRecordsValue;
+      console.log(`每个 ${itemName} 的最大值:`, maxValue[itemName]);
+      set({
+        itemMaxRecord: maxValue[itemName] ? maxValue[itemName] : 0,
+      });
     },
   }))
 );

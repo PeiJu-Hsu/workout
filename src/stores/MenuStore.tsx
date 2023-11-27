@@ -7,6 +7,9 @@ import {
 } from "firebase/firestore";
 import { create } from "zustand";
 import { auth, db } from "../firebase";
+interface maxValue {
+  [key: string]: number | undefined;
+}
 interface MenuList {
   itemName: string;
   loading: number;
@@ -111,10 +114,21 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       );
       const newDocRef = doc(docMenuRecordsCol);
       const { id } = newDocRef;
+      const maxValue: maxValue = {};
+      get().menuList.forEach((item) => {
+        const { itemName, records } = item;
+        const maxRecord = Math.max(...records);
+
+        if (!maxValue[itemName] || maxRecord > maxValue[itemName]) {
+          maxValue[itemName] = maxRecord;
+        }
+      });
       const MenuRecord = {
         content: get().menuList,
         isPublic: get().menuPublic,
+        MaxSummary: maxValue,
       };
+      console.log("MenuRecord", MenuRecord);
       await setDoc(
         newDocRef,
         { ...MenuRecord, id, trainingTime: serverTimestamp() },
