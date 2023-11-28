@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <>
-      <p>myCoach: {myCoach}</p>
       <div style={{ display: "flex" }}>
         <ScoreChart />
         <WeightChart />
@@ -58,9 +57,7 @@ export default function Home() {
       </div>
 
       <div>
-        {currentUserRole}
-        {signUpWithCoach.state}
-        {currentUserRole === 1 ? (
+        {calenderURL ? (
           <>
             <iframe
               src={calenderURL}

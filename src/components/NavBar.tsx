@@ -91,7 +91,11 @@ export default function NavBar() {
                 {currentUserRole === 1 ? "教練" : "學員"}
               </p>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
+            <DropdownItem key="settings">
+              <Link href="/profile" color="secondary">
+                My Profile
+              </Link>
+            </DropdownItem>
             <DropdownItem key="Inbody">
               <Link href="/inbody" color="secondary">
                 Update InBody
