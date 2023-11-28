@@ -72,8 +72,13 @@ export default function Header() {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Projects
+              <a
+                className="nav-link"
+                onClick={() => {
+                  navigate("/record");
+                }}
+              >
+                Record
               </a>
             </li>
           </ul>
