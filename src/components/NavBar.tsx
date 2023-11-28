@@ -11,11 +11,9 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { useUserStore } from "../stores/UserStore";
 export default function NavBar() {
-  const navigate = useNavigate();
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
@@ -49,15 +47,18 @@ export default function NavBar() {
       </NavbarContent>
 
       <NavbarContent as="div" justify="end">
-        <Button
-          color="default"
-          onClick={async () => {
-            await signOut(auth);
-            logOut();
-          }}
-        >
-          <i className="fas fa-arrow-right-from-bracket"></i>
-        </Button>
+        <Link href="/record">
+          <Button
+            color="default"
+            onClick={async () => {
+              logOut();
+              await signOut(auth);
+            }}
+          >
+            <i className="fas fa-arrow-right-from-bracket"></i>
+          </Button>
+        </Link>
+
         <Button color="default">
           <i className="fas fa-bell">
             <span className="badge rounded-pill badge-notification bg-danger">

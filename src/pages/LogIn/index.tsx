@@ -11,13 +11,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { auth, db, googleProvider } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
-import { Loading } from "../LogIn/Loading";
 
 export default function LogIn() {
   const navigate = useNavigate();
   const {
     signUpEmail,
     signUpPassword,
+    signUpRole,
     keyInEmail,
     keyInPassWord,
     googleLogin,
@@ -31,16 +31,16 @@ export default function LogIn() {
 
   return (
     <>
-      <Loading />
+      <p>{signUpRole}</p>
       <MDBContainer fluid>
         <MDBRow className="d-flex justify-content-center align-items-center h-100">
           <MDBCol col="12">
             <MDBCard
-              className="bg-dark text-white my-5 mx-auto"
+              className="bg-dark mx-auto my-5 text-white"
               style={{ borderRadius: "1rem", maxWidth: "400px" }}
             >
-              <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-                <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+              <MDBCardBody className="d-flex flex-column align-items-center w-100 mx-auto p-5">
+                <h2 className="fw-bold text-uppercase mb-2">Login</h2>
                 <p className="text-white-50 mb-5">
                   Please enter your login and password!
                 </p>
@@ -70,7 +70,7 @@ export default function LogIn() {
                   }}
                 />
 
-                <p className="small mb-3 pb-lg-2">
+                <p className="small pb-lg-2 mb-3">
                   <a className="text-white-50" href="#!">
                     Forgot password?
                   </a>
@@ -99,7 +99,7 @@ export default function LogIn() {
                   Google Login
                 </MDBBtn>
 
-                <div className="d-flex flex-row mt-3 mb-5">
+                <div className="d-flex mb-5 mt-3 flex-row">
                   <MDBBtn
                     tag="a"
                     color="none"

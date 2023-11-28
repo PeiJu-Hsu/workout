@@ -18,15 +18,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 function App() {
   const getAuth = useUserStore((state) => state.getAuth);
-  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const unsubscribeInvitations = useUserStore(
     (state) => state.unsubscribeInvitations,
   );
   const isLogin = useUserStore((state) => state.isLogin);
   const routing = useRoutes(Routes);
-  getAuth(auth, db);
+
   useEffect(() => {
-    getCurrentUserInfo();
+    getAuth(auth, db);
     unsubscribeInvitations();
     return () => {
       unsubscribeInvitations();

@@ -34,10 +34,10 @@ export default function Header() {
           <i className="fas fa-bars"></i>
         </button>
         {/* Collapsible wrapper */}
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div className="navbar-collapse collapse" id="navbarSupportedContent">
           {/* Navbar brand */}
           <a
-            className="navbar-brand mt-2 mt-lg-0"
+            className="navbar-brand mt-lg-0 mt-2"
             onClick={() => {
               navigate("/");
             }}
@@ -50,7 +50,7 @@ export default function Header() {
             />
           </a>
           {/* Left links */}
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul className="navbar-nav mb-lg-0 mb-2 me-auto">
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -86,6 +86,7 @@ export default function Header() {
             className="text-reset me-3"
             onClick={async () => {
               await signOut(auth);
+              alert("已登出");
               logOut();
             }}
           >
@@ -94,7 +95,7 @@ export default function Header() {
           {/* //Notifications */}
           <div className="dropdown">
             <a
-              className="text-reset me-3 dropdown-toggle hidden-arrow"
+              className="text-reset dropdown-toggle hidden-arrow me-3"
               href="#"
               id="navbarDropdownMenuLink"
               role="button"
@@ -142,7 +143,7 @@ export default function Header() {
                   currentUserImg
                     ? currentUserImg
                     : `https://i.pravatar.cc/150?u=${localStorage.getItem(
-                        "UID"
+                        "UID",
                       )}`
                 }
                 className="rounded-circle"

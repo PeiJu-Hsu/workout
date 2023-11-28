@@ -37,6 +37,7 @@ export default function SignUp() {
   } = useUserStore();
 
   useEffect(() => {
+    console.log("signUp");
     getCoachList().then((res) => {
       if (res) console.log(res);
     });
@@ -48,11 +49,11 @@ export default function SignUp() {
         <MDBRow className="d-flex justify-content-center align-items-center h-100">
           <MDBCol col="12">
             <MDBCard
-              className="bg-dark text-white my-5 mx-auto"
+              className="bg-dark mx-auto my-5 text-white"
               style={{ borderRadius: "1rem", maxWidth: "400px" }}
             >
-              <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-                <h2 className="fw-bold mb-2 text-uppercase">SignUp</h2>
+              <MDBCardBody className="d-flex flex-column align-items-center w-100 mx-auto p-5">
+                <h2 className="fw-bold text-uppercase mb-2">SignUp</h2>
                 <p className="text-white-50 mb-5">
                   Please enter your login and password!
                 </p>
@@ -91,7 +92,6 @@ export default function SignUp() {
                   style={{ color: "white" }}
                   onChange={(e) => {
                     setInputTextToState(e.target.id, e.target.value);
-                    console.log(signUpName);
                   }}
                 />
                 <MDBInput
@@ -105,11 +105,8 @@ export default function SignUp() {
                   style={{ color: "white" }}
                   onChange={(e) => {
                     if (e.target.files) {
-                      console.log(e.target.files[0]);
                       setInputTextToState(e.target.id, e.target.files[0]);
-                      console.log("file2", e.target.files[0]);
                     }
-                    console.log("signUpImage", signUpImage);
                   }}
                 />
                 <MDBRadio
@@ -139,7 +136,7 @@ export default function SignUp() {
                       labelClass="text-white"
                       label="Calender link"
                       id="coachCalender"
-                      type="test"
+                      type="text"
                       size="lg"
                       style={{ color: "white" }}
                       onChange={(e) => {
@@ -151,7 +148,7 @@ export default function SignUp() {
                       labelClass="text-white"
                       label="Reserve Link"
                       id="coachReserve"
-                      type="test"
+                      type="text"
                       size="lg"
                       style={{ color: "white" }}
                       onChange={(e) => {
@@ -166,6 +163,7 @@ export default function SignUp() {
                     onChange={(e) => {
                       setSignUpCoach(e.target.value);
                     }}
+                    style={{ color: "black" }}
                   >
                     <option value={"default"} disabled>
                       Choose a Coach

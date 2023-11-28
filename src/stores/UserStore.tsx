@@ -75,6 +75,7 @@ interface userState {
   uploadImage: (image: File | null, path: string) => Promise<void>;
   getUploadImage: (image: File | null, path: string) => Promise<void>;
   unsubscribeInvitations: () => void;
+  updateProfile: () => Promise<void>;
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
@@ -85,7 +86,7 @@ export const useUserStore = create<userState>()((set, get) => ({
   signUpName: "",
   signUpImage: null,
   signUpImageURL: "",
-  signUpWithCoach: { coachId: "default", state: "" },
+  signUpWithCoach: { coachId: "", state: "" },
   //coachCalender, coachReserve是教練註冊時填入的資料
   coachCalender: "",
   coachReserve: "",
@@ -142,15 +143,15 @@ export const useUserStore = create<userState>()((set, get) => ({
   signOut: async (auth) => {
     try {
       await signOut(auth);
+      alert("log out");
     } catch (e) {
       console.error(e);
     }
   },
   googleLogin: async (auth, googleProvider) => {
     try {
+      console.log("signUpRoleIB4GoogleSignIn", get().signUpRole);
       await signInWithPopup(auth, googleProvider);
-      set({ isLogin: true });
-      set({ signUpRole: 0 });
     } catch (e) {
       console.error(e);
     }
@@ -163,8 +164,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         password,
       );
       console.log(userCredential);
-      set({ isLogin: true });
-      set({ signUpRole: 0 });
     } catch (e) {
       console.error(e);
     }
@@ -173,26 +172,33 @@ export const useUserStore = create<userState>()((set, get) => ({
     const userCol = collection(db, "users");
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        set({ isLogin: true });
-        // console.log("user", user);
         localStorage.setItem("UID", user.uid);
         const userRef = doc(userCol, user.uid);
         const docSnap = await getDoc(userRef);
-        if (docSnap.exists()) return;
-        await setDoc(
-          doc(userCol, user.uid),
-          {
-            id: user.uid,
-            email: user.email,
-            name: get().signUpName,
-            role: get().signUpRole,
-            coachCalender: get().coachCalender,
-            coachReserve: get().coachReserve,
-            myCoach: get().signUpWithCoach,
-            userImage: get().signUpImageURL,
-          },
-          { merge: true },
-        );
+        if (docSnap.exists() && docSnap.data()?.role !== get().signUpRole) {
+          set({ signUpRole: docSnap.data()?.role });
+          console.log("signUpRoleInGETAUTH", get().signUpRole);
+          set({ isLogin: true });
+          return;
+        } else if (!docSnap.exists()) {
+          await setDoc(
+            doc(userCol, user.uid),
+            {
+              id: user.uid,
+              email: user.email,
+              name: get().signUpName,
+              role: get().signUpRole,
+              coachCalender: get().coachCalender,
+              coachReserve: get().coachReserve,
+              myCoach: get().signUpWithCoach,
+              userImage: get().signUpImageURL,
+            },
+            { merge: true },
+          );
+          console.log("signUpRoleInGETAUTH", get().signUpRole);
+          console.log("ConductIngetAuthSetDoc");
+          set({ isLogin: true });
+        }
       }
     });
   },
@@ -265,6 +271,7 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docMyCoachSnap = await getDoc(myCoachRef);
         const myCoachInfo = docMyCoachSnap.data();
         set({ myCoach: coachId });
+
         // set({
         //   signUpWithCoach: {
         //     coachId: currentUserInfo.myCoach.coachId,
@@ -326,6 +333,17 @@ export const useUserStore = create<userState>()((set, get) => ({
         alert("Error to get the image URL.");
       });
   },
+  updateProfile: async () => {
+    const UID = localStorage.getItem("UID");
+    const userRef = doc(db, "users", UID);
+    await updateDoc(userRef, {
+      name: get().signUpName,
+      role: get().signUpRole,
+      coachCalender: get().coachCalender,
+      coachReserve: get().coachReserve,
+      myCoach: get().signUpWithCoach,
+    });
+  },
   unsubscribeInvitations: () => {
     const UID = localStorage.getItem("UID");
     if (!UID) return;
@@ -347,11 +365,11 @@ export const useUserStore = create<userState>()((set, get) => ({
       const Invitations = querySnapshot.docs.map((doc) => doc.data());
       set({ invitations: Invitations });
     });
-    onSnapshot(user, () => {
-      // const newUserData = querySnapshot.docs.map((doc) => doc.data());
-      // set({ calenderURL: Invitations });
-      get().getCurrentUserInfo();
-    });
+    // onSnapshot(user, () => {
+    //   // const newUserData = querySnapshot.docs.map((doc) => doc.data());
+    //   // set({ calenderURL: Invitations });
+    //   get().getCurrentUserInfo();
+    // });
   },
 
   // getCoachInfo: async () => {

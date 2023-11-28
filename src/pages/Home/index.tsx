@@ -14,19 +14,18 @@ export default function Home() {
   const invitations = useUserStore((state) => state.invitations);
   const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
   const replyInvitation = useUserStore((state) => state.replyInvitation);
-  // getCurrentUserInfo();
-  fetchInBodyData();
+  const currentUserName = useUserStore((state) => state.currentUserName);
+  //
+
   useEffect(() => {
+    getCurrentUserInfo();
+    fetchInBodyData();
     sendInvitation(myCoach, window.localStorage.getItem("UID")!);
   }, []);
-  // async () => {
-  //   await getCurrentUserInfo();
-  //   await fetchInBodyData();
-  //   await sendInvitation(myCoach, window.localStorage.getItem("UID")!);
-  // };
 
   return (
     <>
+      <p>myCoach: {myCoach}</p>
       <div style={{ display: "flex" }}>
         <ScoreChart />
         <WeightChart />
@@ -59,7 +58,9 @@ export default function Home() {
       </div>
 
       <div>
-        {calenderURL ? (
+        {currentUserRole}
+        {signUpWithCoach.state}
+        {currentUserRole === 1 ? (
           <>
             <iframe
               src={calenderURL}
