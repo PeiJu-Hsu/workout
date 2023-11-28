@@ -68,6 +68,7 @@ interface userState {
     coachId: string | null,
     currentUserId: string,
   ) => Promise<void>;
+  sendInvitationAtHome: () => Promise<void>;
   replyInvitation: (e: any, state: string) => Promise<void>;
   getCurrentUserInfo: () => Promise<void>;
   getCoachList: () => Promise<DocumentData[] | null>;
@@ -225,6 +226,35 @@ export const useUserStore = create<userState>()((set, get) => ({
     // };
     const invitationData = {
       senderName: await get().getName(currentUserId),
+      state: "waiting",
+    };
+    await setDoc(
+      newInvitationRef,
+      { ...invitationData, id, sendTime: serverTimestamp() },
+      { merge: true },
+    );
+    console.log("EndSendCoachId", coachId);
+  },
+  sendInvitationAtHome: async () => {
+    const UID = localStorage.getItem("UID");
+    const userCol = collection(db, "users");
+    const userDocRef = doc(userCol, UID);
+    const userData = await getDoc(userDocRef);
+    const coachId = userData.data()?.myCoach.coachId;
+    const invitationCol = collection(db, "users", coachId, "invitation");
+
+    const newInvitationRef = doc(invitationCol, UID);
+    const docSnap = await getDoc(newInvitationRef);
+    if (docSnap.exists()) return;
+    const { id } = newInvitationRef;
+    // const getName = async (currentUserId: string) => {
+    //   const userRef = doc(db, "users", currentUserId);
+    //   const docUserSnap = await getDoc(userRef);
+    //   const currentUserInfo = docUserSnap.data();
+    //   return currentUserInfo?.name;
+    // };
+    const invitationData = {
+      senderName: await get().getName(UID),
       state: "waiting",
     };
     await setDoc(

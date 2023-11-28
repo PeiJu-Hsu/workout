@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { HighestChart } from "../../charts/HighestChart";
-import { LatestChart } from "../../charts/LatestChart";
 import { RecordStore } from "../../stores/RecordStore";
 import { group, groupList } from "../../utils/TrainingItems";
 export default function Record() {
@@ -62,7 +61,7 @@ export default function Record() {
         })}
       </select>
       <HighestChart />
-      <LatestChart />
+      {/* <LatestChart /> */}
     </>
   );
 }

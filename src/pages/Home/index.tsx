@@ -15,12 +15,15 @@ export default function Home() {
   const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
   const replyInvitation = useUserStore((state) => state.replyInvitation);
   const currentUserName = useUserStore((state) => state.currentUserName);
+  const sendInvitationAtHome = useUserStore(
+    (state) => state.sendInvitationAtHome,
+  );
   //
 
   useEffect(() => {
     getCurrentUserInfo();
     fetchInBodyData();
-    sendInvitation(myCoach, window.localStorage.getItem("UID")!);
+    sendInvitationAtHome();
   }, []);
 
   return (
