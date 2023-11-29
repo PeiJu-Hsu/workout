@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line no-undef
+const { nextui } = require("@nextui-org/theme");
 
 export default {
   content: [
@@ -11,5 +13,5 @@ export default {
     extend: {},
   },
   darkMode: "class",
-  plugins: [],
+  plugins: [nextui()],
 };

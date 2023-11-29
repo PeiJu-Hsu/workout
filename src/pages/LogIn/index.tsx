@@ -17,7 +17,6 @@ export default function LogIn() {
   const {
     signUpEmail,
     signUpPassword,
-    signUpRole,
     keyInEmail,
     keyInPassWord,
     googleLogin,
@@ -31,7 +30,6 @@ export default function LogIn() {
 
   return (
     <>
-      <p>{signUpRole}</p>
       <MDBContainer fluid>
         <MDBRow className="d-flex justify-content-center align-items-center h-100">
           <MDBCol col="12">

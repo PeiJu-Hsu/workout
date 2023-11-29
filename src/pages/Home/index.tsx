@@ -30,11 +30,11 @@ export default function Home() {
         <WeightChart />
       </div>
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
-        只有教練看得到
+        等待回覆的學生邀請
         {invitations.map((invitation, index) => {
           return (
             <p key={index}>
-              form: {invitation.id} status: {invitation.state}{" "}
+              {invitation.senderName} 申請成為您的學員{" "}
               <button
                 data-id={invitation.id}
                 onClick={(e) => {
