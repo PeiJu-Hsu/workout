@@ -80,7 +80,7 @@ export const HighestChart = () => {
           borderRadius: 8,
           offsetCenter: [0, "35%"],
           valueAnimation: true,
-          formatter: function (value) {
+          formatter: function (value: number) {
             return "{value|" + value.toFixed(0) + "}{unit|kg}";
           },
           rich: {

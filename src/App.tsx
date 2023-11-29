@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: Roboto, Helvetica, Arial, sans-serif;
   
   }
+  /* button {background-color: #000; color: #fff; margin:5px;padding: 5px;  cursor: pointer;} */
 
   
 `;

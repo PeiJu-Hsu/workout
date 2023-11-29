@@ -1,22 +1,6 @@
 import ReactECharts from "echarts-for-react";
 import { InBodyStore } from "../stores/InBodyStore";
-interface InBodyObj {
-  measureTime: Date;
-  inBodyScore: number;
-  height: number;
-  weight: number;
-  bodyWater: number;
-  bodyFat: number;
-  bodyProtein: number;
-  bodyMineral: number;
-  bodyMuscle: number;
-  controlWeight: number;
-  controlFat: number;
-  controlMuscle: number;
-  fatRatio: number;
-  bmi: number;
-  formatTime: string;
-}
+
 export const WeightChart = () => {
   const InBodyHistory = InBodyStore((state) => state.InBodyHistory);
   //   const legendData = [
@@ -29,18 +13,10 @@ export const WeightChart = () => {
   const legendData = ["體重(kg)", "骨骼肌重(kg)", "體脂肪率(%)"];
 
   //   const xAxisData = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const xAxisData = InBodyHistory.map(
-    (obj: InBodyObj) => obj.formatTime
-  ).reverse();
-  const weightData = InBodyHistory.map(
-    (obj: InBodyObj) => obj.weight
-  ).reverse();
-  const bodyMuscleData = InBodyHistory.map(
-    (obj: InBodyObj) => obj.bodyMuscle
-  ).reverse();
-  const fatRatioData = InBodyHistory.map(
-    (obj: InBodyObj) => obj.fatRatio
-  ).reverse();
+  const xAxisData = InBodyHistory.map((obj) => obj.formatTime).reverse();
+  const weightData = InBodyHistory.map((obj) => obj.weight).reverse();
+  const bodyMuscleData = InBodyHistory.map((obj) => obj.bodyMuscle).reverse();
+  const fatRatioData = InBodyHistory.map((obj) => obj.fatRatio).reverse();
 
   const usingData = [weightData, bodyMuscleData, fatRatioData];
   //   const usingData = [

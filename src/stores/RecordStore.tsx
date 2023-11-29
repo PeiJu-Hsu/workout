@@ -30,7 +30,7 @@ interface TimeStamp {
 }
 const getformatTime = (timestamp: TimeStamp) => {
   const newTime = new Date(
-    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000,
   );
   const date = newTime.toLocaleDateString();
   const newTimeString = date;
@@ -55,7 +55,7 @@ export const RecordStore = create<RecordStore>()(
     },
     fetchRecordData: async () => {
       const UID = localStorage.getItem("UID");
-      const docRecordCol = collection(db, "users", UID, "menuRecords");
+      const docRecordCol = collection(db, "users", UID!, "menuRecords");
       const orderedQuery = query(docRecordCol, orderBy("trainingTime", "desc"));
       const recordSnap = await getDocs(orderedQuery);
       if (!recordSnap) return;
@@ -94,5 +94,5 @@ export const RecordStore = create<RecordStore>()(
         itemMaxRecord: maxValue[itemName] ? maxValue[itemName] : 0,
       });
     },
-  }))
+  })),
 );

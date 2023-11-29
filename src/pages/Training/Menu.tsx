@@ -7,7 +7,6 @@ export default function Menu() {
     itemGroup,
     itemGroupIndex,
     itemName,
-    loading,
     runCount,
     menuList,
     setItemGroup,
@@ -17,8 +16,6 @@ export default function Menu() {
     setRunCount,
     setTargetStudent,
     setMenuList,
-    menuPublic,
-    setMenuPublic,
     resetMenuList,
     addMenuRecord,
     targetStudent,
@@ -27,7 +24,9 @@ export default function Menu() {
     deleteReceivedMenu,
   } = MenuStore();
   const getStudentList = useUserStore((state) => state.getStudentList);
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const currentUserName = useUserStore((state) => state.currentUserName);
+  const currentUserRole = useUserStore((state) => state.currentUserRole);
   const studentList = useUserStore((state) => state.studentList);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
 
@@ -72,19 +71,20 @@ export default function Menu() {
   function changeItemRecord(
     objIndex: number,
     itemIndex: number,
-    itemQuantity: string
+    itemQuantity: string,
   ) {
     const newItemRecord = menuList[objIndex].records.map((item, index) =>
-      index === itemIndex ? Number(itemQuantity) : item
+      index === itemIndex ? Number(itemQuantity) : item,
     );
     const newMenuList = menuList.map((item, index) =>
-      index === objIndex ? { ...item, records: newItemRecord } : item
+      index === objIndex ? { ...item, records: newItemRecord } : item,
     );
     resetMenuList(newMenuList);
     console.log("newMenuList:", menuList);
   }
 
   useEffect(() => {
+    getCurrentUserInfo();
     getStudentList().then((res) => {
       if (res) console.log(res);
     });
@@ -138,14 +138,20 @@ export default function Menu() {
         <option value={1}>1</option>
         <option value={2}>2</option>
         <option value={3}>3</option>
+        <option value={4}>4</option>
+        <option value={5}>5</option>
       </select>
 
-      <h1>設定項目</h1>
+      {/* <h1>設定項目</h1>
       <h4>選擇肌群 {itemGroup === "default" ? "請選擇肌群" : itemGroup}</h4>
       <h4>項目名稱 {itemName === "default" ? "請選擇動作" : itemName}</h4>
       <h4>目標重量 {loading === "default" ? "請選擇重量" : loading}</h4>
-      <h4>預計組數 {runCount === "default" ? "請選擇組數" : runCount}</h4>
-      <button type="button" onClick={setMenuList}>
+      <h4>預計組數 {runCount === "default" ? "請選擇組數" : runCount}</h4> */}
+      <button
+        type="button"
+        style={{ backgroundColor: "black", color: "white" }}
+        onClick={setMenuList}
+      >
         新增項目
       </button>
       <Accordion variant="splitted">
@@ -153,15 +159,16 @@ export default function Menu() {
           return (
             <AccordionItem
               key={index}
+              style={{ backgroundColor: "gray", color: "Black" }}
               aria-label="Accordion 1"
               title={item.senderName}
             >
-              {item.content.map((item, index) => {
+              {item.content.map((item: any, index: number) => {
                 const objIndex = index;
                 return (
                   <div key={index}>
                     {item.itemName}
-                    {item.records.map((load, index) => {
+                    {item.records.map((load: number, index: number) => {
                       return (
                         <input
                           key={index}
@@ -181,6 +188,7 @@ export default function Menu() {
               <button
                 id={index.toString()}
                 type="button"
+                style={{ backgroundColor: "gray", color: "Black" }}
                 onClick={() => {
                   resetMenuList(waitingMenus[index].content);
                   deleteReceivedMenu(waitingMenus[index].id);
@@ -191,6 +199,7 @@ export default function Menu() {
               <button
                 id={index.toString()}
                 type="button"
+                style={{ backgroundColor: "gray", color: "Black" }}
                 onClick={() => {
                   deleteReceivedMenu(waitingMenus[index].id);
                 }}
@@ -203,37 +212,42 @@ export default function Menu() {
       </Accordion>
 
       <h2>Menu as below</h2>
-      <button
-        type="button"
-        onClick={() => {
-          sentToStudent(currentUserName);
-        }}
-      >
-        sentToStudent
-      </button>
-      <p>{targetStudent}</p>
+      {currentUserRole === 1 ? (
+        <>
+          <button
+            type="button"
+            style={{ backgroundColor: "black", color: "white" }}
+            onClick={() => {
+              sentToStudent(currentUserName);
+            }}
+          >
+            sentToStudent
+          </button>
 
-      <select
-        value={targetStudent}
-        id="targetStudent"
-        onChange={(e) => setTargetStudent(e.target.value)}
-      >
-        <option value={"default"} disabled>
-          Choose a student
-        </option>
+          <select
+            value={targetStudent}
+            id="targetStudent"
+            onChange={(e) => setTargetStudent(e.target.value)}
+          >
+            <option value={"default"} disabled>
+              Choose a student
+            </option>
 
-        {studentList ? (
-          studentList.map((item, index) => {
-            return (
-              <option key={index} value={item.id}>
-                {item.senderName}
-              </option>
-            );
-          })
-        ) : (
-          <option>No Student</option>
-        )}
-      </select>
+            {studentList ? (
+              studentList.map((item, index) => {
+                return (
+                  <option key={index} value={item.id}>
+                    {item.senderName}
+                  </option>
+                );
+              })
+            ) : (
+              <option>No Student</option>
+            )}
+          </select>
+        </>
+      ) : null}
+
       {menuList.map((item, index) => {
         const objIndex = index;
         // const inputNumber = <input type="number" />
@@ -259,6 +273,7 @@ export default function Menu() {
               );
             })}
             <button
+              style={{ backgroundColor: "black", color: "white" }}
               type="button"
               id={index.toString()}
               onClick={(e) => {
@@ -267,7 +282,7 @@ export default function Menu() {
                 console.log("Button clicked with index:", index);
                 // resetMenuList(menuList.splice(Number(index), 1));
                 const newMenuList = menuList.filter(
-                  (_, index) => index !== Number(indexRemove)
+                  (_, index) => index !== Number(indexRemove),
                 );
                 console.log("menuList:", newMenuList);
                 resetMenuList(newMenuList);
@@ -278,12 +293,20 @@ export default function Menu() {
           </div>
         );
       })}
-      <button type="button" onClick={clearMenuList}>
+      <button
+        type="button"
+        style={{ backgroundColor: "black", color: "white", margin: "5px" }}
+        onClick={clearMenuList}
+      >
         Clear
       </button>
-      <input id="setMenuPublic" type="checkbox" onChange={setMenuPublic} />
-      <label htmlFor="setMenuPublic">{menuPublic ? "公開" : "不公開"}</label>
-      <button type="button" onClick={addMenuRecord}>
+      {/* <input id="setMenuPublic" type="checkbox" onChange={setMenuPublic} />
+      <label htmlFor="setMenuPublic">{menuPublic ? "公開" : "不公開"}</label> */}
+      <button
+        type="button"
+        style={{ backgroundColor: "black", color: "white" }}
+        onClick={addMenuRecord}
+      >
         submit
       </button>
     </div>

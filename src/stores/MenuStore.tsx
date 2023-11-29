@@ -38,7 +38,7 @@ interface MenuStore {
       loading: number;
       runCount: number;
       records: number[];
-    }[]
+    }[],
   ) => void;
   setMenuPublic: () => void;
   addMenuRecord: () => Promise<void>;
@@ -87,7 +87,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
           loading: Number(get().loading),
           runCount: Number(get().runCount),
           records: new Array(Number(get().runCount)).fill(
-            Number(get().loading)
+            Number(get().loading),
           ),
         },
       ],
@@ -110,7 +110,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
         db,
         "users",
         CurrentUserId,
-        "menuRecords"
+        "menuRecords",
       );
       const newDocRef = doc(docMenuRecordsCol);
       const { id } = newDocRef;
@@ -119,7 +119,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
         const { itemName, records } = item;
         const maxRecord = Math.max(...records);
 
-        if (!maxValue[itemName] || maxRecord > maxValue[itemName]) {
+        if (!maxValue[itemName] || maxRecord > maxValue[itemName]!) {
           maxValue[itemName] = maxRecord;
         }
       });
@@ -132,7 +132,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       await setDoc(
         newDocRef,
         { ...MenuRecord, id, trainingTime: serverTimestamp() },
-        { merge: true }
+        { merge: true },
       );
       localStorage.removeItem("menuList");
       get().resetMenuList([]);
@@ -152,7 +152,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       db,
       "users",
       get().targetStudent,
-      "receivedMenu"
+      "receivedMenu",
     );
     const newDocRef = doc(docMenuRecordsCol);
     const { id } = newDocRef;
@@ -164,7 +164,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     await setDoc(
       newDocRef,
       { ...newMenu, id, sendTime: serverTimestamp() },
-      { merge: true }
+      { merge: true },
     );
     alert("已傳送");
   },
@@ -172,8 +172,8 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     const docMenuRecordsCol = collection(
       db,
       "users",
-      auth.currentUser?.uid,
-      "receivedMenu"
+      auth.currentUser?.uid ?? "",
+      "receivedMenu",
     );
     const docRef = doc(docMenuRecordsCol, id);
     await deleteDoc(docRef);

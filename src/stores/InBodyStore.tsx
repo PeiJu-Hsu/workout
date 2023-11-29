@@ -25,14 +25,15 @@ interface InBodyStore {
   controlMuscle: number;
   fatRatio: number;
   bmi: number;
-  InBodyHistory: DocumentData;
+  InBodyHistory: DocumentData[];
   calculateBMI: () => string;
   calculateFatRatio: () => string;
+  setInBodyStatus: (inBodyData: DocumentData[]) => void;
   fetchInBodyData: () => Promise<DocumentData[] | undefined>;
-  setInBodyStatus: (inBodyData: DocumentData) => void;
   addInBodyData: () => Promise<void>;
   setInputNumberToState: (targetState: string, value: number | Date) => void;
 }
+
 interface TimeStamp {
   seconds: number;
   nanoseconds: number;
@@ -77,6 +78,22 @@ export const InBodyStore = create<InBodyStore>()(
       set({ fatRatio: Number(fatRatio) });
       return fatRatio;
     },
+    setInBodyStatus: (inBodyData) => {
+      set({ measureTime: inBodyData[0].measureTime });
+      set({ inBodyScore: inBodyData[0].inBodyScore });
+      set({ height: inBodyData[0].height });
+      set({ weight: inBodyData[0].weight });
+      set({ bodyWater: inBodyData[0].bodyWater });
+      set({ bodyFat: inBodyData[0].bodyFat });
+      set({ bodyMineral: inBodyData[0].bodyMineral });
+      set({ bodyMuscle: inBodyData[0].bodyMuscle });
+      set({ bmi: inBodyData[0].bmi });
+      set({ controlWeight: inBodyData[0].controlWeight });
+      set({ controlFat: inBodyData[0].controlFat });
+      set({ controlMuscle: inBodyData[0].controlMuscle });
+      set({ fatRatio: inBodyData[0].fatRatio });
+      set({ InBodyHistory: inBodyData });
+    },
 
     fetchInBodyData: async () => {
       const UID = localStorage.getItem("UID");
@@ -96,22 +113,6 @@ export const InBodyStore = create<InBodyStore>()(
 
         return inBodyData;
       }
-    },
-    setInBodyStatus: (inBodyData) => {
-      set({ measureTime: inBodyData[0].measureTime });
-      set({ inBodyScore: inBodyData[0].inBodyScore });
-      set({ height: inBodyData[0].height });
-      set({ weight: inBodyData[0].weight });
-      set({ bodyWater: inBodyData[0].bodyWater });
-      set({ bodyFat: inBodyData[0].bodyFat });
-      set({ bodyMineral: inBodyData[0].bodyMineral });
-      set({ bodyMuscle: inBodyData[0].bodyMuscle });
-      set({ bmi: inBodyData[0].bmi });
-      set({ controlWeight: inBodyData[0].controlWeight });
-      set({ controlFat: inBodyData[0].controlFat });
-      set({ controlMuscle: inBodyData[0].controlMuscle });
-      set({ fatRatio: inBodyData[0].fatRatio });
-      set({ InBodyHistory: inBodyData });
     },
 
     addInBodyData: async () => {

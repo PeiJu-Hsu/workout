@@ -9,12 +9,9 @@ export default function Home() {
   const calenderURL = useUserStore((state) => state.calenderURL);
   const reserveURL = useUserStore((state) => state.reserveURL);
   const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
-  const sendInvitation = useUserStore((state) => state.sendInvitation);
-  const myCoach = useUserStore((state) => state.myCoach);
   const invitations = useUserStore((state) => state.invitations);
   const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
   const replyInvitation = useUserStore((state) => state.replyInvitation);
-  const currentUserName = useUserStore((state) => state.currentUserName);
   const sendInvitationAtHome = useUserStore(
     (state) => state.sendInvitationAtHome,
   );

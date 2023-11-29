@@ -178,7 +178,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docSnap = await getDoc(userRef);
         if (docSnap.exists() && docSnap.data()?.role !== get().signUpRole) {
           set({ signUpRole: docSnap.data()?.role });
-          console.log("signUpRoleInGETAUTH", get().signUpRole);
           set({ isLogin: true });
           return;
         } else if (!docSnap.exists()) {
@@ -196,8 +195,6 @@ export const useUserStore = create<userState>()((set, get) => ({
             },
             { merge: true },
           );
-          console.log("signUpRoleInGETAUTH", get().signUpRole);
-          console.log("ConductIngetAuthSetDoc");
           set({ isLogin: true });
         }
       }
@@ -238,12 +235,12 @@ export const useUserStore = create<userState>()((set, get) => ({
   sendInvitationAtHome: async () => {
     const UID = localStorage.getItem("UID");
     const userCol = collection(db, "users");
-    const userDocRef = doc(userCol, UID);
+    const userDocRef = doc(userCol, UID!);
     const userData = await getDoc(userDocRef);
     const coachId = userData.data()?.myCoach.coachId;
     const invitationCol = collection(db, "users", coachId, "invitation");
 
-    const newInvitationRef = doc(invitationCol, UID);
+    const newInvitationRef = doc(invitationCol, UID!);
     const docSnap = await getDoc(newInvitationRef);
     if (docSnap.exists()) return;
     const { id } = newInvitationRef;
@@ -254,7 +251,7 @@ export const useUserStore = create<userState>()((set, get) => ({
     //   return currentUserInfo?.name;
     // };
     const invitationData = {
-      senderName: await get().getName(UID),
+      senderName: await get().getName(UID!),
       state: "waiting",
     };
     await setDoc(
@@ -268,7 +265,7 @@ export const useUserStore = create<userState>()((set, get) => ({
     const invitationId = e.target.dataset.id;
     console.log("invitationId", invitationId);
     const UID = localStorage.getItem("UID");
-    const invitationCol = collection(db, "users", UID, "invitation");
+    const invitationCol = collection(db, "users", UID!, "invitation");
     const invitationRef = doc(invitationCol, invitationId);
     const senderCol = collection(db, "users");
     const senderRef = doc(senderCol, invitationId);
@@ -330,7 +327,7 @@ export const useUserStore = create<userState>()((set, get) => ({
   },
   getStudentList: async () => {
     const UID = localStorage.getItem("UID");
-    const invitationCol = collection(db, "users", UID, "invitation");
+    const invitationCol = collection(db, "users", UID!, "invitation");
     const queryCoach = query(invitationCol, where("state", "==", "accept"));
     const docStudentSnap = await getDocs(queryCoach);
     if (!docStudentSnap) return null;
@@ -365,7 +362,7 @@ export const useUserStore = create<userState>()((set, get) => ({
   },
   updateProfile: async () => {
     const UID = localStorage.getItem("UID");
-    const userRef = doc(db, "users", UID);
+    const userRef = doc(db, "users", UID!);
     await updateDoc(userRef, {
       name: get().signUpName,
       role: get().signUpRole,
@@ -386,7 +383,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       collection(db, "users", UID, "receivedMenu"),
       orderBy("sendTime", "desc"),
     );
-    const user = query(collection(db, "users"), where("id", "==", UID));
+    // const user = query(collection(db, "users"), where("id", "==", UID));
     onSnapshot(receivedMenu, (querySnapshot) => {
       const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
       set({ waitingMenus: waitingMenus });
