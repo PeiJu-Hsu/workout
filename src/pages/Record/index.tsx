@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { BarChart } from "../../charts/BarChart";
 import { HighestChart } from "../../charts/HighestChart";
 import { RecordStore } from "../../stores/RecordStore";
 import { group, groupList } from "../../utils/TrainingItems";
@@ -12,6 +13,7 @@ export default function Record() {
     setItemGroupIndex,
     setItemName,
     getItemMaxRecords,
+    getItemHistory,
   } = RecordStore();
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function Record() {
           setItemGroup(e.target.value);
           setItemGroupIndex(groupList.indexOf(e.target.value));
           setItemName("default");
+          console.log("item", itemName);
         }}
       >
         <option value={"default"} disabled>
@@ -47,6 +50,7 @@ export default function Record() {
         onChange={(e) => {
           setItemName(e.target.value);
           getItemMaxRecords();
+          getItemHistory();
         }}
       >
         <option value={"default"} disabled>
@@ -61,7 +65,7 @@ export default function Record() {
         })}
       </select>
       <HighestChart />
-      {/* <LatestChart /> */}
+      <BarChart />
     </>
   );
 }

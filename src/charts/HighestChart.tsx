@@ -6,15 +6,15 @@ export const HighestChart = () => {
   const option = {
     title: {
       text: itemName,
-      //   subtext: "Sub Title",
+      // subtext: itemMaxRecord.date,
       left: "center",
       top: "bottom",
       textStyle: {
         fontSize: 30,
       },
-      //   subtextStyle: {
-      //     fontSize: 20,
-      //   },
+      subtextStyle: {
+        fontSize: 20,
+      },
     },
     series: [
       {
@@ -98,7 +98,7 @@ export const HighestChart = () => {
         },
         data: [
           {
-            value: Number(itemMaxRecord),
+            value: itemName === "default" ? 0 : Number(itemMaxRecord[itemName]),
           },
         ],
       },

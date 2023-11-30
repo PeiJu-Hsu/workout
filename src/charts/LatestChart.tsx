@@ -3,10 +3,9 @@ import { RecordStore } from "../stores/RecordStore";
 
 export const LatestChart = () => {
   const { itemRecords } = RecordStore();
-  console.log("itemRecords000", itemRecords);
   itemRecords.forEach((item) => {
     const newSummary = Object.entries(item.MaxSummary).map(
-      ([itemName, max]) => ({ itemName, max })
+      ([itemName, max]) => ({ itemName, max }),
     );
     item.MaxSummary = newSummary;
     console.log("newSummary", newSummary);
