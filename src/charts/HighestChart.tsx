@@ -104,23 +104,5 @@ export const HighestChart = () => {
       },
     ],
   };
-  return (
-    <div
-      style={{
-        border: "1px solid black",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <div style={{ width: "100%", border: "1px solid red" }}>
-        <ReactECharts option={option} />
-      </div>
-      {/* <div style={{ width: "33%", border: "1px solid red" }}>
-        <ReactECharts option={option} />
-      </div>
-      <div style={{ width: "33%", border: "1px solid red" }}>
-        <ReactECharts option={option} />
-      </div> */}
-    </div>
-  );
+  return <ReactECharts option={option} />;
 };

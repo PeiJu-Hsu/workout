@@ -296,7 +296,6 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
       groupList.indexOf((event.currentTarget as HTMLElement).dataset.group!),
     );
     setItemName("default");
-    console.log("item", itemName);
     setParts(partsChanged);
     if (onChange) onChange(partsChanged);
     if (onClick) onClick(id);

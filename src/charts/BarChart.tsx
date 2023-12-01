@@ -24,9 +24,5 @@ export const BarChart = () => {
       },
     ],
   };
-  return (
-    <div style={{ width: "100%", border: "1px solid red" }}>
-      <ReactECharts option={option} />
-    </div>
-  );
+  return <ReactECharts option={option} />;
 };
