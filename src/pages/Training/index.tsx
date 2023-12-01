@@ -11,10 +11,9 @@ export default function Training() {
   const [runCount, setRunCount] = useState(0);
   const handleStartStop = () => {
     if (isRunning) {
-      setTime(0);
       setIsRunning(false);
 
-      if (runCount >= menuList[itemPointer].records.length - 1) {
+      if (runCount >= menuList[itemPointer]?.records.length - 1) {
         if (itemPointer === menuList.length - 1) {
           setRunCount(runCount + 1);
           setItemPointer(itemPointer + 1);
@@ -26,6 +25,7 @@ export default function Training() {
         setRunCount(runCount + 1);
       }
     } else {
+      setTime(0);
       setIsRunning(true);
     }
   };

@@ -259,7 +259,11 @@ export default function Menu({ itemPointer }: PropsType) {
         // console.log(filledArray)
         return (
           <div key={index}>
-            <input type="checkbox" checked={itemPointer > index} />
+            <input
+              type="checkbox"
+              checked={itemPointer > index}
+              onChange={() => {}}
+            />
             {item.itemName}
             {/* {createNewArray(item.runCount, `${(<input type="number" />)}`)} */}
             {item.records.map((load, index) => {
