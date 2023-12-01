@@ -5,8 +5,6 @@ export const BarChart = () => {
   const itemHistory = RecordStore((state) => state.itemHistory);
   const xAxisData = itemHistory.map((item) => item.date).reverse();
   const yAxisData = itemHistory.map((item) => item.weight).reverse();
-  console.log("Xdata", xAxisData);
-  console.log("Ydata", yAxisData);
   const option = {
     // xAxis: {
     //   type: "category",

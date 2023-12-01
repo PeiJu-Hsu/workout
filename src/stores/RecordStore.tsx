@@ -20,8 +20,8 @@ interface RecordStore {
   itemRecords: DocumentData[];
   itemMaxRecord: maxValue;
   itemHistory: { date: string; weight: number }[];
-  setItemGroup: (value: string) => void;
-  setItemGroupIndex: (value: string) => void;
+  setItemGroup: (value: string | undefined) => void;
+  setItemGroupIndex: (value: number) => void;
   setItemName: (value: string) => void;
   fetchRecordData: () => Promise<DocumentData[] | undefined>;
   getItemSummary: () => void;
@@ -73,7 +73,6 @@ export const RecordStore = create<RecordStore>()(
     },
     getItemSummary: () => {
       const itemRecords = get().itemRecords;
-      console.log("itemRecords", itemRecords);
       const itemName = get().itemName;
       //[{}, ..., {date: "2021/10/10", summary: {item1: 35, item2: 20}}, ...]
       const maxRecords = itemRecords.map((item) => ({
@@ -81,12 +80,10 @@ export const RecordStore = create<RecordStore>()(
         date: item.formatTime,
         ...item[itemName],
       }));
-      console.log("maxRecords", maxRecords);
       return maxRecords;
     },
     getItemMaxRecords: () => {
       const itemRecords = get().itemRecords;
-      console.log("itemRecords", itemRecords);
       const itemName = get().itemName;
       //[{}, ..., {date: "2021/10/10", summary: {item1: 35, item2: 20}}, ...]
       const maxRecords = itemRecords.map((item) => ({
@@ -94,7 +91,6 @@ export const RecordStore = create<RecordStore>()(
         date: item.formatTime,
         ...item[itemName],
       }));
-      console.log("maxRecords", maxRecords);
       const maxValue: maxValue = {};
 
       maxRecords.forEach((record) => {
@@ -113,14 +109,9 @@ export const RecordStore = create<RecordStore>()(
           }
         }
       });
-      console.log("maxValue", maxValue);
-      console.log(
-        `${itemName} 的最大值: ${maxValue[itemName]} 日期: ${maxValue.date}`,
-      );
       set({
         itemMaxRecord: maxValue,
       });
-      console.log("itemMaxRecord", get().itemMaxRecord);
     },
     getItemHistory: () => {
       const itemRecords = get().itemRecords;
@@ -131,6 +122,7 @@ export const RecordStore = create<RecordStore>()(
         date: item.formatTime,
         ...item[itemName],
       }));
+      if (itemName === "default") return;
       const results = [];
       for (const record of maxRecords) {
         const date = record.date;
@@ -141,7 +133,6 @@ export const RecordStore = create<RecordStore>()(
         }
       }
       set({ itemHistory: results });
-      console.log("itemHistory", get().itemHistory);
     },
   })),
 );
