@@ -2,7 +2,12 @@ import { Accordion, AccordionItem } from "@nextui-org/react";
 import { useEffect } from "react";
 import { MenuStore } from "../../stores/MenuStore";
 import { useUserStore } from "../../stores/UserStore";
-export default function Menu() {
+
+interface PropsType {
+  itemPointer: number;
+}
+
+export default function Menu({ itemPointer }: PropsType) {
   const {
     itemGroup,
     itemGroupIndex,
@@ -85,9 +90,8 @@ export default function Menu() {
 
   useEffect(() => {
     getCurrentUserInfo();
-    getStudentList().then((res) => {
-      if (res) console.log(res);
-    });
+    getStudentList();
+    console.log("menuList:", menuList);
   }, []);
   return (
     <div>
@@ -255,7 +259,7 @@ export default function Menu() {
         // console.log(filledArray)
         return (
           <div key={index}>
-            <input type="checkbox" />
+            <input type="checkbox" checked={itemPointer > index} />
             {item.itemName}
             {/* {createNewArray(item.runCount, `${(<input type="number" />)}`)} */}
             {item.records.map((load, index) => {
@@ -305,7 +309,13 @@ export default function Menu() {
       <button
         type="button"
         style={{ backgroundColor: "black", color: "white" }}
-        onClick={addMenuRecord}
+        onClick={() => {
+          if (itemPointer < menuList.length) {
+            alert("請完成目前項目");
+            return;
+          }
+          addMenuRecord();
+        }}
       >
         submit
       </button>

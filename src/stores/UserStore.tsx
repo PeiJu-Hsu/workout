@@ -335,7 +335,6 @@ export const useUserStore = create<userState>()((set, get) => ({
     // const coachList = coachListData.map((obj) =>
     //   obj.name ? obj.name : obj.email
     // );
-    console.log("studentListData", studentListData);
     set({ studentList: studentListData });
     return studentListData;
   },

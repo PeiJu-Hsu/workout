@@ -78,7 +78,6 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     set({ targetStudent: value });
   },
   setMenuList: () => {
-    console.log("1st", get().menuList);
     set((state) => ({
       menuList: [
         ...state.menuList,
@@ -128,7 +127,6 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
         isPublic: get().menuPublic,
         MaxSummary: maxValue,
       };
-      console.log("MenuRecord", MenuRecord);
       await setDoc(
         newDocRef,
         { ...MenuRecord, id, trainingTime: serverTimestamp() },

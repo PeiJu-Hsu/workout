@@ -4,10 +4,7 @@ import { HighestChart } from "../../charts/HighestChart";
 import { RecordStore } from "../../stores/RecordStore";
 import { group, groupList } from "../../utils/TrainingItems";
 import { BodyComponent } from "./BodyComponent";
-const exampleParams = {
-  head: { selected: true },
-  left_arm: { show: false },
-};
+
 export default function Record() {
   const {
     itemGroup,
