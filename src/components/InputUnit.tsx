@@ -1,3 +1,12 @@
+import { Input } from "@nextui-org/react";
+import { useState } from "react";
+import { EyeFilledIcon, EyeSlashFilledIcon } from "./EyeIcon";
+
+interface PropsInputType {
+  id: string;
+  setInputTextToState: (id: string, value: string) => void;
+}
+
 export default function InputUnit(type: string, labelText: string) {
   return (
     <div className="col">
@@ -8,5 +17,48 @@ export default function InputUnit(type: string, labelText: string) {
         </label>
       </div>
     </div>
+  );
+}
+export function InputText({ id, setInputTextToState }: PropsInputType) {
+  return (
+    <Input
+      className="text-white"
+      type="email"
+      variant="underlined"
+      label="Email"
+      id={id}
+      onChange={(e) => {
+        setInputTextToState(e.target.id, e.target.value);
+      }}
+    />
+  );
+}
+export function InputPassword({ id, setInputTextToState }: PropsInputType) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  return (
+    <Input
+      label="Password"
+      variant="underlined"
+      id={id}
+      onChange={(e) => {
+        setInputTextToState(e.target.id, e.target.value);
+      }}
+      endContent={
+        <button
+          className="focus:outline-none"
+          type="button"
+          onClick={toggleVisibility}
+        >
+          {isVisible ? (
+            <EyeSlashFilledIcon className="pointer-events-none text-2xl text-default-400" />
+          ) : (
+            <EyeFilledIcon className="pointer-events-none text-2xl text-default-400" />
+          )}
+        </button>
+      }
+      type={isVisible ? "text" : "password"}
+    />
   );
 }

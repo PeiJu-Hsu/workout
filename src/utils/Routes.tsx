@@ -5,7 +5,7 @@ import { ProtectedRoute, PublicRoute } from "../utils/ProtectRouter.jsx";
 
 import Home from "../pages/Home";
 import InBody from "../pages/InBody";
-import SignIn from "../pages/LogIn";
+import LogIn from "../pages/LogIn/index";
 import Profile from "../pages/Profile";
 import Record from "../pages/Record";
 import SignUp from "../pages/SignUp";
@@ -74,7 +74,7 @@ export const Routes = [
     // 不需要保護的路由，用 <PublicRoute> 包起來
     element: (
       <PublicRoute>
-        <SignIn />
+        <LogIn />
       </PublicRoute>
     ),
   },

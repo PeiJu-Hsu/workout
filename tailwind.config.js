@@ -11,7 +11,8 @@ export default {
   ],
   theme: {
     extend: {},
+    // extend: { colors: { primary: { 500: "#ff0000" } } },
   },
   darkMode: "class",
-  plugins: [nextui()],
+  plugins: [nextui({ addCommonColors: true })],
 };
