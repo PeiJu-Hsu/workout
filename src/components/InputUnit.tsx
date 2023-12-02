@@ -22,7 +22,10 @@ export default function InputUnit(type: string, labelText: string) {
 export function InputText({ id, setInputTextToState }: PropsInputType) {
   return (
     <Input
-      className="text-white"
+      classNames={{
+        input: " text-white",
+        label: "text-white",
+      }}
       type="email"
       variant="underlined"
       label="Email"
@@ -39,6 +42,10 @@ export function InputPassword({ id, setInputTextToState }: PropsInputType) {
   const toggleVisibility = () => setIsVisible(!isVisible);
   return (
     <Input
+      classNames={{
+        input: " text-white",
+        label: "text-white",
+      }}
       label="Password"
       variant="underlined"
       id={id}

@@ -3,6 +3,8 @@ import { InputPassword, InputText } from "../../components/InputUnit";
 import { auth, db, googleProvider } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
 export default function LogIn() {
+  const yellow = " text-[#F9C809]";
+  const hoverYellow = " hover:text-[#F9C809]";
   const {
     signUpEmail,
     signUpPassword,
@@ -35,7 +37,9 @@ export default function LogIn() {
           // }}
         ></div> */}
         <div className="w-full p-8 lg:w-1/2">
-          <p className="text-center text-xl text-white">Welcome back!</p>
+          <p className="text-center text-xl font-extrabold text-white">
+            Welcome <strong className={`${yellow}`}>WorkOut</strong>
+          </p>
 
           <div className="mt-4">
             <InputText
@@ -50,7 +54,7 @@ export default function LogIn() {
             />
             <a
               href="#"
-              className="mt-2 w-full text-end text-xs text-gray-500 hover:text-gray-900"
+              className={`mt-2 w-full text-end text-xs text-gray-500 ${hoverYellow}`}
             >
               Forget Password?
             </a>
@@ -102,10 +106,10 @@ export default function LogIn() {
           <div className="mt-4 flex w-full items-center text-center">
             <a
               href="/signup"
-              className="w-full text-center text-xs capitalize text-gray-500"
+              className="w-full text-center text-xs capitalize text-white"
             >
               Don&apos;t have any account yet?
-              <span className="text-blue-700"> Sign Up</span>
+              <span className={`font-bold ${yellow}`}> Sign Up</span>
             </a>
           </div>
         </div>
