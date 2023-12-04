@@ -2,12 +2,10 @@ import { useEffect } from "react";
 import { BarChart } from "../../charts/BarChart";
 import { HighestChart } from "../../charts/HighestChart";
 import { RecordStore } from "../../stores/RecordStore";
+import { useUserStore } from "../../stores/UserStore";
 import { group, groupList } from "../../utils/TrainingItems";
 import { BodyComponent } from "./BodyComponent";
-const exampleParams = {
-  head: { selected: true },
-  left_arm: { show: false },
-};
+
 export default function Record() {
   const {
     itemGroup,
@@ -21,15 +19,11 @@ export default function Record() {
     getItemMaxRecords,
     getItemHistory,
   } = RecordStore();
-
-  // const onChange = (parts: PartsInput) => console.log("Changed Parts:", parts);
-  // const onClick = (id: string) => {
-  //   console.log("Changed Id:", id);
-  //   console.log("Changed data");
-  // };
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
 
   useEffect(() => {
     fetchRecordData();
+    getCurrentUserInfo();
     // fetchRecordData().then((res) => {
     //   if (res) console.log(res);
   }, []);

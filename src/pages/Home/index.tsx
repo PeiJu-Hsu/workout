@@ -56,7 +56,7 @@ export default function Home() {
         })}
       </div>
 
-      <div>
+      {/* <div>
         {calenderURL ? (
           <>
             <iframe
@@ -74,6 +74,31 @@ export default function Home() {
               }}
             ></iframe>
           </>
+        ) : signUpWithCoach.state === "waiting" ? (
+          <h1>等待教練回覆</h1>
+        ) : signUpWithCoach.state === "reject" ? (
+          <h1>被教練拒絕</h1>
+        ) : (
+          <h1>還沒有教練</h1>
+        )}
+      </div> */}
+      <div>
+        {calenderURL && currentUserRole === 1 ? (
+          <iframe
+            src={calenderURL}
+            style={{
+              width: "70%",
+              height: "600px",
+            }}
+          ></iframe>
+        ) : reserveURL && currentUserRole === 2 ? (
+          <iframe
+            src={reserveURL}
+            style={{
+              width: "70%",
+              height: "600px",
+            }}
+          ></iframe>
         ) : signUpWithCoach.state === "waiting" ? (
           <h1>等待教練回覆</h1>
         ) : signUpWithCoach.state === "reject" ? (
