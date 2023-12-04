@@ -1,12 +1,16 @@
 import { Input } from "@nextui-org/react";
 import { useState } from "react";
+import { useUserStore } from "../stores/UserStore";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "./EyeIcon";
 
+interface PropInput {
+  id: string;
+}
 interface PropsInputType {
   id: string;
-  setInputTextToState: (id: string, value: string) => void;
+  type: string;
+  label: string;
 }
-
 export default function InputUnit(type: string, labelText: string) {
   return (
     <div className="col">
@@ -19,16 +23,19 @@ export default function InputUnit(type: string, labelText: string) {
     </div>
   );
 }
-export function InputText({ id, setInputTextToState }: PropsInputType) {
+export function InputText({ id, type, label }: PropsInputType) {
+  const setInputTextToState = useUserStore(
+    (state) => state.setInputTextToState,
+  );
   return (
     <Input
       classNames={{
         input: " text-white",
         label: "text-white",
       }}
-      type="email"
+      type={type}
       variant="underlined"
-      label="Email"
+      label={label}
       id={id}
       onChange={(e) => {
         setInputTextToState(e.target.id, e.target.value);
@@ -36,7 +43,30 @@ export function InputText({ id, setInputTextToState }: PropsInputType) {
     />
   );
 }
-export function InputPassword({ id, setInputTextToState }: PropsInputType) {
+export function InputEmail({ id, type }: PropsInputType) {
+  const setInputTextToState = useUserStore(
+    (state) => state.setInputTextToState,
+  );
+  return (
+    <Input
+      classNames={{
+        input: " text-white",
+        label: "text-white",
+      }}
+      variant="underlined"
+      label="Email"
+      id={id}
+      onChange={(e) => {
+        setInputTextToState(e.target.id, e.target.value);
+      }}
+      type={type}
+    />
+  );
+}
+export function InputPassword({ id }: PropInput) {
+  const setInputTextToState = useUserStore(
+    (state) => state.setInputTextToState,
+  );
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -66,6 +96,31 @@ export function InputPassword({ id, setInputTextToState }: PropsInputType) {
         </button>
       }
       type={isVisible ? "text" : "password"}
+    />
+  );
+}
+export function InputFile({ id }: PropInput) {
+  const setInputTextToState = useUserStore(
+    (state) => state.setInputTextToState,
+  );
+  return (
+    <Input
+      classNames={{
+        input: " text-white",
+        label: "text-white",
+      }}
+      type="file"
+      accept="image/*"
+      variant="underlined"
+      label="Photo"
+      labelPlacement="outside"
+      placeholder="Choose a photo"
+      id={id}
+      onChange={(e) => {
+        if (e.target.files) {
+          setInputTextToState(e.target.id, e.target.value);
+        }
+      }}
     />
   );
 }

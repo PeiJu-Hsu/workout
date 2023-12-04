@@ -5,14 +5,8 @@ import { useUserStore } from "../../stores/UserStore";
 export default function LogIn() {
   const yellow = " text-[#F9C809]";
   const hoverYellow = " hover:text-[#F9C809]";
-  const {
-    signUpEmail,
-    signUpPassword,
-    setInputTextToState,
-    getAuth,
-    nativeLogin,
-    googleLogin,
-  } = useUserStore();
+  const { signUpEmail, signUpPassword, getAuth, nativeLogin, googleLogin } =
+    useUserStore();
   const handleLogin = async () => {
     await nativeLogin(auth, signUpEmail, signUpPassword);
     await getAuth(auth, db);
@@ -42,16 +36,10 @@ export default function LogIn() {
           </p>
 
           <div className="mt-4">
-            <InputText
-              id={"signUpEmail"}
-              setInputTextToState={setInputTextToState}
-            />
+            <InputText id={"signUpEmail"} type={"email"} label={"Email"} />
           </div>
           <div className="mt-4 flex flex-col justify-between">
-            <InputPassword
-              id={"signUpPassword"}
-              setInputTextToState={setInputTextToState}
-            />
+            <InputPassword id={"signUpPassword"} />
             <a
               href="#"
               className={`mt-2 w-full text-end text-xs text-gray-500 ${hoverYellow}`}

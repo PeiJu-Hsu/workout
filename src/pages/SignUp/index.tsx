@@ -1,20 +1,16 @@
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCol,
-  MDBContainer,
-  MDBInput,
-  MDBRadio,
-  MDBRow,
-} from "mdb-react-ui-kit";
+import { Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import ButtonBlack from "../../components/Button";
+import {
+  InputFile,
+  InputPassword,
+  InputText,
+} from "../../components/InputUnit";
 import { auth } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
-
-export default function SignUp() {
-  const navigate = useNavigate();
+import SelectCoach from "./SelectUser";
+export default function LogIn() {
+  const yellow = " text-[#F9C809]";
   const {
     signUpRole,
     signUp,
@@ -23,12 +19,6 @@ export default function SignUp() {
     signUpName,
     signUpImage,
     selectRole,
-    keyInEmail,
-    keyInPassWord,
-    setInputTextToState,
-    setSignUpCoach,
-    coachList,
-    signUpWithCoach,
     getCoachList,
     coachReserve,
     coachCalender,
@@ -38,218 +28,131 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log("signUp");
-    getCoachList().then((res) => {
-      if (res) console.log(res);
-    });
+    getCoachList();
   }, []);
-
   return (
-    <>
-      <MDBContainer fluid>
-        <MDBRow className="d-flex justify-content-center align-items-center h-100">
-          <MDBCol col="12">
-            <MDBCard
-              className="bg-dark mx-auto my-5 text-white"
-              style={{ borderRadius: "1rem", maxWidth: "400px" }}
+    <div
+      className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat px-5 sm:px-0"
+      style={{
+        backgroundImage: `url(https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
+      }}
+    >
+      <div className="flex w-full max-w-sm overflow-hidden rounded-lg border  shadow-lg backdrop-blur-sm lg:max-w-4xl">
+        <div className="md:block lg:w-1/2"></div>
+        <div className="w-full p-8 lg:w-1/2">
+          <p className="text-center text-xl font-extrabold text-white">
+            Join <strong className={`${yellow}`}>WorkOut</strong>
+          </p>
+          <p className="w-full text-center text-xs capitalize text-white">
+            Get started with your free account
+          </p>
+          <div className="mt-2">
+            <InputText id={"signUpEmail"} type={"email"} label={"Email"} />
+          </div>
+          <div className="mt-2 flex flex-col justify-between">
+            <InputPassword id={"signUpPassword"} />
+          </div>
+          <div className="mt-2">
+            <InputText id={"signUpName"} type={"text"} label={"Name"} />
+          </div>
+          <div className="mt-2">
+            <InputFile id={"signUpImage"} />
+          </div>
+          <div className="mt-3 ">
+            <RadioGroup
+              classNames={{
+                label: "text-white",
+              }}
+              label="Select your role"
+              orientation="horizontal"
             >
-              <MDBCardBody className="d-flex flex-column align-items-center w-100 mx-auto p-5">
-                <h2 className="fw-bold text-uppercase mb-2">SignUp</h2>
-                <p className="text-white-50 mb-5">
-                  Please enter your login and password!
-                </p>
+              <Radio
+                classNames={{
+                  label: signUpRole === 1 ? yellow : "text-white",
+                }}
+                color="warning"
+                value="1"
+                onChange={(e) => {
+                  selectRole(Number(e.target.value));
+                }}
+              >
+                Coach
+              </Radio>
+              <Radio
+                classNames={{
+                  label: signUpRole === 2 ? yellow : "text-white",
+                }}
+                color="warning"
+                value="2"
+                onChange={(e) => {
+                  selectRole(Number(e.target.value));
+                }}
+              >
+                Student
+              </Radio>
+            </RadioGroup>
+          </div>
+          {signUpRole === 1 ? (
+            <>
+              <InputText
+                id={"coachCalender"}
+                type={"url"}
+                label={"CalenderURL"}
+              />
 
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Email address"
-                  id="signUpEmail"
-                  type="email"
-                  size="lg"
-                  style={{ color: "white" }}
-                  onChange={(e) => {
-                    keyInEmail(e.target.value);
-                  }}
-                />
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Password"
-                  id="signUpPassword"
-                  type="password"
-                  size="lg"
-                  style={{ color: "white" }}
-                  onChange={(e) => {
-                    keyInPassWord(e.target.value);
-                  }}
-                />
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  label="Name"
-                  id="signUpName"
-                  type="text"
-                  size="lg"
-                  style={{ color: "white" }}
-                  onChange={(e) => {
-                    setInputTextToState(e.target.id, e.target.value);
-                  }}
-                />
-                <MDBInput
-                  wrapperClass="mb-4 mx-5 w-100"
-                  labelClass="text-white"
-                  //   label="image"
-                  id="signUpImage"
-                  type="file"
-                  accept="image/*"
-                  size="lg"
-                  style={{ color: "white" }}
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      setInputTextToState(e.target.id, e.target.files[0]);
-                    }
-                  }}
-                />
-                <MDBRadio
-                  name="role"
-                  label="Coach"
-                  // value 1 means is coach
-                  value={1}
-                  inline
-                  onChange={(e) => {
-                    selectRole(Number(e.target.value));
-                  }}
-                />
-                <MDBRadio
-                  name="role"
-                  label="Student"
-                  // value 2 means is student
-                  value={2}
-                  inline
-                  onChange={(e) => {
-                    selectRole(Number(e.target.value));
-                  }}
-                />
-                {signUpRole === 1 ? (
-                  <>
-                    <MDBInput
-                      wrapperClass="mb-4 mx-5 w-100"
-                      labelClass="text-white"
-                      label="Calender link"
-                      id="coachCalender"
-                      type="text"
-                      size="lg"
-                      style={{ color: "white" }}
-                      onChange={(e) => {
-                        setInputTextToState(e.target.id, e.target.value);
-                      }}
-                    />
-                    <MDBInput
-                      wrapperClass="mb-4 mx-5 w-100"
-                      labelClass="text-white"
-                      label="Reserve Link"
-                      id="coachReserve"
-                      type="text"
-                      size="lg"
-                      style={{ color: "white" }}
-                      onChange={(e) => {
-                        setInputTextToState(e.target.id, e.target.value);
-                      }}
-                    />
-                  </>
-                ) : null}
-                {signUpRole === 2 ? (
-                  <select
-                    value={signUpWithCoach.coachId}
-                    onChange={(e) => {
-                      setSignUpCoach(e.target.value);
-                    }}
-                    style={{ color: "black" }}
-                  >
-                    <option value={"default"} disabled>
-                      Choose a Coach
-                    </option>
-                    {coachList.map((item, index): any => (
-                      <option key={index} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                    ;
-                  </select>
-                ) : null}
-                <MDBBtn
-                  outline
-                  className="mx-2 px-5"
-                  color="white"
-                  size="lg"
-                  onClick={async () => {
-                    if (
-                      signUpRole === 1 &&
-                      signUpName &&
-                      coachCalender &&
-                      coachReserve
-                    ) {
-                      await uploadImage(signUpImage, signUpEmail);
-                      await getUploadImage(signUpImage, signUpEmail);
-                      await signUp(auth, signUpEmail, signUpPassword);
-                    } else if (signUpRole === 2 && signUpName) {
-                      await uploadImage(signUpImage, signUpEmail);
-                      await getUploadImage(signUpImage, signUpEmail);
-                      await signUp(auth, signUpEmail, signUpPassword);
-                    } else {
-                      alert("Plz fill in all the blanks");
-                    }
-                  }}
-                >
-                  Sign Up
-                </MDBBtn>
+              <InputText
+                id={"coachReserve"}
+                type={"url"}
+                label={"ReserveURL"}
+              />
+            </>
+          ) : null}
+          {signUpRole === 2 ? (
+            <div className="mt-2">
+              <SelectCoach />
+            </div>
+          ) : null}
 
-                {/* <div className="d-flex flex-row mt-3 mb-5">
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="facebook-f" size="lg" />
-                  </MDBBtn>
-
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="twitter" size="lg" />
-                  </MDBBtn>
-
-                  <MDBBtn
-                    tag="a"
-                    color="none"
-                    className="m-3"
-                    style={{ color: "white" }}
-                  >
-                    <MDBIcon fab icon="google" size="lg" />
-                  </MDBBtn>
-                </div> */}
-
-                <div>
-                  <p className="mb-0">
-                    Back to{" "}
-                    <a
-                      className="text-white-50 fw-bold"
-                      onClick={() => {
-                        navigate("/login");
-                      }}
-                    >
-                      Log In
-                    </a>
-                  </p>
-                </div>
-              </MDBCardBody>
-            </MDBCard>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-    </>
+          <div className="mt-8">
+            <ButtonBlack
+              size={"lg"}
+              radius={"full"}
+              variant={"solid"}
+              children={"Sign Up"}
+              onClick={async () => {
+                if (
+                  signUpRole === 1 &&
+                  signUpName &&
+                  coachCalender &&
+                  coachReserve
+                ) {
+                  await uploadImage(signUpImage, signUpEmail);
+                  await getUploadImage(signUpImage, signUpEmail);
+                  await signUp(auth, signUpEmail, signUpPassword);
+                } else if (signUpRole === 2 && signUpName) {
+                  await uploadImage(signUpImage, signUpEmail);
+                  await getUploadImage(signUpImage, signUpEmail);
+                  await signUp(auth, signUpEmail, signUpPassword);
+                } else {
+                  alert("Plz fill in all the blanks");
+                }
+              }}
+            />
+          </div>
+          <div className=" mt-4 flex items-center justify-center rounded-full text-white shadow-md hover:bg-gray-100">
+            <div className="flex w-full justify-center"></div>
+          </div>
+          <div className="mt-4 flex w-full items-center text-center">
+            <a
+              href="/login"
+              className="w-full text-center text-xs capitalize text-white"
+            >
+              Already have an account?
+              <span className={`font-bold ${yellow}`}> Log in</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
