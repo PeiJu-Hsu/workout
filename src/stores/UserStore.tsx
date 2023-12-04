@@ -23,6 +23,7 @@ import {
   where,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 import { db, storage } from "../firebase";
 
@@ -144,15 +145,14 @@ export const useUserStore = create<userState>()((set, get) => ({
   signOut: async (auth) => {
     try {
       await signOut(auth);
-      alert("log out");
     } catch (e) {
       console.error(e);
     }
   },
   googleLogin: async (auth, googleProvider) => {
     try {
-      console.log("signUpRoleIB4GoogleSignIn", get().signUpRole);
       await signInWithPopup(auth, googleProvider);
+      toast(`👋 Welcome Back`);
     } catch (e) {
       console.error(e);
     }
@@ -164,9 +164,11 @@ export const useUserStore = create<userState>()((set, get) => ({
         email,
         password,
       );
+      toast(`👋 Welcome Back`);
       console.log(userCredential);
     } catch (e) {
       console.error(e);
+      toast.error(e.message, { duration: 3000 });
     }
   },
   getAuth: async (auth, db) => {

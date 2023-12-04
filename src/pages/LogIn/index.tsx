@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import ButtonBlack, { ButtonDefault } from "../../components/Button";
 import { InputPassword, InputText } from "../../components/InputUnit";
 import { auth, db, googleProvider } from "../../firebase";
@@ -8,8 +9,12 @@ export default function LogIn() {
   const { signUpEmail, signUpPassword, getAuth, nativeLogin, googleLogin } =
     useUserStore();
   const handleLogin = async () => {
-    await nativeLogin(auth, signUpEmail, signUpPassword);
-    await getAuth(auth, db);
+    if (signUpEmail && signUpPassword) {
+      await nativeLogin(auth, signUpEmail, signUpPassword);
+      await getAuth(auth, db);
+    } else {
+      toast.error("請填入登入Email&密碼");
+    }
   };
   const handleGoogleLogin = async () => {
     await googleLogin(auth, googleProvider);
@@ -23,13 +28,6 @@ export default function LogIn() {
       }}
     >
       <div className="flex w-full max-w-sm overflow-hidden rounded-lg border  shadow-lg backdrop-blur-sm lg:max-w-4xl">
-        {/* <div
-          className="md:block lg:w-1/2"
-          // className="hidden bg-blue-700 bg-cover md:block lg:w-1/2"
-          // style={{
-          //   backgroundImage: `url(https://images.pexels.com/photos/260352/pexels-photo-260352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
-          // }}
-        ></div> */}
         <div className="w-full p-8 lg:w-1/2">
           <p className="text-center text-xl font-extrabold text-white">
             Welcome <strong className={`${yellow}`}>WorkOut</strong>

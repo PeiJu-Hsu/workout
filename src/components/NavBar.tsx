@@ -51,8 +51,8 @@ export default function NavBar() {
           <Button
             color="default"
             onClick={async () => {
-              logOut();
               await signOut(auth);
+              logOut();
             }}
           >
             <i className="fas fa-arrow-right-from-bracket"></i>
