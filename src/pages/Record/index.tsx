@@ -29,7 +29,7 @@ export default function Record() {
   }, []);
 
   return (
-    <>
+    <div className=" myPageContainer">
       <div style={{ width: "100%", border: "1px solid gray" }}>
         <select
           value={itemGroup}
@@ -107,6 +107,6 @@ export default function Record() {
           {itemHistory.length > 0 && <BarChart />}
         </div>
       )}
-    </>
+    </div>
   );
 }

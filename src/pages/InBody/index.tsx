@@ -85,7 +85,7 @@ export default function InBody() {
     getCurrentUserInfo();
   }, []);
   return (
-    <>
+    <div className=" myPageContainer">
       <div>
         {labelTexts.map((obj) => (
           <div key={obj.id} className="col">
@@ -136,6 +136,6 @@ export default function InBody() {
           (dummyData.height / 100)
         ).toFixed(2)} */}
       </h3>
-    </>
+    </div>
   );
 }

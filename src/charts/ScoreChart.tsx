@@ -60,8 +60,7 @@ export const ScoreChart = () => {
               return "很棒的分數，繼續保持";
             } else if (value === 50) {
               return "繼續加油，往70分前進";
-            }
-            return "";
+            } else return "";
           },
         },
         title: {

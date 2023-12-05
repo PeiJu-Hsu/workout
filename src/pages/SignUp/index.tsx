@@ -1,12 +1,9 @@
 import { Radio, RadioGroup } from "@nextui-org/react";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import ButtonBlack from "../../components/Button";
-import {
-  InputFile,
-  InputPassword,
-  InputText,
-} from "../../components/InputUnit";
-import { auth } from "../../firebase";
+import { InputPassword, InputText } from "../../components/InputUnit";
+import { auth, db } from "../../firebase";
 import { useUserStore } from "../../stores/UserStore";
 import SelectCoach from "./SelectUser";
 export default function LogIn() {
@@ -23,6 +20,7 @@ export default function LogIn() {
     coachReserve,
     coachCalender,
     uploadImage,
+    getAuth,
     getUploadImage,
   } = useUserStore();
 
@@ -55,9 +53,9 @@ export default function LogIn() {
           <div className="mt-2">
             <InputText id={"signUpName"} type={"text"} label={"Name"} />
           </div>
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <InputFile id={"signUpImage"} />
-          </div>
+          </div> */}
           <div className="mt-3 ">
             <RadioGroup
               classNames={{
@@ -129,12 +127,14 @@ export default function LogIn() {
                   await uploadImage(signUpImage, signUpEmail);
                   await getUploadImage(signUpImage, signUpEmail);
                   await signUp(auth, signUpEmail, signUpPassword);
+                  await getAuth(auth, db);
                 } else if (signUpRole === 2 && signUpName) {
                   await uploadImage(signUpImage, signUpEmail);
                   await getUploadImage(signUpImage, signUpEmail);
                   await signUp(auth, signUpEmail, signUpPassword);
+                  await getAuth(auth, db);
                 } else {
-                  alert("Plz fill in all the blanks");
+                  toast.error("請填寫完整資料");
                 }
               }}
             />

@@ -26,11 +26,13 @@ import { useUserStore } from "../stores/UserStore";
 export default function NavBar() {
   const currentUserImg = useUserStore((state) => state.currentUserImg);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
+  const myCoachName = useUserStore((state) => state.myCoachName);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
   const invitations = useUserStore((state) => state.invitations);
   const currentUserName = useUserStore((state) => state.currentUserName);
+  const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
   const calculateTotalMessage = () => {
     const result = invitations.length + waitingMenus.length;
     return result;
@@ -71,9 +73,27 @@ export default function NavBar() {
               </span>
             </div>
           </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key=""></DropdownItem>
-            <DropdownItem key=""></DropdownItem>
+          <DropdownMenu aria-label="Message Actions" variant="flat">
+            <DropdownItem key="coach" textValue="coach">
+              <p>My Coach</p>
+              <div className=" my-1 flex  ">
+                <Avatar
+                  isBordered
+                  color="default"
+                  size="sm"
+                  className="m-auto"
+                />
+                <p className="my-auto">
+                  {signUpWithCoach.state === "accept"
+                    ? `${myCoachName} 教練`
+                    : signUpWithCoach.state === "waiting"
+                      ? "等待教練回覆"
+                      : signUpWithCoach.state === "reject"
+                        ? "被教練拒絕"
+                        : "還沒有教練"}
+                </p>
+              </div>
+            </DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Dropdown placement="bottom-end">
@@ -83,7 +103,7 @@ export default function NavBar() {
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile">
+            <DropdownItem key="profile" textValue="profile">
               <div className="myDropdownItem ">
                 <div className="myDropdownIcon">
                   <img src={ProfileIcon} />
@@ -93,7 +113,7 @@ export default function NavBar() {
                 </Link>
               </div>
             </DropdownItem>
-            <DropdownItem key="Inbody">
+            <DropdownItem key="Inbody" textValue="Inbody">
               <div className="myDropdownItem ">
                 <div className="myDropdownIcon">
                   <img src={InBody} />
@@ -103,7 +123,7 @@ export default function NavBar() {
                 </Link>
               </div>
             </DropdownItem>
-            <DropdownItem key="logOut">
+            <DropdownItem key="logOut" textValue="logOut">
               <div
                 className="myDropdownItem "
                 onClick={async () => {
@@ -115,7 +135,9 @@ export default function NavBar() {
                   <img src={LogOut} />
                 </div>
 
-                <span className="text-base text-black">Log out</span>
+                <Link className="text-base text-black" href="/">
+                  Log out
+                </Link>
               </div>
             </DropdownItem>
           </DropdownMenu>

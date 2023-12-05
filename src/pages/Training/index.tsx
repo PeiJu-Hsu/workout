@@ -39,7 +39,7 @@ export default function Training() {
     return `${formattedMinutes}:${formattedSeconds}.${formattedMilliseconds}`;
   };
   return (
-    <div>
+    <div className=" myPageContainer">
       <h1>Stopwatch</h1>
       <p>{formatTime(time)}</p>
       <button onClick={handleStartStop}>{isRunning ? "Stop" : "Start"}</button>

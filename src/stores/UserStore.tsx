@@ -45,6 +45,7 @@ interface userState {
   currentUserImg: string;
   invitations: DocumentData[];
   myCoach: string;
+  myCoachName: string;
   coachList: DocumentData[];
   studentList: DocumentData[];
   calenderURL: string;
@@ -99,6 +100,7 @@ export const useUserStore = create<userState>()((set, get) => ({
   invitations: [],
   //myCoach是要coachId
   myCoach: "",
+  myCoachName: "",
   coachList: [],
   studentList: [],
   calenderURL: "",
@@ -140,6 +142,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       console.log("userCredential", userCredential);
     } catch (e) {
       console.error(e);
+      toast.error(e.message, { duration: 3000 });
     }
   },
   signOut: async (auth) => {
@@ -206,7 +209,8 @@ export const useUserStore = create<userState>()((set, get) => ({
     const userRef = doc(db, "users", currentUserId);
     const docUserSnap = await getDoc(userRef);
     const currentUserInfo = docUserSnap.data();
-    return currentUserInfo?.name;
+    const name = currentUserInfo?.name;
+    return name;
   },
   sendInvitation: async (coachId, currentUserId) => {
     console.log("StartSendCoachId", coachId);
@@ -291,6 +295,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       set({ currentUserName: currentUserInfo.name });
       set({ currentUserRole: currentUserInfo.role });
       set({ currentUserImg: currentUserInfo.userImage });
+      console.log("currentUserInfo", currentUserInfo.userImage);
       if (currentUserInfo.role === 1) {
         set({ calenderURL: currentUserInfo.coachCalender });
         set({ reserveURL: currentUserInfo.coachReserve });
@@ -299,14 +304,16 @@ export const useUserStore = create<userState>()((set, get) => ({
         const myCoachRef = doc(db, "users", coachId);
         const docMyCoachSnap = await getDoc(myCoachRef);
         const myCoachInfo = docMyCoachSnap.data();
+        if (!myCoachInfo) return;
         set({ myCoach: coachId });
-
-        // set({
-        //   signUpWithCoach: {
-        //     coachId: currentUserInfo.myCoach.coachId,
-        //     state: currentUserInfo.myCoach.state,
-        //   },
-        // });
+        set({ myCoachName: myCoachInfo.name });
+        console.log("myCoachName", get().myCoachName);
+        set({
+          signUpWithCoach: {
+            coachId: currentUserInfo.myCoach.coachId,
+            state: currentUserInfo.myCoach.state,
+          },
+        });
         if (currentUserInfo.myCoach.state === "accept") {
           set({ calenderURL: myCoachInfo?.coachCalender });
           set({ reserveURL: myCoachInfo?.coachReserve });
@@ -346,7 +353,7 @@ export const useUserStore = create<userState>()((set, get) => ({
     if (!image) return;
     const imageRef = ref(storage, `signUpImages/${signUpEmail}_${image.name}`);
     await uploadBytes(imageRef, image).then(() => {
-      alert("image upload");
+      toast.success("Image upload success!", { duration: 3000 });
     });
   },
   getUploadImage: async (image, signUpEmail) => {
@@ -355,11 +362,11 @@ export const useUserStore = create<userState>()((set, get) => ({
     getDownloadURL(imageRef)
       .then((url) => {
         set({ signUpImageURL: url });
-        console.log("signUpImageURL", get().signUpImageURL);
+        toast.success("Save your image success!", { duration: 3000 });
       })
       .catch((error) => {
         console.error("getURLError:", error);
-        alert("Error to get the image URL.");
+        toast.error("Error happen during getYour image", { duration: 3000 });
       });
   },
   updateProfile: async () => {
