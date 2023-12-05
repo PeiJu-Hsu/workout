@@ -135,7 +135,7 @@ export default function NavBar() {
                   <img src={LogOut} />
                 </div>
 
-                <Link className="text-base text-black" href="/">
+                <Link className="text-base text-black" href="/login">
                   Log out
                 </Link>
               </div>
