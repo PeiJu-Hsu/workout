@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
+  background-color: #262626;
   }`;
 function App() {
   const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);

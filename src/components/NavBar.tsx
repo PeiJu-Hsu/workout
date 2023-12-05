@@ -1,6 +1,4 @@
 import {
-  Avatar,
-  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -9,9 +7,21 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
+  User,
 } from "@nextui-org/react";
+import { useState } from "react";
 import { auth } from "../firebase";
+import WorkoutLogo from "../icons/WorkOut.png";
+import Bell from "../icons/bell.png";
+import Close from "../icons/close.png";
+import HomeIcon from "../icons/home.png";
+import LogOut from "../icons/logout.png";
+import MenuImg from "../icons/menu.png";
+import ProfileIcon from "../icons/profile.png";
+import RecordIcon from "../icons/records.png";
+import Setting from "../icons/settings.png";
+import Task from "../icons/task.png";
+import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
 export default function NavBar() {
   const currentUserRole = useUserStore((state) => state.currentUserRole);
@@ -24,86 +34,131 @@ export default function NavBar() {
     const result = invitations.length + waitingMenus.length;
     return result;
   };
+  const [isShowsSideBar, setIsShowsSideBar] = useState(false);
   return (
-    <Navbar>
-      <NavbarBrand>
-        {/* <AcmeLogo /> */}
-        <Link href="/" aria-current="page" color="foreground">
-          <p className="font-bold text-inherit">WorkOut</p>
-        </Link>
-      </NavbarBrand>
-
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
-        <NavbarItem>
-          <Link color="secondary" href="/training">
-            Training
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="/record" color="secondary">
-            Record
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent as="div" justify="end">
-        <Link href="/record">
-          <Button
-            color="default"
-            onClick={async () => {
-              await signOut(auth);
-              logOut();
+    //nav & header
+    <Navbar className="myBlack  h-11 max-w-full">
+      <NavbarBrand className="myBlack  h-11 max-w-full">
+        <div className="relative flex max-w-full">
+          <img
+            className="block w-7 sm:hidden"
+            src={isShowsSideBar ? Close : MenuImg}
+            onClick={() => {
+              setIsShowsSideBar(!isShowsSideBar);
             }}
-          >
-            <i className="fas fa-arrow-right-from-bracket"></i>
-          </Button>
-        </Link>
-
-        <Button color="default">
-          <i className="fas fa-bell">
-            <span className="badge rounded-pill badge-notification bg-danger">
-              {calculateTotalMessage() !== 0 ? calculateTotalMessage() : null}
-            </span>
-          </i>
-        </Button>
-
+            alt=""
+          />
+          <img
+            className=" ml-2 hidden w-7 sm:block"
+            src={WorkoutLogo}
+            alt="WorkOutLogo"
+          />
+          <Link href="/" aria-current="page" color="foreground">
+            <p className="font ml-2 text-xl  font-bold text-inherit text-white">
+              WorkOut
+            </p>
+          </Link>
+        </div>
+      </NavbarBrand>
+      <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar isBordered />
-            {/* <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src={
-                currentUserImg
-                  ? currentUserImg
-                  : `https://i.pravatar.cc/150?u=${localStorage.getItem("UID")}`
-              }
-            /> */}
+          <DropdownTrigger className="h-7">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white">
+              <img className=" h-2/3 w-2/3" src={Bell} />
+              <span className="badge rounded-pill badge-notification absolute -right-1 top-0 rounded-bl-full border bg-gray-300 text-black">
+                {calculateTotalMessage() !== 0 ? calculateTotalMessage() : null}
+              </span>
+            </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">
-                Hi {currentUserName}
-                {currentUserRole === 1 ? "教練" : "學員"}
-              </p>
-            </DropdownItem>
-            <DropdownItem key="settings">
-              <Link href="/profile" color="secondary">
-                My Profile
-              </Link>
+            <DropdownItem key=""></DropdownItem>
+            <DropdownItem key=""></DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger className="h-7">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white ">
+              <img className=" h-2/3 w-2/3" src={Setting} />
+            </div>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile">
+              <div className="myDropdownItem ">
+                <div className="myDropdownIcon">
+                  <img src={ProfileIcon} />
+                </div>
+                <Link className="text-base text-black" href="/profile">
+                  Profile
+                </Link>
+              </div>
             </DropdownItem>
             <DropdownItem key="Inbody">
-              <Link href="/inbody" color="secondary">
-                Update InBody
-              </Link>
+              <div className="myDropdownItem ">
+                <div className="myDropdownIcon">
+                  <img src={InBody} />
+                </div>
+                <Link className="text-base text-black" href="/inbody">
+                  InBody
+                </Link>
+              </div>
+            </DropdownItem>
+            <DropdownItem key="logOut">
+              <div
+                className="myDropdownItem "
+                onClick={async () => {
+                  await signOut(auth);
+                  logOut();
+                }}
+              >
+                <div className="myDropdownIcon">
+                  <img src={LogOut} />
+                </div>
+
+                <span className="text-base text-black">Log out</span>
+              </div>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
+      <aside
+        className={`myBlack  absolute left-0 top-[53px] ${
+          isShowsSideBar ? "block" : "hidden"
+        }  h-[calc(100vh-0px)] w-[200px] flex-col justify-center  gap-4 p-4 sm:block`}
+      >
+        <User
+          name={currentUserName}
+          description={currentUserRole === 1 ? "教練" : "學員"}
+          avatarProps={{
+            src: "",
+          }}
+        />
+        <ul>
+          <a className=" text-white" href="/">
+            <div className="myDropdownItem mt-3">
+              <div className="myDropdownIcon">
+                <img src={HomeIcon} />
+              </div>
+              <span className="pt-[4px] leading-none">Home</span>
+            </div>
+          </a>
+          <a className=" text-white" href="/training">
+            <div className="myDropdownItem mt-3">
+              <div className="myDropdownIcon">
+                <img src={Task} />
+              </div>
+              <span className="pt-[4px] leading-none">Training</span>
+            </div>
+          </a>
+          <a className=" text-white" href="/record">
+            <div className="myDropdownItem mt-3">
+              <div className="myDropdownIcon">
+                <img src={RecordIcon} />
+              </div>
+              <span className="pt-[6px] leading-none">Record</span>
+            </div>
+          </a>
+        </ul>
+      </aside>
     </Navbar>
   );
 }

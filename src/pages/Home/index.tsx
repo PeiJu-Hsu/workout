@@ -15,7 +15,6 @@ export default function Home() {
   const sendInvitationAtHome = useUserStore(
     (state) => state.sendInvitationAtHome,
   );
-  //
 
   useEffect(() => {
     getCurrentUserInfo();
@@ -24,11 +23,14 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <div style={{ display: "flex" }}>
+    <div className=" ml-2 mr-2  box-border rounded-2xl border-4 border-yellow-400 bg-gray-100 sm:ml-[200px]">
+      <div className="m-2 rounded-lg bg-white ">
         <ScoreChart />
+      </div>
+      <div className="m-2  bg-white ">
         <WeightChart />
       </div>
+
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
         等待回覆的學生邀請
         {invitations.map((invitation, index) => {
@@ -108,6 +110,6 @@ export default function Home() {
         )}
       </div>
       <div></div>
-    </>
+    </div>
   );
 }
