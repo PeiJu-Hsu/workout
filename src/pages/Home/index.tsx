@@ -23,13 +23,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className=" ml-2 mr-2  box-border rounded-2xl border-4 border-yellow-400 bg-gray-100 sm:ml-[200px]">
-      <div className="m-2 rounded-lg bg-white ">
+    // <div className=" ml-2 mr-2  box-border rounded-2xl border-5 border-yellow-400 bg-gray-100 sm:ml-[205px]">
+    <div className=" myPageContainer">
+      <div className="myChartBoard">
         <ScoreChart />
-      </div>
-      <div className="m-2  bg-white ">
         <WeightChart />
       </div>
+      <div className="m-2  bg-white "></div>
 
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
         等待回覆的學生邀請
@@ -57,50 +57,11 @@ export default function Home() {
           );
         })}
       </div>
-
-      {/* <div>
-        {calenderURL ? (
-          <>
-            <iframe
-              src={calenderURL}
-              style={{
-                width: "70%",
-                height: "600px",
-              }}
-            ></iframe>
-            <iframe
-              src={reserveURL}
-              style={{
-                width: "70%",
-                height: "600px",
-              }}
-            ></iframe>
-          </>
-        ) : signUpWithCoach.state === "waiting" ? (
-          <h1>等待教練回覆</h1>
-        ) : signUpWithCoach.state === "reject" ? (
-          <h1>被教練拒絕</h1>
-        ) : (
-          <h1>還沒有教練</h1>
-        )}
-      </div> */}
-      <div>
+      <div className="myChartBoard">
         {calenderURL && currentUserRole === 1 ? (
-          <iframe
-            src={calenderURL}
-            style={{
-              width: "70%",
-              height: "600px",
-            }}
-          ></iframe>
+          <iframe className="h-[400px] w-full" src={calenderURL}></iframe>
         ) : reserveURL && currentUserRole === 2 ? (
-          <iframe
-            src={reserveURL}
-            style={{
-              width: "70%",
-              height: "600px",
-            }}
-          ></iframe>
+          <iframe src={reserveURL}></iframe>
         ) : signUpWithCoach.state === "waiting" ? (
           <h1>等待教練回覆</h1>
         ) : signUpWithCoach.state === "reject" ? (

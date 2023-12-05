@@ -12,16 +12,16 @@ export const ScoreChart = () => {
         center: ["50%", "75%"],
         radius: "90%",
         min: 0,
-        max: 1,
+        max: 100,
         splitNumber: 8,
         axisLine: {
           lineStyle: {
             width: 6,
             color: [
-              [0.25, "#FF6E76"],
-              [0.5, "#FDDD60"],
-              [0.75, "#58D9F9"],
-              [1, "#7CFFB2"],
+              [0.5, "#D92139"],
+              [0.7, "#FEC748"],
+              [0.9, "#AEC33A"],
+              [1, "#253F58"],
             ],
           },
         },
@@ -54,43 +54,41 @@ export const ScoreChart = () => {
           distance: -60,
           rotate: "tangential",
           formatter: function (value: number) {
-            if (value === 0.875) {
-              return "Grade A";
-            } else if (value === 0.625) {
-              return "Grade B";
-            } else if (value === 0.375) {
-              return "Grade C";
-            } else if (value === 0.125) {
-              return "Grade D";
+            if (value === 90) {
+              return "無與倫比的完美";
+            } else if (value === 70) {
+              return "很棒的分數，繼續保持";
+            } else if (value === 50) {
+              return "繼續加油，往70分前進";
             }
             return "";
           },
         },
         title: {
-          offsetCenter: [0, "-10%"],
+          offsetCenter: [0, "-0%"],
           fontSize: 20,
         },
         detail: {
           fontSize: 30,
-          offsetCenter: [0, "-35%"],
+          offsetCenter: [0, "-25%"],
           valueAnimation: true,
           formatter: function (value: number) {
-            return Math.round(value * 100) + "";
+            return Math.round(value) + "";
           },
           color: "inherit",
         },
         data: [
           {
-            value: inBodyScore / 100,
-            name: "Grade Rating",
+            value: inBodyScore,
+            name: "InBody Score",
           },
         ],
       },
     ],
   };
   return (
-    <div style={{ width: "400px" }}>
-      <ReactECharts option={option} />
+    <div className="myChartContainer">
+      <ReactECharts style={{}} option={option} />
     </div>
   );
 };

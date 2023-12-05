@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -7,7 +8,6 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  User,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { auth } from "../firebase";
@@ -24,6 +24,7 @@ import Task from "../icons/task.png";
 import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
 export default function NavBar() {
+  const currentUserImg = useUserStore((state) => state.currentUserImg);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
@@ -63,7 +64,7 @@ export default function NavBar() {
       <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger className="h-7">
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-white">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gray-100">
               <img className=" h-2/3 w-2/3" src={Bell} />
               <span className="badge rounded-pill badge-notification absolute -right-1 top-0 rounded-bl-full border bg-gray-300 text-black">
                 {calculateTotalMessage() !== 0 ? calculateTotalMessage() : null}
@@ -77,7 +78,7 @@ export default function NavBar() {
         </Dropdown>
         <Dropdown placement="bottom-end">
           <DropdownTrigger className="h-7">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white ">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 ">
               <img className=" h-2/3 w-2/3" src={Setting} />
             </div>
           </DropdownTrigger>
@@ -123,16 +124,22 @@ export default function NavBar() {
       <aside
         className={`myBlack  absolute left-0 top-[53px] ${
           isShowsSideBar ? "block" : "hidden"
-        }  h-[calc(100vh-0px)] w-[200px] flex-col justify-center  gap-4 p-4 sm:block`}
+        }  h-[calc(100vh-0px)] w-[200px] flex-col justify-center gap-4  sm:block`}
       >
-        <User
-          name={currentUserName}
-          description={currentUserRole === 1 ? "教練" : "學員"}
-          avatarProps={{
-            src: "",
-          }}
-        />
-        <ul>
+        <div className=" mt-2 flex w-full flex-col">
+          <Avatar
+            isBordered
+            src={currentUserImg ? currentUserImg : ""}
+            color="warning"
+            size="lg"
+            className="m-auto h-20 w-20 text-large"
+          />
+          <p className="m-auto mt-2 text-large font-bold">
+            {currentUserName} {currentUserRole === 1 ? "教練" : "學員"}
+          </p>
+        </div>
+
+        <ul className=" ml-7">
           <a className=" text-white" href="/">
             <div className="myDropdownItem mt-3">
               <div className="myDropdownIcon">
