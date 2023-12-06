@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -10,53 +9,35 @@ import {
   NavbarContent,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import WorkoutLogo from "../icons/WorkOut.png";
 import Bell from "../icons/bell.png";
 import Close from "../icons/close.png";
-import HomeIcon from "../icons/home.png";
 import LogOut from "../icons/logout.png";
 import MenuImg from "../icons/menu.png";
 import ProfileIcon from "../icons/profile.png";
-import RecordIcon from "../icons/records.png";
-import Setting from "../icons/settings.png";
-import Task from "../icons/task.png";
-import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
+import LeftSide from "./LeftSide";
+
+import Setting from "../icons/settings.png";
+
+import InBody from "../icons/weighing-scale.png";
+
 import Invitation from "./Invitation";
 import MyCoachCard from "./MyCoachCard";
 export default function NavBar() {
-  const navigate = useNavigate();
-  const currentUserImg = useUserStore((state) => state.currentUserImg);
+  const [isShowsSideBar, setIsShowsSideBar] = useState(false);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
   const invitations = useUserStore((state) => state.invitations);
-  const currentUserName = useUserStore((state) => state.currentUserName);
+
   const calculateTotalMessage = () => {
     const result = invitations.length + waitingMenus.length;
     return result;
   };
-  const [isShowsSideBar, setIsShowsSideBar] = useState(false);
-  const pages = [
-    {
-      name: "Home",
-      path: "/",
-      icon: HomeIcon,
-    },
-    {
-      name: "Training",
-      path: "/training",
-      icon: Task,
-    },
-    {
-      name: "Record",
-      path: "/record",
-      icon: RecordIcon,
-    },
-  ];
+
   return (
     <>
       {/* //nav & header */}
@@ -151,44 +132,7 @@ export default function NavBar() {
           </Dropdown>
         </NavbarContent>
       </Navbar>
-      <aside
-        className={`myBlack absolute left-0 top-[44px] ${
-          isShowsSideBar ? "block" : "hidden"
-        }  h-[calc(100vh-44px)] w-[200px] flex-col justify-center gap-4  sm:block`}
-      >
-        <div className=" mt-2 flex w-full flex-col">
-          <Avatar
-            isBordered
-            src={currentUserImg ? currentUserImg : ""}
-            color="warning"
-            size="lg"
-            className="m-auto h-20 w-20 text-large"
-          />
-          <p className="m-auto mt-2 text-large font-bold">
-            {currentUserName} {currentUserRole === 1 ? "教練" : "學員"}
-          </p>
-        </div>
-
-        <ul className=" ml-7">
-          {pages.map((page) => {
-            return (
-              <div
-                key={page.name}
-                className="myDropdownItem mt-3 cursor-pointer text-white"
-                onClick={() => {
-                  console.log("Clock");
-                  navigate(page.path);
-                }}
-              >
-                <div className="myDropdownIcon">
-                  <img src={page.icon} />
-                </div>
-                <span className="pt-[4px] leading-none">{page.name}</span>
-              </div>
-            );
-          })}
-        </ul>
-      </aside>
+      <LeftSide isShowsSideBar={isShowsSideBar} />
     </>
   );
 }
