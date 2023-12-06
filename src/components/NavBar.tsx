@@ -23,6 +23,7 @@ import Setting from "../icons/settings.png";
 import Task from "../icons/task.png";
 import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
+import Invitation from "./Invitation";
 import MyCoachCard from "./MyCoachCard";
 export default function NavBar() {
   const currentUserImg = useUserStore((state) => state.currentUserImg);
@@ -74,7 +75,11 @@ export default function NavBar() {
           </DropdownTrigger>
           <DropdownMenu aria-label="Message Actions" variant="flat">
             <DropdownItem key="myCoach" textValue="myCoach">
-              {currentUserRole === 2 ? <MyCoachCard /> : null}
+              {currentUserRole === 1 ? (
+                <Invitation />
+              ) : currentUserRole === 2 ? (
+                <MyCoachCard />
+              ) : null}
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

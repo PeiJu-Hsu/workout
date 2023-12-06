@@ -9,9 +9,6 @@ export default function Home() {
   const calenderURL = useUserStore((state) => state.calenderURL);
   const reserveURL = useUserStore((state) => state.reserveURL);
   const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
-  const invitations = useUserStore((state) => state.invitations);
-  const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
-  const replyInvitation = useUserStore((state) => state.replyInvitation);
   const sendInvitationAtHome = useUserStore(
     (state) => state.sendInvitationAtHome,
   );
@@ -30,33 +27,6 @@ export default function Home() {
         <WeightChart />
       </div>
       <div className="m-2  bg-white "></div>
-
-      <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
-        等待回覆的學生邀請
-        {invitations.map((invitation, index) => {
-          return (
-            <p key={index}>
-              {invitation.senderName} 申請成為您的學員{" "}
-              <button
-                data-id={invitation.id}
-                onClick={(e) => {
-                  replyInvitation(e, "accept");
-                }}
-              >
-                Accept
-              </button>
-              <button
-                data-id={invitation.id}
-                onClick={(e) => {
-                  replyInvitation(e, "reject");
-                }}
-              >
-                Reject
-              </button>
-            </p>
-          );
-        })}
-      </div>
       <div className="myChartBoard">
         {calenderURL && currentUserRole === 1 ? (
           <iframe
