@@ -9,6 +9,7 @@ import {
   NavbarContent,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import WorkoutLogo from "../icons/WorkOut.png";
 import Bell from "../icons/bell.png";
@@ -16,16 +17,15 @@ import Close from "../icons/close.png";
 import LogOut from "../icons/logout.png";
 import MenuImg from "../icons/menu.png";
 import ProfileIcon from "../icons/profile.png";
+import Setting from "../icons/settings.png";
+import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
 import LeftSide from "./LeftSide";
-
-import Setting from "../icons/settings.png";
-
-import InBody from "../icons/weighing-scale.png";
 
 import Invitation from "./Invitation";
 import MyCoachCard from "./MyCoachCard";
 export default function NavBar() {
+  const navigate = useNavigate();
   const [isShowsSideBar, setIsShowsSideBar] = useState(false);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const logOut = useUserStore((state) => state.logOut);
@@ -37,7 +37,6 @@ export default function NavBar() {
     const result = invitations.length + waitingMenus.length;
     return result;
   };
-
   return (
     <>
       {/* //nav & header */}
@@ -94,28 +93,34 @@ export default function NavBar() {
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem key="profile" textValue="profile">
-                <div className="myDropdownItem ">
+                <div
+                  className="myDropdownItem text-base text-black"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
                   <div className="myDropdownIcon">
                     <img src={ProfileIcon} />
                   </div>
-                  <Link className="text-base text-black" href="/profile">
-                    Profile
-                  </Link>
+                  Profile
                 </div>
               </DropdownItem>
-              <DropdownItem key="Inbody" textValue="Inbody">
-                <div className="myDropdownItem ">
+              <DropdownItem key="inbody" textValue="inbody">
+                <div
+                  className="myDropdownItem text-base text-black"
+                  onClick={() => {
+                    navigate("/inbody");
+                  }}
+                >
                   <div className="myDropdownIcon">
                     <img src={InBody} />
                   </div>
-                  <Link className="text-base text-black" href="/inbody">
-                    InBody
-                  </Link>
+                  InBody
                 </div>
               </DropdownItem>
               <DropdownItem key="logOut" textValue="logOut">
                 <div
-                  className="myDropdownItem "
+                  className="myDropdownItem text-base text-black"
                   onClick={async () => {
                     await signOut(auth);
                     logOut();
@@ -124,8 +129,7 @@ export default function NavBar() {
                   <div className="myDropdownIcon">
                     <img src={LogOut} />
                   </div>
-
-                  <Link className="text-base text-black">Log out</Link>
+                  Log out
                 </div>
               </DropdownItem>
             </DropdownMenu>

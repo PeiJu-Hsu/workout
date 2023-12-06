@@ -12,7 +12,6 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
   const currentUserImg = useUserStore((state) => state.currentUserImg);
   const currentUserName = useUserStore((state) => state.currentUserName);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
-
   const pages = [
     {
       name: "Home",
@@ -56,7 +55,6 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
               key={page.name}
               className="myDropdownItem mt-3 cursor-pointer text-white"
               onClick={() => {
-                console.log("Clock");
                 navigate(page.path);
               }}
             >
