@@ -27,7 +27,7 @@ export default function Profile() {
     updateProfile,
   } = useUserStore();
   return (
-    <>
+    <div className=" myPageContainer">
       <Input
         isRequired
         type="text"
@@ -122,6 +122,6 @@ export default function Profile() {
       >
         Button
       </Button>
-    </>
+    </div>
   );
 }

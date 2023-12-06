@@ -59,7 +59,7 @@ export default function Training() {
   }, [isRunning]);
 
   return (
-    <>
+    <div className="myPageContainer">
       <div className="flex  w-screen items-center justify-center bg-[#254E58]">
         <div className="mx-3 flex flex-col justify-center gap-6 rounded-md p-4 shadow-[5px_5px_50px_rgba(47,46,60,1)] sm:p-10">
           <div className="flex flex-col gap-2">
@@ -105,6 +105,6 @@ export default function Training() {
       </div>
       <ProgressCard itemPointer={itemPointer} runCount={runCount} />
       <Menu itemPointer={itemPointer} />
-    </>
+    </div>
   );
 }

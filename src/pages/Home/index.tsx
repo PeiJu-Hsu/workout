@@ -15,7 +15,6 @@ export default function Home() {
   const sendInvitationAtHome = useUserStore(
     (state) => state.sendInvitationAtHome,
   );
-  //
 
   useEffect(() => {
     getCurrentUserInfo();
@@ -24,11 +23,14 @@ export default function Home() {
   }, []);
 
   return (
-    <>
-      <div style={{ display: "flex" }}>
+    // <div className=" ml-2 mr-2  box-border rounded-2xl border-5 border-yellow-400 bg-gray-100 sm:ml-[205px]">
+    <div className=" myPageContainer">
+      <div className="myChartBoard">
         <ScoreChart />
         <WeightChart />
       </div>
+      <div className="m-2  bg-white "></div>
+
       <div style={{ display: `${currentUserRole === 1 ? "block" : "none"}` }}>
         等待回覆的學生邀請
         {invitations.map((invitation, index) => {
@@ -55,25 +57,11 @@ export default function Home() {
           );
         })}
       </div>
-
-      <div>
-        {calenderURL ? (
-          <>
-            <iframe
-              src={calenderURL}
-              style={{
-                width: "70%",
-                height: "600px",
-              }}
-            ></iframe>
-            <iframe
-              src={reserveURL}
-              style={{
-                width: "70%",
-                height: "600px",
-              }}
-            ></iframe>
-          </>
+      <div className="myChartBoard">
+        {calenderURL && currentUserRole === 1 ? (
+          <iframe className="h-[400px] w-full" src={calenderURL}></iframe>
+        ) : reserveURL && currentUserRole === 2 ? (
+          <iframe src={reserveURL}></iframe>
         ) : signUpWithCoach.state === "waiting" ? (
           <h1>等待教練回覆</h1>
         ) : signUpWithCoach.state === "reject" ? (
@@ -83,6 +71,6 @@ export default function Home() {
         )}
       </div>
       <div></div>
-    </>
+    </div>
   );
 }

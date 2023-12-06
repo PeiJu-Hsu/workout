@@ -231,8 +231,7 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
   onChange,
   partsInput,
 }) => {
-  const { itemName, setItemGroup, setItemGroupIndex, setItemName } =
-    RecordStore();
+  const { setItemGroup, setItemGroupIndex, setItemName } = RecordStore();
   const partsInputInitial = {
     head: { selected: false },
     leftShoulder: { selected: false },

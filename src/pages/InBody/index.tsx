@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { InBodyStore } from "../../stores/InBodyStore";
+import { useUserStore } from "../../stores/UserStore";
 interface labelTexts {
   type: string;
   labelText: string;
@@ -71,16 +73,19 @@ export default function InBody() {
   const height = InBodyStore((state) => state.height);
   const weight = InBodyStore((state) => state.weight);
   const bodyFat = InBodyStore((state) => state.bodyFat);
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const addInBodyData = InBodyStore((state) => state.addInBodyData);
   const setInputNumberToState = InBodyStore(
-    (state) => state.setInputNumberToState
+    (state) => state.setInputNumberToState,
   );
   const calculateBMI = InBodyStore((state) => state.calculateBMI);
 
   const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
-
+  useEffect(() => {
+    getCurrentUserInfo();
+  }, []);
   return (
-    <>
+    <div className=" myPageContainer">
       <div>
         {labelTexts.map((obj) => (
           <div key={obj.id} className="col">
@@ -94,7 +99,7 @@ export default function InBody() {
                     e.target.id,
                     obj.type === "number"
                       ? Number(e.target.value)
-                      : new Date(e.target.value)
+                      : new Date(e.target.value),
                   );
                 }}
               />
@@ -131,6 +136,6 @@ export default function InBody() {
           (dummyData.height / 100)
         ).toFixed(2)} */}
       </h3>
-    </>
+    </div>
   );
 }

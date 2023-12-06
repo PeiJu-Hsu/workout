@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { BarChart } from "../../charts/BarChart";
 import { HighestChart } from "../../charts/HighestChart";
 import { RecordStore } from "../../stores/RecordStore";
+import { useUserStore } from "../../stores/UserStore";
 import { group, groupList } from "../../utils/TrainingItems";
 import { BodyComponent } from "./BodyComponent";
 
@@ -18,21 +19,17 @@ export default function Record() {
     getItemMaxRecords,
     getItemHistory,
   } = RecordStore();
-
-  // const onChange = (parts: PartsInput) => console.log("Changed Parts:", parts);
-  // const onClick = (id: string) => {
-  //   console.log("Changed Id:", id);
-  //   console.log("Changed data");
-  // };
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
 
   useEffect(() => {
     fetchRecordData();
+    getCurrentUserInfo();
     // fetchRecordData().then((res) => {
     //   if (res) console.log(res);
   }, []);
 
   return (
-    <>
+    <div className=" myPageContainer">
       <div style={{ width: "100%", border: "1px solid gray" }}>
         <select
           value={itemGroup}
@@ -110,6 +107,6 @@ export default function Record() {
           {itemHistory.length > 0 && <BarChart />}
         </div>
       )}
-    </>
+    </div>
   );
 }
