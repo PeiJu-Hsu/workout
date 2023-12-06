@@ -30,13 +30,12 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {isLogin && (
-        <>
-          <NavBar />
-        </>
-      )}
+      {isLogin && <NavBar />}
       <Toaster />
-      {routing}
+      <div className=" myPageContainer">
+        <div className="myPageInnerPadding">{routing}</div>
+      </div>
+
       {/* {isLogin && <Footer />} */}
     </>
   );

@@ -85,59 +85,57 @@ export default function InBody() {
     getCurrentUserInfo();
   }, []);
   return (
-    <div className=" myPageContainer">
-      <div className="myPageInnerPadding">
-        <div>
-          {labelTexts.map((obj) => (
-            <div key={obj.id} className="col">
-              <div className="form-outline">
-                <input
-                  type={obj.type}
-                  id={obj.id}
-                  className="form-control"
-                  onChange={(e) => {
-                    setInputNumberToState(
-                      e.target.id,
-                      obj.type === "number"
-                        ? Number(e.target.value)
-                        : new Date(e.target.value),
-                    );
-                  }}
-                />
-                <label className="form-label" htmlFor={obj.labelText}>
-                  {obj.labelText}
-                </label>
-              </div>
+    <>
+      <div>
+        {labelTexts.map((obj) => (
+          <div key={obj.id} className="col">
+            <div className="form-outline">
+              <input
+                type={obj.type}
+                id={obj.id}
+                className="form-control"
+                onChange={(e) => {
+                  setInputNumberToState(
+                    e.target.id,
+                    obj.type === "number"
+                      ? Number(e.target.value)
+                      : new Date(e.target.value),
+                  );
+                }}
+              />
+              <label className="form-label" htmlFor={obj.labelText}>
+                {obj.labelText}
+              </label>
             </div>
-          ))}
-          <button
-            type="button"
-            className="btn btn-primary btn-block mb-4"
-            onClick={() => {
-              addInBodyData();
-            }}
-          >
-            Place order
-          </button>
-        </div>
-        <h3>
-          體脂率 (%) ={" "}
-          {calculateFatRatio() === "NaN"
-            ? "TBD"
-            : ((100 * bodyFat) / weight).toFixed(2)}
-        </h3>
-        <h3>
-          BMI (kg/m^2) =
-          {calculateBMI() === "NaN"
-            ? "TBD"
-            : ((weight * 10000) / height / height).toFixed(2)}
-          {/* {(
+          </div>
+        ))}
+        <button
+          type="button"
+          className="btn btn-primary btn-block mb-4"
+          onClick={() => {
+            addInBodyData();
+          }}
+        >
+          Place order
+        </button>
+      </div>
+      <h3>
+        體脂率 (%) ={" "}
+        {calculateFatRatio() === "NaN"
+          ? "TBD"
+          : ((100 * bodyFat) / weight).toFixed(2)}
+      </h3>
+      <h3>
+        BMI (kg/m^2) =
+        {calculateBMI() === "NaN"
+          ? "TBD"
+          : ((weight * 10000) / height / height).toFixed(2)}
+        {/* {(
           dummyData.weight /
           (dummyData.height / 100) /
           (dummyData.height / 100)
         ).toFixed(2)} */}
-        </h3>
-      </div>
-    </div>
+      </h3>
+    </>
   );
 }
