@@ -25,14 +25,12 @@
   align-items: center;
 }
 .myPageContainer {
-  overflow: scroll;
-  /* height: calc(100vh - 44px); */
-
+  overflow: hidden;
   height: calc(100vh - 44px);
-  padding: 1rem;
+  padding: 10px 0px 0px 10px;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   border-radius: 1rem;
   border: 0.3125rem solid #f9c809;
   overflow-x: hidden;
@@ -41,6 +39,12 @@
   @media (min-width: 640px) {
     margin-left: 12.8125rem;
   }
+}
+.myPageInnerPadding {
+  overflow-x: auto;
+  height: calc(100vh - 74px);
+  margin-bottom: 20px;
+  padding-right: 10px;
 }
 .myChartBoard {
   display: flex;
