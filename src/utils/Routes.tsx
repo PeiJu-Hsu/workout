@@ -16,7 +16,11 @@ export const Routes = [
     // 將所有需要保護的路由，用 <ProtectedRoute> 包起來
     element: (
       <ProtectedRoute>
-        <Outlet />
+        <div className=" myPageContainer">
+          <div className="myPageInnerPadding">
+            <Outlet />
+          </div>
+        </div>
       </ProtectedRoute>
     ),
     children: [
