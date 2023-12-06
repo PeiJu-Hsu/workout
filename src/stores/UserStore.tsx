@@ -307,7 +307,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         if (!myCoachInfo) return;
         set({ myCoach: coachId });
         set({ myCoachName: myCoachInfo.name });
-        console.log("myCoachName", get().myCoachName);
         set({
           signUpWithCoach: {
             coachId: currentUserInfo.myCoach.coachId,
