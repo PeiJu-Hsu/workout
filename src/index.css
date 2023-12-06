@@ -27,7 +27,8 @@
 .myPageContainer {
   overflow: scroll;
   /* height: calc(100vh - 44px); */
-  height: 100vh;
+
+  height: calc(100vh - 44px);
   padding: 1rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;

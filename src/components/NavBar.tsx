@@ -129,9 +129,9 @@ export default function NavBar() {
         </Dropdown>
       </NavbarContent>
       <aside
-        className={`myBlack  absolute left-0 top-[53px] ${
+        className={`myBlack absolute left-0 top-[53px] ${
           isShowsSideBar ? "block" : "hidden"
-        }  h-[calc(100vh-0px)] w-[200px] flex-col justify-center gap-4  sm:block`}
+        }  h-[calc(100vh-44px)] w-[200px] flex-col justify-center gap-4  sm:block`}
       >
         <div className=" mt-2 flex w-full flex-col">
           <Avatar
