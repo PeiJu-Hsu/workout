@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { InBodyStore } from "../../stores/InBodyStore";
-import { useUserStore } from "../../stores/UserStore";
 interface labelTexts {
   type: string;
   labelText: string;
@@ -73,7 +71,6 @@ export default function InBody() {
   const height = InBodyStore((state) => state.height);
   const weight = InBodyStore((state) => state.weight);
   const bodyFat = InBodyStore((state) => state.bodyFat);
-  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const addInBodyData = InBodyStore((state) => state.addInBodyData);
   const setInputNumberToState = InBodyStore(
     (state) => state.setInputNumberToState,
@@ -81,9 +78,7 @@ export default function InBody() {
   const calculateBMI = InBodyStore((state) => state.calculateBMI);
 
   const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
-  useEffect(() => {
-    getCurrentUserInfo();
-  }, []);
+
   return (
     <>
       <div>

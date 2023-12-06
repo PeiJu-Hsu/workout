@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { useRoutes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import NavBar from "./components/NavBar";
+import { InBodyStore } from "./stores/InBodyStore";
 import { useUserStore } from "./stores/UserStore";
 import { Routes } from "./utils/Routes";
 const GlobalStyle = createGlobalStyle`
@@ -15,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
   }`;
 function App() {
   const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
+  const fetchInBodyData = InBodyStore((state) => state.fetchInBodyData);
   const unsubscribeInvitations = useUserStore(
     (state) => state.unsubscribeInvitations,
   );
@@ -22,6 +24,7 @@ function App() {
   const routing = useRoutes(Routes);
   useEffect(() => {
     getCurrentUserInfo();
+    fetchInBodyData();
     unsubscribeInvitations();
     return () => {
       unsubscribeInvitations();

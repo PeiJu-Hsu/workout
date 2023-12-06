@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BarChart } from "../../charts/BarChart";
 import { HighestChart } from "../../charts/HighestChart";
 import { RecordStore } from "../../stores/RecordStore";
-import { useUserStore } from "../../stores/UserStore";
 import { group, groupList } from "../../utils/TrainingItems";
 import { BodyComponent } from "./BodyComponent";
 
@@ -19,13 +18,9 @@ export default function Record() {
     getItemMaxRecords,
     getItemHistory,
   } = RecordStore();
-  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
 
   useEffect(() => {
     fetchRecordData();
-    getCurrentUserInfo();
-    // fetchRecordData().then((res) => {
-    //   if (res) console.log(res);
   }, []);
 
   return (

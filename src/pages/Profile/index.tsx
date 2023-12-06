@@ -2,11 +2,8 @@ import { Button, Input, RadioGroup } from "@nextui-org/react";
 import { useEffect } from "react";
 import { useUserStore } from "../../stores/UserStore";
 export default function Profile() {
-  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
-
   useEffect(() => {
     console.log("Profile");
-    getCurrentUserInfo();
     getCoachList().then((res) => {
       if (res) console.log(res);
     });
