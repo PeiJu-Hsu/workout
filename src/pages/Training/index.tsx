@@ -60,51 +60,53 @@ export default function Training() {
 
   return (
     <div className="myPageContainer">
-      <div className="flex  w-screen items-center justify-center bg-[#254E58]">
-        <div className="mx-3 flex flex-col justify-center gap-6 rounded-md p-4 shadow-[5px_5px_50px_rgba(47,46,60,1)] sm:p-10">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-center text-xl font-semibold leading-8 text-[#FBFAF8] sm:text-3xl">
-              Hurry, Limited Availability
-            </h1>
-            <span className="text-center text-sm font-semibold leading-8 text-[#959AAE]">
-              <button onClick={handleStartStop}>
-                {isRunning ? "Stop" : "Start"}
-              </button>
-              <br />
-              itemPointer: {itemPointer}, runCount: {runCount}
-            </span>
-          </div>
-          <div className="flex justify-between sm:px-4">
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).min}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {formatTime(time).min === "01" ? "Minute" : "Minutes"}
+      <div className="myPageInnerPadding">
+        <div className="flex  w-screen items-center justify-center bg-[#254E58]">
+          <div className="mx-3 flex flex-col justify-center gap-6 rounded-md p-4 shadow-[5px_5px_50px_rgba(47,46,60,1)] sm:p-10">
+            <div className="flex flex-col gap-2">
+              <h1 className="text-center text-xl font-semibold leading-8 text-[#FBFAF8] sm:text-3xl">
+                Hurry, Limited Availability
+              </h1>
+              <span className="text-center text-sm font-semibold leading-8 text-[#959AAE]">
+                <button onClick={handleStartStop}>
+                  {isRunning ? "Stop" : "Start"}
+                </button>
+                <br />
+                itemPointer: {itemPointer}, runCount: {runCount}
               </span>
             </div>
+            <div className="flex justify-between sm:px-4">
+              <div className="flex flex-col items-center justify-center gap-3">
+                <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
+                  {formatTime(time).min}
+                </span>
+                <span className="text-sm font-bold text-[#FBFAF8]">
+                  {formatTime(time).min === "01" ? "Minute" : "Minutes"}
+                </span>
+              </div>
 
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).sec}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {formatTime(time).sec === "01" ? "Second" : "Seconds"}
-              </span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).milliseconds.substring(0, 2)}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {"milliseconds"}
-              </span>
+              <div className="flex flex-col items-center justify-center gap-3">
+                <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
+                  {formatTime(time).sec}
+                </span>
+                <span className="text-sm font-bold text-[#FBFAF8]">
+                  {formatTime(time).sec === "01" ? "Second" : "Seconds"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-3">
+                <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
+                  {formatTime(time).milliseconds.substring(0, 2)}
+                </span>
+                <span className="text-sm font-bold text-[#FBFAF8]">
+                  {"milliseconds"}
+                </span>
+              </div>
             </div>
           </div>
         </div>
+        <ProgressCard itemPointer={itemPointer} runCount={runCount} />
+        <Menu itemPointer={itemPointer} />
       </div>
-      <ProgressCard itemPointer={itemPointer} runCount={runCount} />
-      <Menu itemPointer={itemPointer} />
     </div>
   );
 }
