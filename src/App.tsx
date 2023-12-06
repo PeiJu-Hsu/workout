@@ -33,8 +33,6 @@ function App() {
       {isLogin && <NavBar />}
       <Toaster />
       {routing}
-
-      {/* {isLogin && <Footer />} */}
     </>
   );
 }

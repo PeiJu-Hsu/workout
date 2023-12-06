@@ -10,6 +10,7 @@ import {
   NavbarContent,
 } from "@nextui-org/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import WorkoutLogo from "../icons/WorkOut.png";
 import Bell from "../icons/bell.png";
@@ -26,6 +27,7 @@ import { useUserStore } from "../stores/UserStore";
 import Invitation from "./Invitation";
 import MyCoachCard from "./MyCoachCard";
 export default function NavBar() {
+  const navigate = useNavigate();
   const currentUserImg = useUserStore((state) => state.currentUserImg);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const logOut = useUserStore((state) => state.logOut);
@@ -38,6 +40,23 @@ export default function NavBar() {
     return result;
   };
   const [isShowsSideBar, setIsShowsSideBar] = useState(false);
+  const pages = [
+    {
+      name: "Home",
+      path: "/",
+      icon: HomeIcon,
+    },
+    {
+      name: "Training",
+      path: "/training",
+      icon: Task,
+    },
+    {
+      name: "Record",
+      path: "/record",
+      icon: RecordIcon,
+    },
+  ];
   return (
     //nav & header
     <Navbar className="myBlack  h-11 max-w-full">
@@ -147,30 +166,23 @@ export default function NavBar() {
         </div>
 
         <ul className=" ml-7">
-          <a className=" text-white" href="/">
-            <div className="myDropdownItem mt-3">
-              <div className="myDropdownIcon">
-                <img src={HomeIcon} />
+          {pages.map((page) => {
+            return (
+              <div
+                key={page.name}
+                className="myDropdownItem mt-3 cursor-pointer text-white"
+                onClick={() => {
+                  console.log("Clock");
+                  navigate(page.path);
+                }}
+              >
+                <div className="myDropdownIcon">
+                  <img src={page.icon} />
+                </div>
+                <span className="pt-[4px] leading-none">{page.name}</span>
               </div>
-              <span className="pt-[4px] leading-none">Home</span>
-            </div>
-          </a>
-          <a className=" text-white" href="/training">
-            <div className="myDropdownItem mt-3">
-              <div className="myDropdownIcon">
-                <img src={Task} />
-              </div>
-              <span className="pt-[4px] leading-none">Training</span>
-            </div>
-          </a>
-          <a className=" text-white" href="/record">
-            <div className="myDropdownItem mt-3">
-              <div className="myDropdownIcon">
-                <img src={RecordIcon} />
-              </div>
-              <span className="pt-[6px] leading-none">Record</span>
-            </div>
-          </a>
+            );
+          })}
         </ul>
       </aside>
     </Navbar>
