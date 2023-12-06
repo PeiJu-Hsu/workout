@@ -23,16 +23,15 @@ import Setting from "../icons/settings.png";
 import Task from "../icons/task.png";
 import InBody from "../icons/weighing-scale.png";
 import { useUserStore } from "../stores/UserStore";
+import MyCoachCard from "./MyCoachCard";
 export default function NavBar() {
   const currentUserImg = useUserStore((state) => state.currentUserImg);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
-  const myCoachName = useUserStore((state) => state.myCoachName);
   const logOut = useUserStore((state) => state.logOut);
   const signOut = useUserStore((state) => state.signOut);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
   const invitations = useUserStore((state) => state.invitations);
   const currentUserName = useUserStore((state) => state.currentUserName);
-  const signUpWithCoach = useUserStore((state) => state.signUpWithCoach);
   const calculateTotalMessage = () => {
     const result = invitations.length + waitingMenus.length;
     return result;
@@ -74,25 +73,8 @@ export default function NavBar() {
             </div>
           </DropdownTrigger>
           <DropdownMenu aria-label="Message Actions" variant="flat">
-            <DropdownItem key="coach" textValue="coach">
-              <p>My Coach</p>
-              <div className=" my-1 flex  ">
-                <Avatar
-                  isBordered
-                  color="default"
-                  size="sm"
-                  className="m-auto"
-                />
-                <p className="my-auto">
-                  {signUpWithCoach.state === "accept"
-                    ? `${myCoachName} 教練`
-                    : signUpWithCoach.state === "waiting"
-                      ? "等待教練回覆"
-                      : signUpWithCoach.state === "reject"
-                        ? "被教練拒絕"
-                        : "還沒有教練"}
-                </p>
-              </div>
+            <DropdownItem key="myCoach" textValue="myCoach">
+              {currentUserRole === 2 ? <MyCoachCard /> : null}
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -135,9 +117,7 @@ export default function NavBar() {
                   <img src={LogOut} />
                 </div>
 
-                <Link className="text-base text-black" href="/login">
-                  Log out
-                </Link>
+                <Link className="text-base text-black">Log out</Link>
               </div>
             </DropdownItem>
           </DropdownMenu>

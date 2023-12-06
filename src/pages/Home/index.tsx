@@ -59,13 +59,15 @@ export default function Home() {
       </div>
       <div className="myChartBoard">
         {calenderURL && currentUserRole === 1 ? (
-          <iframe className="h-[400px] w-full" src={calenderURL}></iframe>
+          <iframe
+            className="mt-2 h-[400px] w-full rounded-[10px] bg-white"
+            src={calenderURL}
+          ></iframe>
         ) : reserveURL && currentUserRole === 2 ? (
-          <iframe src={reserveURL}></iframe>
-        ) : signUpWithCoach.state === "waiting" ? (
-          <h1>等待教練回覆</h1>
-        ) : signUpWithCoach.state === "reject" ? (
-          <h1>被教練拒絕</h1>
+          <iframe
+            className=" mt-2 h-[400px] w-full rounded-[10px] bg-white"
+            src={reserveURL}
+          ></iframe>
         ) : (
           <h1>還沒有教練</h1>
         )}
