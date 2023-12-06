@@ -58,97 +58,101 @@ export default function NavBar() {
     },
   ];
   return (
-    //nav & header
-    <Navbar className="myBlack  h-11 max-w-full">
-      <NavbarBrand className="myBlack  h-11 max-w-full">
-        <div className="relative flex max-w-full">
-          <img
-            className="block w-7 sm:hidden"
-            src={isShowsSideBar ? Close : MenuImg}
-            onClick={() => {
-              setIsShowsSideBar(!isShowsSideBar);
-            }}
-            alt=""
-          />
-          <img
-            className=" ml-2 hidden w-7 sm:block"
-            src={WorkoutLogo}
-            alt="WorkOutLogo"
-          />
-          <Link href="/" aria-current="page" color="foreground">
-            <p className="font ml-2 text-xl  font-bold text-inherit text-white">
-              WorkOut
-            </p>
-          </Link>
-        </div>
-      </NavbarBrand>
-      <NavbarContent as="div" justify="end">
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger className="h-7">
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gray-100">
-              <img className=" h-2/3 w-2/3" src={Bell} />
-              <span className="badge rounded-pill badge-notification absolute -right-1 top-0 rounded-bl-full border bg-gray-300 text-black">
-                {calculateTotalMessage() !== 0 ? calculateTotalMessage() : null}
-              </span>
-            </div>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Message Actions" variant="flat">
-            <DropdownItem key="myCoach" textValue="myCoach">
-              {currentUserRole === 1 ? (
-                <Invitation />
-              ) : currentUserRole === 2 ? (
-                <MyCoachCard />
-              ) : null}
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger className="h-7">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 ">
-              <img className=" h-2/3 w-2/3" src={Setting} />
-            </div>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" textValue="profile">
-              <div className="myDropdownItem ">
-                <div className="myDropdownIcon">
-                  <img src={ProfileIcon} />
-                </div>
-                <Link className="text-base text-black" href="/profile">
-                  Profile
-                </Link>
+    <>
+      {/* //nav & header */}
+      <Navbar className="myBlack relative h-11 max-w-full">
+        <NavbarBrand className="myBlack  h-11 max-w-full">
+          <div className=" flex max-w-full">
+            <img
+              className="block w-7 sm:hidden"
+              src={isShowsSideBar ? Close : MenuImg}
+              onClick={() => {
+                setIsShowsSideBar(!isShowsSideBar);
+              }}
+              alt=""
+            />
+            <img
+              className=" ml-2 hidden w-7 sm:block"
+              src={WorkoutLogo}
+              alt="WorkOutLogo"
+            />
+            <Link href="/" aria-current="page" color="foreground">
+              <p className="font ml-2 text-xl  font-bold text-inherit text-white">
+                WorkOut
+              </p>
+            </Link>
+          </div>
+        </NavbarBrand>
+        <NavbarContent as="div" justify="end">
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger className="h-7">
+              <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-gray-100">
+                <img className=" h-2/3 w-2/3" src={Bell} />
+                <span className="badge rounded-pill badge-notification absolute -right-1 top-0 rounded-bl-full border bg-gray-300 text-black">
+                  {calculateTotalMessage() !== 0
+                    ? calculateTotalMessage()
+                    : null}
+                </span>
               </div>
-            </DropdownItem>
-            <DropdownItem key="Inbody" textValue="Inbody">
-              <div className="myDropdownItem ">
-                <div className="myDropdownIcon">
-                  <img src={InBody} />
-                </div>
-                <Link className="text-base text-black" href="/inbody">
-                  InBody
-                </Link>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Message Actions" variant="flat">
+              <DropdownItem key="myCoach" textValue="myCoach">
+                {currentUserRole === 1 ? (
+                  <Invitation />
+                ) : currentUserRole === 2 ? (
+                  <MyCoachCard />
+                ) : null}
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger className="h-7">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 ">
+                <img className=" h-2/3 w-2/3" src={Setting} />
               </div>
-            </DropdownItem>
-            <DropdownItem key="logOut" textValue="logOut">
-              <div
-                className="myDropdownItem "
-                onClick={async () => {
-                  await signOut(auth);
-                  logOut();
-                }}
-              >
-                <div className="myDropdownIcon">
-                  <img src={LogOut} />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat">
+              <DropdownItem key="profile" textValue="profile">
+                <div className="myDropdownItem ">
+                  <div className="myDropdownIcon">
+                    <img src={ProfileIcon} />
+                  </div>
+                  <Link className="text-base text-black" href="/profile">
+                    Profile
+                  </Link>
                 </div>
+              </DropdownItem>
+              <DropdownItem key="Inbody" textValue="Inbody">
+                <div className="myDropdownItem ">
+                  <div className="myDropdownIcon">
+                    <img src={InBody} />
+                  </div>
+                  <Link className="text-base text-black" href="/inbody">
+                    InBody
+                  </Link>
+                </div>
+              </DropdownItem>
+              <DropdownItem key="logOut" textValue="logOut">
+                <div
+                  className="myDropdownItem "
+                  onClick={async () => {
+                    await signOut(auth);
+                    logOut();
+                  }}
+                >
+                  <div className="myDropdownIcon">
+                    <img src={LogOut} />
+                  </div>
 
-                <Link className="text-base text-black">Log out</Link>
-              </div>
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarContent>
+                  <Link className="text-base text-black">Log out</Link>
+                </div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarContent>
+      </Navbar>
       <aside
-        className={`myBlack absolute left-0 top-[53px] ${
+        className={`myBlack absolute left-0 top-[44px] ${
           isShowsSideBar ? "block" : "hidden"
         }  h-[calc(100vh-44px)] w-[200px] flex-col justify-center gap-4  sm:block`}
       >
@@ -185,6 +189,6 @@ export default function NavBar() {
           })}
         </ul>
       </aside>
-    </Navbar>
+    </>
   );
 }
