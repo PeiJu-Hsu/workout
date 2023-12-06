@@ -140,7 +140,7 @@ export const useUserStore = create<userState>()((set, get) => ({
         password,
       );
       console.log("userCredential", userCredential);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       toast.error(e.message, { duration: 3000 });
     }
@@ -169,7 +169,7 @@ export const useUserStore = create<userState>()((set, get) => ({
       );
       toast(`👋 Welcome Back`);
       console.log(userCredential);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       toast.error(e.message, { duration: 3000 });
     }
