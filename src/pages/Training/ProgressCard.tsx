@@ -6,7 +6,12 @@ import {
   CircularProgress,
 } from "@nextui-org/react";
 import { MenuStore } from "../../stores/MenuStore";
-export default function ProgressCard({ itemPointer, runCount }) {
+interface PropsType {
+  itemPointer: number;
+  runCount: number;
+}
+
+export default function ProgressCard({ itemPointer, runCount }: PropsType) {
   const menuList = MenuStore((state) => state.menuList);
   const itemTargetCount =
     itemPointer < menuList.length
