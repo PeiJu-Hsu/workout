@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Chip,
-  CircularProgress,
-} from "@nextui-org/react";
+import { Card, CardBody, CircularProgress } from "@nextui-org/react";
 import { MenuStore } from "../../stores/MenuStore";
 interface PropsType {
   itemPointer: number;
@@ -21,14 +15,15 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
     ? 0
     : Math.round((100 * runCount) / itemTargetCount);
   return (
-    <Card className="h-[240px] w-[240px] border-none bg-gradient-to-br from-violet-500 to-fuchsia-500">
+    <Card className="h-full w-full border-none bg-gradient-to-br from-gray-300 to-gray-500">
       <CardBody className="items-center justify-center pb-0">
         <CircularProgress
           classNames={{
-            svg: "w-36 h-36 drop-shadow-md",
+            svg: " max-w-full min-w-16 w-20 h-full  drop-shadow-md sm:w-28  md:w-36 ",
             indicator: "stroke-white",
-            track: "stroke-white/10",
-            value: "text-3xl font-semibold text-white",
+            track: "stroke-gray-200/20 dark:stroke-gray-500",
+            value: "text-xl font-semibold text-white sm:text-3xl",
+            label: "text-white/90 text-small",
           }}
           value={progressValue}
           strokeWidth={4}
@@ -36,7 +31,7 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
           label={itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
         />
       </CardBody>
-      <CardFooter className="items-center justify-center pt-0">
+      {/* <CardFooter className="flex flex-col items-center justify-between gap-1 pt-0">
         {menuList[itemPointer]?.itemName ? (
           <Chip
             classNames={{
@@ -48,6 +43,9 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
             {menuList[itemPointer]?.itemName}
           </Chip>
         ) : null}
+        <Chip >
+          {itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
+        </Chip>
 
         {menuList[itemPointer + 1]?.itemName ? (
           <Chip
@@ -60,7 +58,7 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
             {menuList[itemPointer + 1]?.itemName}
           </Chip>
         ) : null}
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

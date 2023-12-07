@@ -1,4 +1,7 @@
+import { Card, CardBody } from "@nextui-org/react";
 import { useEffect, useState } from "react";
+import Start from "../../icons/start.png";
+import Stop from "../../icons/stop.png";
 import { MenuStore } from "../../stores/MenuStore";
 import Menu from "./Menu";
 import ProgressCard from "./ProgressCard";
@@ -60,51 +63,105 @@ export default function Training() {
 
   return (
     <>
-      <div className="flex  w-screen items-center justify-center bg-[#254E58]">
-        <div className="mx-3 flex flex-col justify-center gap-6 rounded-md p-4 shadow-[5px_5px_50px_rgba(47,46,60,1)] sm:p-10">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-center text-xl font-semibold leading-8 text-[#FBFAF8] sm:text-3xl">
-              Hurry, Limited Availability
-            </h1>
-            <span className="text-center text-sm font-semibold leading-8 text-[#959AAE]">
-              <button onClick={handleStartStop}>
-                {isRunning ? "Stop" : "Start"}
-              </button>
-              <br />
-              itemPointer: {itemPointer}, runCount: {runCount}
-            </span>
-          </div>
-          <div className="flex justify-between sm:px-4">
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).min}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {formatTime(time).min === "01" ? "Minute" : "Minutes"}
-              </span>
+      <Card
+        isBlurred
+        className=" m-auto max-w-xl border-none bg-background/60 dark:bg-default-100/50"
+        shadow="sm"
+      >
+        <CardBody>
+          <div className="grid grid-cols-12 items-center justify-center gap-6 ">
+            <div className="relative col-span-4 flex h-full items-center justify-center object-contain">
+              <ProgressCard itemPointer={itemPointer} runCount={runCount} />
             </div>
+            <div className="col-span-8 flex flex-col gap-y-2">
+              <div className="mb- flex items-start justify-between">
+                <div className="flex flex-col gap-0">
+                  <h1 className="text-xl font-semibold text-foreground/90">
+                    {menuList[itemPointer]?.itemName}
+                  </h1>
+                  <p className="text-small font-semibold text-foreground/80 text-gray-400">
+                    {menuList[itemPointer + 1]?.itemName
+                      ? menuList[itemPointer + 1]?.itemName
+                      : `🎉即將結束🎉`}
+                  </p>
+                  {/* <h1 className="mt-2 text-large font-medium">
+                    Frontend Radio
+                  </h1> */}
+                </div>
+                <div className="mx-2 flex items-center justify-center">
+                  <img
+                    className=" w-11"
+                    onClick={handleStartStop}
+                    src={isRunning ? Stop : Start}
+                  />
+                </div>
+              </div>
+              <div className="item-center flex justify-between">
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
+                    {formatTime(time).min}
+                  </span>
+                  <span className="text-sm font-bold leading-none text-gray-400">
+                    {formatTime(time).min === "01" ? "min" : "mins"}
+                  </span>
+                </div>
+                <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
+                  {" "}
+                  :{" "}
+                </p>
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
+                    {formatTime(time).sec}
+                  </span>
+                  <span className="text-sm font-bold leading-none text-gray-400">
+                    {formatTime(time).sec === "01" ? "sec" : "secs"}
+                  </span>
+                </div>
+                <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
+                  {" "}
+                  :{" "}
+                </p>
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
+                    {formatTime(time).milliseconds.substring(0, 2)}
+                  </span>
+                  <span className="text-sm font-bold leading-none text-gray-400">
+                    {"msecs"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
 
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).sec}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {formatTime(time).sec === "01" ? "Second" : "Seconds"}
-              </span>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-3">
-              <span className="rounded-md bg-[#88BDBC] px-3 py-3 text-3xl font-semibold text-[#112D32]">
-                {formatTime(time).milliseconds.substring(0, 2)}
-              </span>
-              <span className="text-sm font-bold text-[#FBFAF8]">
-                {"milliseconds"}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ProgressCard itemPointer={itemPointer} runCount={runCount} />
       <Menu itemPointer={itemPointer} />
     </>
   );
 }
+// {menuList[itemPointer]?.itemName ? (
+//   <Chip
+//     classNames={{
+//       base: "border-1 border-white/30",
+//       content: "text-white/90 text-small font-semibold",
+//     }}
+//     variant="bordered"
+//   >
+//     {menuList[itemPointer]?.itemName}
+//   </Chip>
+// ) : null}
+// <Chip >
+//   {itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
+// </Chip>
+
+// {menuList[itemPointer + 1]?.itemName ? (
+//   <Chip
+//     classNames={{
+//       base: "border-1 border-white/30",
+//       content: "text-white/90 text-small font-semibold",
+//     }}
+//     variant="bordered"
+//   >
+//     {menuList[itemPointer + 1]?.itemName}
+//   </Chip>
+// ) : null}
