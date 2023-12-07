@@ -2,9 +2,13 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  query,
   serverTimestamp,
   setDoc,
+  where,
 } from "firebase/firestore";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 import { auth, db } from "../firebase";
 interface maxValue {
@@ -77,6 +81,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   setTargetStudent: (value) => {
     set({ targetStudent: value });
   },
+
   setMenuList: () => {
     set((state) => ({
       menuList: [
@@ -141,15 +146,29 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     get().resetMenuList([]);
   },
   sentToStudent: async (currentUserName) => {
-    if (get().targetStudent === "default" || !get().menuList) {
-      alert("請選擇學員或是新增訓練項目");
+    if (get().menuList.length === 0) {
+      toast.error(`請建立訓練項目`);
       return;
     }
-
+    if (get().targetStudent === "default") {
+      toast.error("請選擇學員");
+      return;
+    }
+    const userCol = collection(db, "users");
+    const targetStudentDocRef = query(
+      userCol,
+      where("name", "==", get().targetStudent),
+    );
+    const docStudentSnap = await getDocs(targetStudentDocRef);
+    if (!docStudentSnap) {
+      toast.error("查無此學員");
+      return;
+    }
+    const targetStudentID = docStudentSnap.docs[0].data().id;
     const docMenuRecordsCol = collection(
       db,
       "users",
-      get().targetStudent,
+      targetStudentID,
       "receivedMenu",
     );
     const newDocRef = doc(docMenuRecordsCol);
@@ -164,7 +183,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       { ...newMenu, id, sendTime: serverTimestamp() },
       { merge: true },
     );
-    alert("已傳送");
+    toast.success("已傳送");
   },
   deleteReceivedMenu: async (id) => {
     const docMenuRecordsCol = collection(

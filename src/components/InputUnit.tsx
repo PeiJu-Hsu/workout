@@ -1,5 +1,6 @@
 import { Input } from "@nextui-org/react";
 import { useState } from "react";
+import { MenuStore } from "../stores/MenuStore";
 import { useUserStore } from "../stores/UserStore";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "./EyeIcon";
 
@@ -11,18 +12,18 @@ interface PropsInputType {
   type: string;
   label: string;
 }
-export default function InputUnit(type: string, labelText: string) {
-  return (
-    <div className="col">
-      <div className="form-outline">
-        <input type={type} id={labelText} className="form-control" />
-        <label className="form-label" htmlFor={labelText}>
-          {labelText}
-        </label>
-      </div>
-    </div>
-  );
-}
+// export default function InputUnit(type: string, labelText: string) {
+//   return (
+//     <div className="col">
+//       <div className="form-outline">
+//         <input type={type} id={labelText} className="form-control" />
+//         <label className="form-label" htmlFor={labelText}>
+//           {labelText}
+//         </label>
+//       </div>
+//     </div>
+//   );
+// }
 export function InputText({ id, type, label }: PropsInputType) {
   const setInputTextToState = useUserStore(
     (state) => state.setInputTextToState,
@@ -120,6 +121,21 @@ export function InputFile({ id }: PropInput) {
         if (e.target.files) {
           setInputTextToState(e.target.id, e.target.value);
         }
+      }}
+    />
+  );
+}
+export function InputLoadingNumber({ id, type, label }: PropsInputType) {
+  const setLoading = MenuStore((state) => state.setLoading);
+  return (
+    <Input
+      type={type}
+      min={0}
+      className="max-w-xs"
+      label={label}
+      id={id}
+      onChange={(e) => {
+        setLoading(Number(e.target.value));
       }}
     />
   );

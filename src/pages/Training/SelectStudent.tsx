@@ -1,5 +1,4 @@
 import { Avatar, Select, SelectItem } from "@nextui-org/react";
-import { MenuStore } from "../../stores/MenuStore";
 import { useUserStore } from "../../stores/UserStore";
 
 // type User = {
@@ -13,14 +12,14 @@ import { useUserStore } from "../../stores/UserStore";
 //   email: string;
 // };
 
-export default function SelectStudent() {
-  const studentList = useUserStore((state) => state.studentList);
-  const setTargetStudent = MenuStore((state) => state.setTargetStudent);
+export default function SelectCoach() {
+  const coachList = useUserStore((state) => state.coachList);
+  const setSignUpCoach = useUserStore((state) => state.setSignUpCoach);
   return (
     <Select
-      items={studentList}
-      aria-label="Select a Student"
-      placeholder="Select a Student"
+      items={coachList}
+      aria-label="Select a coach"
+      placeholder="Select a coach"
       id=""
       labelPlacement="outside"
       classNames={{
@@ -28,45 +27,45 @@ export default function SelectStudent() {
         trigger: "h-12",
       }}
       onChange={(e) => {
-        setTargetStudent(e.target.value);
+        setSignUpCoach(e.target.value);
       }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
             <Avatar
-              alt={item.data!.senderName}
+              alt={item.data!.name}
               className="flex-shrink-0"
               size="sm"
               src={item.data!.userImage}
             />
             <div className="flex flex-col">
-              <span>{item.data!.senderName}</span>
-              {/* <span className="text-tiny text-default-500">
+              <span>{item.data!.name}</span>
+              <span className="text-tiny text-default-500">
                 ({item.data!.email})
-              </span> */}
+              </span>
             </div>
           </div>
         ));
       }}
     >
-      {(StudentList) => (
+      {(coachList) => (
         <SelectItem
-          key={StudentList.id}
-          textValue={StudentList.senderName}
-          value={StudentList.id}
+          key={coachList.id}
+          textValue={coachList.name}
+          value={coachList.id}
         >
           <div className="flex items-center gap-2">
             <Avatar
-              alt={StudentList.senderName}
+              alt={coachList.name}
               className="flex-shrink-0"
               size="sm"
-              src={StudentList?.userImage}
+              src={coachList.userImage}
             />
             <div className="flex flex-col">
-              <span className="text-small">{StudentList.senderName}</span>
-              {/* <span className="text-tiny text-default-400">
+              <span className="text-small">{coachList.name}</span>
+              <span className="text-tiny text-default-400">
                 {coachList.email}
-              </span> */}
+              </span>
             </div>
           </div>
         </SelectItem>

@@ -9,27 +9,26 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { InputLoadingNumber } from "../../components/InputUnit";
+import {
+  SelectMuscle,
+  SelectNumber,
+  SelectStudent,
+  SelectWorkOutItem,
+} from "../../components/SelectionUnits";
 import TrashCan from "../../icons/trash.png";
 import { MenuStore } from "../../stores/MenuStore";
 import { useUserStore } from "../../stores/UserStore";
-import { group, groupList } from "../../utils/TrainingItems";
+
 interface PropsType {
   itemPointer: number;
 }
 export default function Menu({ itemPointer }: PropsType) {
   const {
-    itemGroup,
-    itemGroupIndex,
-    itemName,
-    runCount,
     menuList,
-    setItemGroup,
-    setItemGroupIndex,
-    setItemName,
-    setLoading,
-    setRunCount,
+
     setTargetStudent,
     setMenuList,
     resetMenuList,
@@ -44,37 +43,7 @@ export default function Menu({ itemPointer }: PropsType) {
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const studentList = useUserStore((state) => state.studentList);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
-  const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
-  // const tableHeader = [
-  //   {
-  //     key: "itemName",
-  //     label: "ITEM",
-  //   },
-  //   {
-  //     key: "records",
-  //     label: "LOAD",
-  //   },
-  //   {
-  //     key: "remove",
-  //     label: "REMOVE",
-  //   },
-  // ];
-  // const rows = [
-  //   {
-  //     key: "1",
-  //     itemName: "Tony Reichert",
-  //     loading: 20,
-  //     records: [20, 20, 20],
-  //     runCount: 3,
-  //   },
-  //   {
-  //     key: "2",
-  //     itemName: "Zoey Lang",
-  //     loading: 20,
-  //     records: [20, 20, 20],
-  //     runCount: 3,
-  //   },
-  // ];
+
   function changeItemRecord(
     objIndex: number,
     itemIndex: number,
@@ -91,63 +60,20 @@ export default function Menu({ itemPointer }: PropsType) {
   }
 
   useEffect(() => {
-    // getCurrentUserInfo();
     getStudentList();
-    console.log("menuList:", menuList);
   }, []);
 
   return (
     <div className="w-full">
-      <select
-        value={itemGroup}
-        onChange={(e) => {
-          setItemGroup(e.target.value);
-          setItemGroupIndex(groupList.indexOf(e.target.value));
-          setItemName("default");
-        }}
-      >
-        <option value={"default"} disabled>
-          Choose a section
-        </option>
-        {group.map((item) => {
-          return (
-            <option key={item.sectionName} value={item.sectionName}>
-              {item.sectionName}
-            </option>
-          );
-        })}
-      </select>
-      <select value={itemName} onChange={(e) => setItemName(e.target.value)}>
-        <option value={"default"} disabled>
-          Choose an option
-        </option>
-        {group[itemGroupIndex].sectionItems.map((item, index) => {
-          return (
-            <option key={index} value={item}>
-              {item}
-            </option>
-          );
-        })}
-      </select>
-
-      <input
-        type="number"
-        placeholder="輸入重量 (kg)"
-        onChange={(e) => setLoading(Number(e.target.value))}
+      <SelectMuscle />
+      <SelectWorkOutItem />
+      <InputLoadingNumber
+        id={"loading"}
+        type={"number"}
+        label={"target-load"}
       />
-      <select
-        value={runCount}
-        onChange={(e) => setRunCount(Number(e.target.value))}
-      >
-        <option value={"default"} disabled>
-          設定組數
-        </option>
-        <option value={1}>1</option>
-        <option value={2}>2</option>
-        <option value={3}>3</option>
-        <option value={4}>4</option>
-        <option value={5}>5</option>
-      </select>
+
+      <SelectNumber max={Number(5)} />
       <button
         type="button"
         style={{ backgroundColor: "black", color: "white" }}
@@ -228,7 +154,10 @@ export default function Menu({ itemPointer }: PropsType) {
           <select
             value={targetStudent}
             id="targetStudent"
-            onChange={(e) => setTargetStudent(e.target.value)}
+            onChange={(e) => {
+              console.log(e.target.value);
+              setTargetStudent(e.target.value);
+            }}
           >
             <option value={"default"} disabled>
               Choose a student
@@ -246,6 +175,7 @@ export default function Menu({ itemPointer }: PropsType) {
               <option>No Student</option>
             )}
           </select>
+          <SelectStudent />
         </>
       ) : null}
       <button
@@ -294,11 +224,11 @@ export default function Menu({ itemPointer }: PropsType) {
                       {item.itemName}
                     </TableCell>
                     <TableCell>
-                      <div className="flex flex-col justify-between sm:flex-row">
+                      <div className="flex flex-col justify-start gap-x-1  md:flex-row">
                         {item.records.map((load, index) => {
                           return (
                             <input
-                              className="w-full text-center"
+                              className=" w-10 border-b-1 text-center"
                               min={0}
                               key={index}
                               type="number"
