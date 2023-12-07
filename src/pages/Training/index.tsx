@@ -77,16 +77,15 @@ export default function Training() {
               <div className="mb- flex items-start justify-between">
                 <div className="flex flex-col gap-0">
                   <h1 className="text-xl font-semibold text-foreground/90">
-                    {menuList[itemPointer]?.itemName}
+                    {menuList[itemPointer]?.itemName
+                      ? menuList[itemPointer]?.itemName
+                      : `🏋️今天健菜單了嗎`}
                   </h1>
                   <p className="text-small font-semibold text-foreground/80 text-gray-400">
                     {menuList[itemPointer + 1]?.itemName
                       ? menuList[itemPointer + 1]?.itemName
-                      : `🎉即將結束🎉`}
+                      : menuList.length > 0 && `🎉即將結束🎉`}
                   </p>
-                  {/* <h1 className="mt-2 text-large font-medium">
-                    Frontend Radio
-                  </h1> */}
                 </div>
                 <div className="mx-2 flex items-center justify-center">
                   <img
