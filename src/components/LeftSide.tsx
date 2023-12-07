@@ -31,7 +31,7 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
   ];
   return (
     <aside
-      className={`myBlack absolute left-0 top-[44px] ${
+      className={`myBlack absolute left-0 top-[44px] z-50 ${
         isShowsSideBar ? "block" : "hidden"
       }  h-[calc(100vh-44px)] w-[200px] flex-col justify-center gap-4  sm:block`}
     >

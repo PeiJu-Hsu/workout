@@ -22,7 +22,7 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
             svg: " max-w-full min-w-16 w-20 h-full  drop-shadow-md sm:w-28  md:w-36 ",
             indicator: "stroke-white",
             track: "stroke-gray-200/20 dark:stroke-gray-500",
-            value: "text-xl font-semibold text-white sm:text-3xl",
+            value: "text-base font-semibold text-white sm:text-3xl",
             label: "text-white/90 text-small",
           }}
           value={progressValue}
@@ -31,34 +31,6 @@ export default function ProgressCard({ itemPointer, runCount }: PropsType) {
           label={itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
         />
       </CardBody>
-      {/* <CardFooter className="flex flex-col items-center justify-between gap-1 pt-0">
-        {menuList[itemPointer]?.itemName ? (
-          <Chip
-            classNames={{
-              base: "border-1 border-white/30",
-              content: "text-white/90 text-small font-semibold",
-            }}
-            variant="bordered"
-          >
-            {menuList[itemPointer]?.itemName}
-          </Chip>
-        ) : null}
-        <Chip >
-          {itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
-        </Chip>
-
-        {menuList[itemPointer + 1]?.itemName ? (
-          <Chip
-            classNames={{
-              base: "border-1 border-white/30",
-              content: "text-white/90 text-small font-semibold",
-            }}
-            variant="bordered"
-          >
-            {menuList[itemPointer + 1]?.itemName}
-          </Chip>
-        ) : null}
-      </CardFooter> */}
     </Card>
   );
 }

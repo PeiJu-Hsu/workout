@@ -1,12 +1,23 @@
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import { useEffect } from "react";
+import {
+  Accordion,
+  AccordionItem,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import TrashCan from "../../icons/trash.png";
 import { MenuStore } from "../../stores/MenuStore";
 import { useUserStore } from "../../stores/UserStore";
-
+import { group, groupList } from "../../utils/TrainingItems";
 interface PropsType {
   itemPointer: number;
 }
-
 export default function Menu({ itemPointer }: PropsType) {
   const {
     itemGroup,
@@ -29,50 +40,41 @@ export default function Menu({ itemPointer }: PropsType) {
     deleteReceivedMenu,
   } = MenuStore();
   const getStudentList = useUserStore((state) => state.getStudentList);
-  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const currentUserName = useUserStore((state) => state.currentUserName);
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const studentList = useUserStore((state) => state.studentList);
   const waitingMenus = useUserStore((state) => state.waitingMenus);
-
-  const group1 = {
-    sectionName: "胸",
-    sectionItems: ["卧推", "上斜推舉", "下斜推舉", "飛鳥", "夾胸"],
-  };
-  const group2 = {
-    sectionName: "背",
-    sectionItems: ["引體向上", "划船", "高位下拉", "低位下拉", "硬舉"],
-  };
-  const group3 = {
-    sectionName: "腿",
-    sectionItems: ["深蹲", "硬舉", "蹲舉", "腿推", "腿彎舉"],
-  };
-  const group4 = {
-    sectionName: "腹",
-    sectionItems: ["仰臥起坐", "平板撐體", "腹肌下拉", "腹肌上拉", "腹肌側拉"],
-  };
-  const group5 = {
-    sectionName: "肩",
-    sectionItems: ["肩推", "側平舉", "前平舉", "後平舉", "上拉"],
-  };
-  const group6 = {
-    sectionName: "手臂",
-    sectionItems: [
-      "二頭彎舉",
-      "三頭伸展",
-      "二頭下拉",
-      "三頭下拉",
-      "二頭上拉",
-      "三頭上拉",
-    ],
-  };
-
-  const group = [group1, group2, group3, group4, group5, group6];
-  const groupList = group.map((item) => item.sectionName);
-  // const createNewArray: CreateNewArray = (length, content) => {
-  //   const filledArray = new Array(length).fill(content);
-  //   return filledArray;
-  // };
+  const [selectedKeys, setSelectedKeys] = useState(new Set(["1"]));
+  // const tableHeader = [
+  //   {
+  //     key: "itemName",
+  //     label: "ITEM",
+  //   },
+  //   {
+  //     key: "records",
+  //     label: "LOAD",
+  //   },
+  //   {
+  //     key: "remove",
+  //     label: "REMOVE",
+  //   },
+  // ];
+  // const rows = [
+  //   {
+  //     key: "1",
+  //     itemName: "Tony Reichert",
+  //     loading: 20,
+  //     records: [20, 20, 20],
+  //     runCount: 3,
+  //   },
+  //   {
+  //     key: "2",
+  //     itemName: "Zoey Lang",
+  //     loading: 20,
+  //     records: [20, 20, 20],
+  //     runCount: 3,
+  //   },
+  // ];
   function changeItemRecord(
     objIndex: number,
     itemIndex: number,
@@ -89,12 +91,13 @@ export default function Menu({ itemPointer }: PropsType) {
   }
 
   useEffect(() => {
-    getCurrentUserInfo();
+    // getCurrentUserInfo();
     getStudentList();
     console.log("menuList:", menuList);
   }, []);
+
   return (
-    <div>
+    <div className="w-full">
       <select
         value={itemGroup}
         onChange={(e) => {
@@ -145,12 +148,6 @@ export default function Menu({ itemPointer }: PropsType) {
         <option value={4}>4</option>
         <option value={5}>5</option>
       </select>
-
-      {/* <h1>設定項目</h1>
-      <h4>選擇肌群 {itemGroup === "default" ? "請選擇肌群" : itemGroup}</h4>
-      <h4>項目名稱 {itemName === "default" ? "請選擇動作" : itemName}</h4>
-      <h4>目標重量 {loading === "default" ? "請選擇重量" : loading}</h4>
-      <h4>預計組數 {runCount === "default" ? "請選擇組數" : runCount}</h4> */}
       <button
         type="button"
         style={{ backgroundColor: "black", color: "white" }}
@@ -251,56 +248,6 @@ export default function Menu({ itemPointer }: PropsType) {
           </select>
         </>
       ) : null}
-
-      {menuList.map((item, index) => {
-        const objIndex = index;
-        // const inputNumber = <input type="number" />
-        // const filledArray = new Array({item.runCount}).fill(inputNumber)
-        // console.log(filledArray)
-        return (
-          <div key={index}>
-            <input
-              type="checkbox"
-              checked={itemPointer > index}
-              onChange={() => {}}
-            />
-            {item.itemName}
-            {/* {createNewArray(item.runCount, `${(<input type="number" />)}`)} */}
-            {item.records.map((load, index) => {
-              return (
-                <input
-                  key={index}
-                  type="number"
-                  defaultValue={load}
-                  onChange={(e) => {
-                    const target = e.target as HTMLInputElement;
-                    const value = target.value;
-                    changeItemRecord(objIndex, index, value);
-                  }}
-                />
-              );
-            })}
-            <button
-              style={{ backgroundColor: "black", color: "white" }}
-              type="button"
-              id={index.toString()}
-              onClick={(e) => {
-                const target = e.target as HTMLButtonElement;
-                const indexRemove = target.id;
-                console.log("Button clicked with index:", index);
-                // resetMenuList(menuList.splice(Number(index), 1));
-                const newMenuList = menuList.filter(
-                  (_, index) => index !== Number(indexRemove),
-                );
-                console.log("menuList:", newMenuList);
-                resetMenuList(newMenuList);
-              }}
-            >
-              刪除
-            </button>
-          </div>
-        );
-      })}
       <button
         type="button"
         style={{ backgroundColor: "black", color: "white", margin: "5px" }}
@@ -308,6 +255,90 @@ export default function Menu({ itemPointer }: PropsType) {
       >
         Clear
       </button>
+      {
+        <Table
+          classNames={{
+            wrapper: ["h-full p-2"],
+            th: [" text-center"],
+            tr: [" text-center"],
+          }}
+          color="default"
+          // selectionMode="multiple"
+          // selectedKeys={selectedKeys}
+          // onSelectionChange={setSelectedKeys}
+          aria-label="Example static collection table"
+        >
+          <TableHeader>
+            <TableColumn>
+              <Checkbox defaultSelected color="default"></Checkbox>
+            </TableColumn>
+            <TableColumn>ITEM</TableColumn>
+            <TableColumn>LOAD</TableColumn>
+            <TableColumn>REMOVE</TableColumn>
+          </TableHeader>
+          {menuList.length === 0 ? (
+            <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
+          ) : (
+            <TableBody>
+              {menuList.map((item, index) => {
+                const objIndex = index;
+                return (
+                  <TableRow key={index.toString()} className="">
+                    <TableCell>
+                      <Checkbox
+                        isSelected={itemPointer > index}
+                        color="default"
+                      ></Checkbox>
+                    </TableCell>
+                    <TableCell className=" min-w-[90px]">
+                      {item.itemName}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col justify-between sm:flex-row">
+                        {item.records.map((load, index) => {
+                          return (
+                            <input
+                              className="w-full text-center"
+                              min={0}
+                              key={index}
+                              type="number"
+                              defaultValue={load}
+                              onChange={(e) => {
+                                const target = e.target as HTMLInputElement;
+                                const value = target.value;
+                                changeItemRecord(objIndex, index, value);
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="m-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 hover:bg-yellow-400">
+                        <img
+                          className=" h-2/3 w-2/3"
+                          src={TrashCan}
+                          onClick={(e) => {
+                            const target = e.target as HTMLButtonElement;
+                            const indexRemove = target.id;
+                            const newMenuList = menuList.filter(
+                              (_, index) => index !== Number(indexRemove),
+                            );
+                            resetMenuList(newMenuList);
+                          }}
+                        />
+                      </div>
+
+                      {/* </button> */}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          )}
+        </Table>
+      }
+
       {/* <input id="setMenuPublic" type="checkbox" onChange={setMenuPublic} />
       <label htmlFor="setMenuPublic">{menuPublic ? "公開" : "不公開"}</label> */}
       <button
@@ -315,7 +346,7 @@ export default function Menu({ itemPointer }: PropsType) {
         style={{ backgroundColor: "black", color: "white" }}
         onClick={() => {
           if (itemPointer < menuList.length) {
-            alert("請完成目前項目");
+            toast.error("請先完成目前項目");
             return;
           }
           addMenuRecord();

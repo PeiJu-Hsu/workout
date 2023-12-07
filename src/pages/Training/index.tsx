@@ -65,7 +65,7 @@ export default function Training() {
     <>
       <Card
         isBlurred
-        className=" m-auto max-w-xl border-none bg-background/60 dark:bg-default-100/50"
+        className=" m-auto max-w-xl border-none bg-background/60"
         shadow="sm"
       >
         <CardBody>
@@ -138,29 +138,3 @@ export default function Training() {
     </>
   );
 }
-// {menuList[itemPointer]?.itemName ? (
-//   <Chip
-//     classNames={{
-//       base: "border-1 border-white/30",
-//       content: "text-white/90 text-small font-semibold",
-//     }}
-//     variant="bordered"
-//   >
-//     {menuList[itemPointer]?.itemName}
-//   </Chip>
-// ) : null}
-// <Chip >
-//   {itemTargetCount ? `${runCount}/${itemTargetCount}` : "0/0"}
-// </Chip>
-
-// {menuList[itemPointer + 1]?.itemName ? (
-//   <Chip
-//     classNames={{
-//       base: "border-1 border-white/30",
-//       content: "text-white/90 text-small font-semibold",
-//     }}
-//     variant="bordered"
-//   >
-//     {menuList[itemPointer + 1]?.itemName}
-//   </Chip>
-// ) : null}
