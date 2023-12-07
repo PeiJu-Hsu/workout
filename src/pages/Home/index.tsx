@@ -6,11 +6,13 @@ export default function Home() {
   const currentUserRole = useUserStore((state) => state.currentUserRole);
   const calenderURL = useUserStore((state) => state.calenderURL);
   const reserveURL = useUserStore((state) => state.reserveURL);
+  const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
   const sendInvitationAtHome = useUserStore(
     (state) => state.sendInvitationAtHome,
   );
 
   useEffect(() => {
+    getCurrentUserInfo();
     sendInvitationAtHome();
   }, []);
 

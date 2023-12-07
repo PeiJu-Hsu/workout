@@ -124,6 +124,7 @@ export default function NavBar() {
                   onClick={async () => {
                     await signOut(auth);
                     logOut();
+                    window.location.reload();
                   }}
                 >
                   <div className="myDropdownIcon">
