@@ -79,12 +79,12 @@ export default function Training() {
                   <h1 className="text-xl font-semibold text-foreground/90">
                     {menuList[itemPointer]?.itemName
                       ? menuList[itemPointer]?.itemName
-                      : `🏋️今天健菜單了嗎`}
+                      : menuList.length === 0 && `🏋️該健新菜單了`}
                   </h1>
                   <p className="text-small font-semibold text-foreground/80 text-gray-400">
                     {menuList[itemPointer + 1]?.itemName
                       ? menuList[itemPointer + 1]?.itemName
-                      : menuList.length > 0 && `🎉即將結束🎉`}
+                      : menuList.length > 0 && `🎉這是最後一項🎉`}
                   </p>
                 </div>
                 <div className="mx-2 flex items-center justify-center">
