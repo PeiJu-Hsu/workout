@@ -34,7 +34,15 @@ export default function LogIn() {
           </p>
 
           <div className="mt-4">
-            <InputText id={"signUpEmail"} type={"email"} label={"Email"} />
+            <InputText
+              className={{
+                input: " text-white",
+                label: "text-white",
+              }}
+              id={"signUpEmail"}
+              type={"email"}
+              label={"Email"}
+            />
           </div>
           <div className="mt-4 flex flex-col justify-between">
             <InputPassword id={"signUpPassword"} />

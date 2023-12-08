@@ -1,17 +1,6 @@
 import { Avatar, Select, SelectItem } from "@nextui-org/react";
 import { useUserStore } from "../../stores/UserStore";
 
-// type User = {
-//   id: number;
-//   name: string;
-//   role: string;
-//   team: string;
-//   status: string;
-//   age: string;
-//   avatar: string;
-//   email: string;
-// };
-
 export default function SelectCoach() {
   const coachList = useUserStore((state) => state.coachList);
   const setSignUpCoach = useUserStore((state) => state.setSignUpCoach);

@@ -4,6 +4,7 @@ import Start from "../../icons/start.png";
 import Stop from "../../icons/stop.png";
 import { MenuStore } from "../../stores/MenuStore";
 import Menu from "./Menu";
+import MenuSetup from "./MenuSetup";
 import ProgressCard from "./ProgressCard";
 
 export default function Training() {
@@ -63,6 +64,7 @@ export default function Training() {
 
   return (
     <>
+      <MenuSetup />
       <Card
         isBlurred
         className=" m-auto max-w-xl border-none bg-background/60"

@@ -29,6 +29,7 @@ interface MenuStore {
   targetStudent: string;
   menuList: MenuList[] | [];
   menuPublic: boolean;
+  menuMessage: string;
   setItemGroup: (value: string) => void;
   setItemGroupIndex: (value: number) => void;
   setItemName: (value: string) => void;
@@ -47,7 +48,7 @@ interface MenuStore {
   setMenuPublic: () => void;
   addMenuRecord: () => Promise<void>;
   clearMenuList: () => void;
-  sentToStudent: (currentUserName: string) => Promise<void>;
+  sentToStudent: (currentUserName: string, target: string) => Promise<void>;
   deleteReceivedMenu: (id: string) => Promise<void>;
 }
 
@@ -63,6 +64,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
   targetStudent: "default",
   menuList: menuListString,
   menuPublic: true,
+  menuMessage: "",
   setItemGroup: (value) => {
     set({ itemGroup: value });
   },
@@ -97,7 +99,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       ],
     }));
     localStorage.setItem("menuList", JSON.stringify(get().menuList));
-    console.log("2nd", get().menuList);
+    toast.success("新增訓練項目成功");
   },
   resetMenuList: (value) => {
     set({ menuList: value });
@@ -139,26 +141,25 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       );
       localStorage.removeItem("menuList");
       get().resetMenuList([]);
+      toast.success("上傳記錄完成");
     }
   },
   clearMenuList: () => {
     localStorage.removeItem("menuList");
     get().resetMenuList([]);
   },
-  sentToStudent: async (currentUserName) => {
+
+  sentToStudent: async (currentUserName, target) => {
     if (get().menuList.length === 0) {
       toast.error(`請建立訓練項目`);
       return;
     }
-    if (get().targetStudent === "default") {
+    if (target === "default") {
       toast.error("請選擇學員");
       return;
     }
     const userCol = collection(db, "users");
-    const targetStudentDocRef = query(
-      userCol,
-      where("name", "==", get().targetStudent),
-    );
+    const targetStudentDocRef = query(userCol, where("name", "==", target));
     const docStudentSnap = await getDocs(targetStudentDocRef);
     if (!docStudentSnap) {
       toast.error("查無此學員");
@@ -177,6 +178,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
       content: get().menuList,
       isPublic: get().menuPublic,
       senderName: currentUserName,
+      message: get().menuMessage,
     };
     await setDoc(
       newDocRef,

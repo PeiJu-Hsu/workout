@@ -45,13 +45,29 @@ export default function LogIn() {
             Get started with your free account
           </p>
           <div className="mt-2">
-            <InputText id={"signUpEmail"} type={"email"} label={"Email"} />
+            <InputText
+              className={{
+                input: " text-white",
+                label: "text-white",
+              }}
+              id={"signUpEmail"}
+              type={"email"}
+              label={"Email"}
+            />
           </div>
           <div className="mt-2 flex flex-col justify-between">
             <InputPassword id={"signUpPassword"} />
           </div>
           <div className="mt-2">
-            <InputText id={"signUpName"} type={"text"} label={"Name"} />
+            <InputText
+              className={{
+                input: " text-white",
+                label: "text-white",
+              }}
+              id={"signUpName"}
+              type={"text"}
+              label={"Name"}
+            />
           </div>
           {/* <div className="mt-2">
             <InputFile id={"signUpImage"} />
@@ -93,12 +109,20 @@ export default function LogIn() {
           {signUpRole === 1 ? (
             <>
               <InputText
+                className={{
+                  input: " text-white",
+                  label: "text-white",
+                }}
                 id={"coachCalender"}
                 type={"url"}
                 label={"CalenderURL"}
               />
 
               <InputText
+                className={{
+                  input: " text-white",
+                  label: "text-white",
+                }}
                 id={"coachReserve"}
                 type={"url"}
                 label={"ReserveURL"}

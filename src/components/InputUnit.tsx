@@ -11,6 +11,7 @@ interface PropsInputType {
   id: string;
   type: string;
   label: string;
+  className?: { input: string; label: string };
 }
 // export default function InputUnit(type: string, labelText: string) {
 //   return (
@@ -24,16 +25,13 @@ interface PropsInputType {
 //     </div>
 //   );
 // }
-export function InputText({ id, type, label }: PropsInputType) {
+export function InputText({ id, type, label, className }: PropsInputType) {
   const setInputTextToState = useUserStore(
     (state) => state.setInputTextToState,
   );
   return (
     <Input
-      classNames={{
-        input: " text-white",
-        label: "text-white",
-      }}
+      classNames={className}
       type={type}
       variant="underlined"
       label={label}
