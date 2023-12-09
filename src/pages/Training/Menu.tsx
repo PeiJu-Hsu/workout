@@ -1,6 +1,4 @@
 import {
-    Accordion,
-    AccordionItem,
     Button,
     Chip,
     Modal,
@@ -17,7 +15,6 @@ import {
 } from '@nextui-org/react';
 import { useEffect, useMemo } from 'react';
 import toast from 'react-hot-toast';
-import { InputText } from '../../components/InputUnit';
 import { SelectStudentReceiver } from '../../components/SelectionUnits';
 import SendIcon from '../../icons/send.png';
 import TrashCan from '../../icons/trash.png';
@@ -29,13 +26,14 @@ interface PropsType {
     itemPointer: number;
 }
 export default function Menu({ itemPointer }: PropsType) {
-    const { menuList, resetMenuList, addMenuRecord, deleteReceivedMenu } = MenuStore();
+    const { menuList, resetMenuList, addMenuRecord, deleteReceivedMenu, menuMessage } = MenuStore();
     const getStudentList = useUserStore((state) => state.getStudentList);
     const currentUserRole = useUserStore((state) => state.currentUserRole);
     const waitingMenus = useUserStore((state) => state.waitingMenus);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const topContent = useMemo(() => {
+        if (currentUserRole !== 1) return null;
         return (
             <div className="mx-4 my-2 flex h-7 w-7 items-center justify-center rounded-full">
                 <Button
@@ -51,15 +49,6 @@ export default function Menu({ itemPointer }: PropsType) {
                                 Write Message & Send to Student
                             </ModalHeader>
                             <ModalBody>
-                                <InputText
-                                    className={{
-                                        input: ' text-black',
-                                        label: 'text-black',
-                                    }}
-                                    id={'menuMessage'}
-                                    type={'text'}
-                                    label={'Message'}
-                                />
                                 <SelectStudentReceiver />
                             </ModalBody>
                         </>
@@ -103,63 +92,6 @@ export default function Menu({ itemPointer }: PropsType) {
 
     return (
         <div className="w-full">
-            {/* <MenuSetup /> */}
-            <Accordion variant="splitted">
-                {waitingMenus.map((item, index) => {
-                    return (
-                        <AccordionItem
-                            key={index}
-                            style={{ backgroundColor: 'gray', color: 'Black' }}
-                            aria-label="Accordion 1"
-                            title={item.senderName}
-                        >
-                            {item.content.map((item: any, index: number) => {
-                                const objIndex = index;
-                                return (
-                                    <div key={index}>
-                                        {item.itemName}
-                                        {item.records.map((load: number, index: number) => {
-                                            return (
-                                                <input
-                                                    key={index}
-                                                    type="number"
-                                                    defaultValue={load}
-                                                    onChange={(e) => {
-                                                        const target = e.target as HTMLInputElement;
-                                                        const value = target.value;
-                                                        changeItemRecord(objIndex, index, value);
-                                                    }}
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                                );
-                            })}
-                            <button
-                                id={index.toString()}
-                                type="button"
-                                style={{ backgroundColor: 'gray', color: 'Black' }}
-                                onClick={() => {
-                                    resetMenuList(waitingMenus[index].content);
-                                    deleteReceivedMenu(waitingMenus[index].id);
-                                }}
-                            >
-                                Yes
-                            </button>
-                            <button
-                                id={index.toString()}
-                                type="button"
-                                style={{ backgroundColor: 'gray', color: 'Black' }}
-                                onClick={() => {
-                                    deleteReceivedMenu(waitingMenus[index].id);
-                                }}
-                            >
-                                No
-                            </button>
-                        </AccordionItem>
-                    );
-                })}
-            </Accordion>
             <Table
                 classNames={{
                     wrapper: ['h-full p-2 gap-2'],
@@ -171,16 +103,13 @@ export default function Menu({ itemPointer }: PropsType) {
                 topContentPlacement="inside"
                 bottomContent={bottomContent}
                 bottomContentPlacement="inside"
-                // selectionMode="multiple"
-                // selectedKeys={selectedKeys}
-                // onSelectionChange={setSelectedKeys}
                 aria-label="Example static collection table"
             >
                 <TableHeader>
-                    <TableColumn>STATUS</TableColumn>
-                    <TableColumn>ITEM</TableColumn>
-                    <TableColumn>LOAD</TableColumn>
-                    <TableColumn>REMOVE</TableColumn>
+                    <TableColumn>執行狀態</TableColumn>
+                    <TableColumn>項目名稱</TableColumn>
+                    <TableColumn>訓練重量</TableColumn>
+                    <TableColumn>刪除</TableColumn>
                 </TableHeader>
                 {menuList.length === 0 ? (
                     <TableBody emptyContent={'No rows to display.'}>{[]}</TableBody>
@@ -204,12 +133,6 @@ export default function Menu({ itemPointer }: PropsType) {
                                                 未開始
                                             </Chip>
                                         )}
-
-                                        {/* {() => {
-                                                if (itemPointer === index) return 
-                                                else if (itemPointer > index) return 'Done';
-                                                else return 'Waiting';
-                                            }} */}
                                     </TableCell>
                                     <TableCell className=" min-w-[90px]">{item.itemName}</TableCell>
                                     <TableCell>
