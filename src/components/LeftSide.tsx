@@ -9,16 +9,19 @@ import {
     ModalHeader,
     useDisclosure,
 } from '@nextui-org/react';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { InputText } from '../components/InputUnit';
 import HomeIcon from '../icons/home.png';
 import RecordIcon from '../icons/records.png';
 import Task from '../icons/task.png';
+import SelectCoach from '../pages/SignUp/SelectCoach';
 import { useUserStore } from '../stores/UserStore';
 interface leftSideProps {
     isShowsSideBar: boolean;
 }
+
 export default function LeftSide({ isShowsSideBar }: leftSideProps) {
     const navigate = useNavigate();
     const signUpName = useUserStore((state) => state.signUpName);
@@ -26,6 +29,10 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
     const currentUserName = useUserStore((state) => state.currentUserName);
     const currentUserRole = useUserStore((state) => state.currentUserRole);
     const updateUserName = useUserStore((state) => state.updateUserName);
+    const updateCoach = useUserStore((state) => state.updateCoach);
+    const getCoachList = useUserStore((state) => state.getCoachList);
+    const deleteInvitation = useUserStore((state) => state.deleteInvitation);
+    const sendInvitationAtHome = useUserStore((state) => state.sendInvitationAtHome);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const pages = [
         {
@@ -44,6 +51,10 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
             icon: RecordIcon,
         },
     ];
+    useEffect(() => {
+        console.log('LeftSide');
+        getCoachList();
+    }, []);
     return (
         <aside
             className={`myBlack absolute left-0 top-[44px] z-50 ${
@@ -88,8 +99,6 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                                         }}
                                     />
                                     {signUpName}
-                                </ModalBody>
-                                <ModalFooter>
                                     <Button
                                         size="sm"
                                         onClick={async () => {
@@ -98,13 +107,30 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                                                 return;
                                             }
                                             await updateUserName();
+
                                             onClose();
                                         }}
                                     >
-                                        Button
+                                        確認修改
                                     </Button>
-                                </ModalFooter>
+                                </ModalBody>
                                 <ModalHeader className=" flex flex-col gap-1 pb-1">更換教練</ModalHeader>
+                                <ModalBody>
+                                    <SelectCoach />
+
+                                    <Button
+                                        size="sm"
+                                        onClick={async () => {
+                                            await deleteInvitation();
+                                            await updateCoach();
+                                            sendInvitationAtHome();
+                                            onClose();
+                                        }}
+                                    >
+                                        申請更換
+                                    </Button>
+                                </ModalBody>
+                                <ModalFooter></ModalFooter>
                             </>
                         )}
                     </ModalContent>

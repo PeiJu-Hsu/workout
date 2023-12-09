@@ -11,6 +11,7 @@ import {
     DocumentData,
     Firestore,
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -66,6 +67,7 @@ interface userState {
     sendInvitation: (coachId: string | null, currentUserId: string) => Promise<void>;
     sendInvitationAtHome: () => Promise<void>;
     replyInvitation: (e: any, state: string) => Promise<void>;
+    deleteInvitation: () => Promise<void>;
     getCurrentUserInfo: () => Promise<void>;
     getCoachList: () => Promise<DocumentData[] | null>;
     getStudentList: () => Promise<DocumentData[] | null>;
@@ -74,6 +76,7 @@ interface userState {
     unsubscribeInvitations: () => void;
     updateProfile: () => Promise<void>;
     updateUserName: () => Promise<void>;
+    updateCoach: () => Promise<void>;
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
@@ -244,7 +247,6 @@ export const useUserStore = create<userState>()((set, get) => ({
             state: 'waiting',
         };
         await setDoc(newInvitationRef, { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
-        console.log('EndSendCoachId', coachId);
     },
     replyInvitation: async (e: any, state) => {
         const invitationId = e.target.dataset.id;
@@ -261,7 +263,13 @@ export const useUserStore = create<userState>()((set, get) => ({
             myCoach: { coachId: UID, state: state },
         });
     },
-
+    deleteInvitation: async () => {
+        console.log('myCoach', get().myCoach);
+        const UID = localStorage.getItem('UID');
+        const docMenuRecordsCol = collection(db, 'users', get().myCoach, 'invitation');
+        const docRef = doc(docMenuRecordsCol, UID!);
+        await deleteDoc(docRef);
+    },
     getCurrentUserInfo: async () => {
         const UID = localStorage.getItem('UID');
         if (UID) {
@@ -364,6 +372,14 @@ export const useUserStore = create<userState>()((set, get) => ({
             name: get().signUpName,
         });
         toast.success('修改完成', { duration: 3000 });
+    },
+    updateCoach: async () => {
+        const UID = localStorage.getItem('UID');
+        const userRef = doc(db, 'users', UID!);
+        await updateDoc(userRef, {
+            myCoach: get().signUpWithCoach,
+        });
+        toast.success('申請修改完成', { duration: 3000 });
     },
     unsubscribeInvitations: () => {
         const UID = localStorage.getItem('UID');
