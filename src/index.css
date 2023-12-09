@@ -3,62 +3,62 @@
 @tailwind utilities;
 
 .myGray {
-  background-color: #d4d4d4;
-  color: black;
+    background-color: #d4d4d4;
+    color: black;
 }
 .myBlack {
-  background-color: #262626;
-  color: #8a8a8a;
+    background-color: #262626;
+    color: #8a8a8a;
 }
 .myDropdownItem {
-  height: 28px;
-  display: flex;
-  align-items: center;
-  column-gap: 8px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
 }
 .myDropdownIcon {
-  height: 20px;
-  width: 20px;
-  object-fit: contain;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    height: 20px;
+    width: 20px;
+    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .myPageContainer {
-  overflow: hidden;
-  height: calc(100vh - 44px);
-  padding: 10px 0px 0px 10px;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  /* box-sizing: border-box; */
-  border-radius: 1rem;
-  border: 0.3125rem solid #f9c809;
-  overflow-x: hidden;
-  /* bg-gray-100 */
-  background-color: #f3f4f6;
-  @media (min-width: 640px) {
-    margin-left: 12.8125rem;
-  }
+    overflow: hidden;
+    height: calc(100vh - 44px);
+    padding: 10px 0px 0px 10px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    /* box-sizing: border-box; */
+    border-radius: 1rem;
+    border: 0.3125rem solid #f9c809;
+    overflow-x: hidden;
+    /* bg-gray-100 */
+    background-color: #f3f4f6;
+    @media (min-width: 640px) {
+        margin-left: 12.8125rem;
+    }
 }
 .myPageInnerPadding {
-  overflow-x: auto;
-  height: calc(100vh - 74px);
-  margin-bottom: 20px;
-  padding-right: 10px;
+    overflow-x: auto;
+    height: calc(100vh - 74px);
+    margin-bottom: 20px;
+    padding-right: 10px;
 }
 .myChartBoard {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  column-gap: 8px;
-  row-gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+    row-gap: 8px;
 }
 .myChartContainer {
-  width: 100%;
-  background-color: white;
-  border-radius: 10px;
-  @media (min-width: 780px) {
-    width: 49%;
-  }
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    @media (min-width: 780px) {
+        width: 49%;
+    }
 }

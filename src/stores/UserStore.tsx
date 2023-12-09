@@ -73,6 +73,7 @@ interface userState {
     getUploadImage: (image: File | null, path: string) => Promise<void>;
     unsubscribeInvitations: () => void;
     updateProfile: () => Promise<void>;
+    updateUserName: () => Promise<void>;
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
@@ -356,6 +357,14 @@ export const useUserStore = create<userState>()((set, get) => ({
             myCoach: get().signUpWithCoach,
         });
     },
+    updateUserName: async () => {
+        const UID = localStorage.getItem('UID');
+        const userRef = doc(db, 'users', UID!);
+        await updateDoc(userRef, {
+            name: get().signUpName,
+        });
+        toast.success('修改完成', { duration: 3000 });
+    },
     unsubscribeInvitations: () => {
         const UID = localStorage.getItem('UID');
         if (!UID) return;
@@ -365,7 +374,7 @@ export const useUserStore = create<userState>()((set, get) => ({
             orderBy('sendTime', 'desc')
         );
         const receivedMenu = query(collection(db, 'users', UID, 'receivedMenu'), orderBy('sendTime', 'desc'));
-        // const user = query(collection(db, "users"), where("id", "==", UID));
+        const user = query(collection(db, 'users'), where('id', '==', UID));
         onSnapshot(receivedMenu, (querySnapshot) => {
             const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
             if (waitingMenus.length === 0) return;
@@ -379,11 +388,11 @@ export const useUserStore = create<userState>()((set, get) => ({
             const Invitations = querySnapshot.docs.map((doc) => doc.data());
             set({ invitations: Invitations });
         });
-        // onSnapshot(user, () => {
-        //   // const newUserData = querySnapshot.docs.map((doc) => doc.data());
-        //   // set({ calenderURL: Invitations });
-        //   get().getCurrentUserInfo();
-        // });
+        onSnapshot(user, (querySnapshot) => {
+            const newUserData = querySnapshot.docs.map((doc) => doc.data());
+            //   set({ calenderURL: Invitations });
+            get().getCurrentUserInfo();
+        });
     },
 
     // getCoachInfo: async () => {
