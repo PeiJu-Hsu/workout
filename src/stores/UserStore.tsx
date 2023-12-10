@@ -235,17 +235,11 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docSnap = await getDoc(newInvitationRef);
         if (docSnap.exists()) return;
         const { id } = newInvitationRef;
-        // const getName = async (currentUserId: string) => {
-        //   const userRef = doc(db, "users", currentUserId);
-        //   const docUserSnap = await getDoc(userRef);
-        //   const currentUserInfo = docUserSnap.data();
-        //   return currentUserInfo?.name;
-        // };
         const invitationData = {
             senderName: await get().getName(UID!),
             state: 'waiting',
         };
-        await setDoc(doc(invitationCol, UID!), { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
+        await setDoc(newInvitationRef, { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
     },
     replyInvitation: async (e: any, state) => {
         const invitationId = e.target.dataset.id;
