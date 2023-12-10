@@ -119,7 +119,6 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                                         <ModalHeader className=" flex flex-col gap-1 pb-1">更換教練</ModalHeader>
                                         <ModalBody>
                                             <SelectCoach />
-
                                             <Button
                                                 size="sm"
                                                 onClick={async () => {
