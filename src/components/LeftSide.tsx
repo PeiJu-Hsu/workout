@@ -114,22 +114,27 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                                         確認修改
                                     </Button>
                                 </ModalBody>
-                                <ModalHeader className=" flex flex-col gap-1 pb-1">更換教練</ModalHeader>
-                                <ModalBody>
-                                    <SelectCoach />
+                                {currentUserRole === 2 && (
+                                    <>
+                                        <ModalHeader className=" flex flex-col gap-1 pb-1">更換教練</ModalHeader>
+                                        <ModalBody>
+                                            <SelectCoach />
 
-                                    <Button
-                                        size="sm"
-                                        onClick={async () => {
-                                            await deleteInvitation();
-                                            await updateCoach();
-                                            sendInvitationAtHome();
-                                            onClose();
-                                        }}
-                                    >
-                                        申請更換
-                                    </Button>
-                                </ModalBody>
+                                            <Button
+                                                size="sm"
+                                                onClick={async () => {
+                                                    await deleteInvitation();
+                                                    await updateCoach();
+                                                    sendInvitationAtHome();
+                                                    onClose();
+                                                }}
+                                            >
+                                                申請更換
+                                            </Button>
+                                        </ModalBody>
+                                    </>
+                                )}
+
                                 <ModalFooter></ModalFooter>
                             </>
                         )}
