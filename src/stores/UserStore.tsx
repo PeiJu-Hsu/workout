@@ -231,7 +231,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         const userData = await getDoc(userDocRef);
         const coachId = userData.data()?.myCoach.coachId;
         const invitationCol = collection(db, 'users', coachId, 'invitation');
-
         const newInvitationRef = doc(invitationCol, UID!);
         const docSnap = await getDoc(newInvitationRef);
         if (docSnap.exists()) return;
@@ -246,7 +245,7 @@ export const useUserStore = create<userState>()((set, get) => ({
             senderName: await get().getName(UID!),
             state: 'waiting',
         };
-        await setDoc(newInvitationRef, { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
+        await setDoc(doc(invitationCol, UID!), { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
     },
     replyInvitation: async (e: any, state) => {
         const invitationId = e.target.dataset.id;
@@ -282,7 +281,6 @@ export const useUserStore = create<userState>()((set, get) => ({
             set({ currentUserName: currentUserInfo.name });
             set({ currentUserRole: currentUserInfo.role });
             set({ currentUserImg: currentUserInfo.userImage });
-            console.log('currentUserInfo', currentUserInfo.userImage);
             if (currentUserInfo.role === 1) {
                 set({ calenderURL: currentUserInfo.coachCalender });
                 set({ reserveURL: currentUserInfo.coachReserve });
@@ -313,10 +311,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docCoachSnap = await getDocs(queryCoach);
         if (!docCoachSnap) return null;
         const coachListData = docCoachSnap.docs.map((doc) => doc.data());
-        // const coachList = coachListData.map((obj) =>
-        //   obj.name ? obj.name : obj.email
-        // );
-        console.log('coachListData', coachListData);
         set({ coachList: coachListData });
         return coachListData;
     },

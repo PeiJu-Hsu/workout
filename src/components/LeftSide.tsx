@@ -52,7 +52,6 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
         },
     ];
     useEffect(() => {
-        console.log('LeftSide');
         getCoachList();
     }, []);
     return (

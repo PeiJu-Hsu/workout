@@ -68,13 +68,6 @@ export default function NavBar() {
                             </div>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Message Actions" variant="flat">
-                            {/* {currentUserRole === 1 ? (
-                                <Invitation />
-                            ) : currentUserRole === 2 ? (
-                                <MyCoachCard />
-                            ) : (
-                                <p>"WO"</p>
-                            )} */}
                             <DropdownItem key="myCoach" textValue="myCoach">
                                 {currentUserRole === 1 ? (
                                     <Invitation />
