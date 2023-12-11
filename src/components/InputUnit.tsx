@@ -13,6 +13,12 @@ interface PropsInputType {
     label: string;
     className?: { input: string; label: string };
 }
+interface PropsInputInBodyType {
+    id: string;
+    type: string;
+    label: string;
+    onChange: (e: any) => void;
+}
 // export default function InputUnit(type: string, labelText: string) {
 //   return (
 //     <div className="col">
@@ -125,4 +131,7 @@ export function InputLoadingNumber({ id, type, label }: PropsInputType) {
             }}
         />
     );
+}
+export function InputInBodyNumber({ id, type, label, onChange }: PropsInputInBodyType) {
+    return <Input type={type} min={0} className="max-w-xs" label={label} id={id} onChange={onChange} />;
 }

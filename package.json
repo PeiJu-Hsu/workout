@@ -15,6 +15,7 @@
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "firebase": "^10.6.0",
+    "formik": "^2.4.5",
     "framer-motion": "^10.16.5",
     "immer": "^10.0.3",
     "mdb-react-ui-kit": "^7.0.0",
