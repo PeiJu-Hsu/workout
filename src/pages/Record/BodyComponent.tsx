@@ -1,3 +1,4 @@
+import { Chip } from '@nextui-org/react';
 import React, { MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import { RecordStore } from '../../stores/RecordStore';
@@ -6,32 +7,35 @@ import { groupList } from '../../utils/TrainingItems';
 
 const Wrapper = styled.div`
     & {
-        width: 207px;
         position: relative;
-        padding-top: 20px;
         height: 500px;
         display: block;
-        margin: 40px auto;
+        width: 330px;
+
+        @media (min-width: 640px) {
+        }
     }
 
     & svg:hover {
         cursor: pointer;
     }
-    /* & svg.disabled:hover {
-        cursor: not-allowed;
-    } */
-    & svg:hover path {
-        fill: #d68a80;
+    & svg.disabled:hover {
+        cursor: default;
     }
-    & svg.selected path {
-        fill: #d68a80;
-    }
-    & svg.disabled path {
+    & svg.disabled:hover path {
         fill: #a3b2b3;
     }
+
+    & svg:hover path {
+        fill: #f9c809;
+    }
+    & svg.selected path {
+        fill: #f9c809;
+    }
+
     & svg {
         position: absolute;
-        left: 50%;
+        left: 30%;
         fill: #a3b2b3;
     }
 
@@ -45,9 +49,8 @@ const Wrapper = styled.div`
         top: 69px;
     }
     & svg#back {
-        margin-left: 100px;
+        margin-left: 80px;
         top: 69px;
-        z-index: 9999;
     }
     & svg#arm {
         margin-left: -78px;
@@ -85,16 +88,15 @@ const Wrapper = styled.div`
         top: 455px;
     }
     & svg#legBackside {
-        margin-left: 147px;
+        margin-left: 127px;
         top: 210px;
     }
     & svg#footBackSide {
-        margin-left: 152px;
+        margin-left: 132px;
         top: 460px;
     }
     & svg#headBackSide {
-        margin-left: 165px;
-        fill: black;
+        margin-left: 145px;
         top: -6px;
     }
 `;
@@ -313,6 +315,11 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
         setParts(partsChanged);
         if (onChange) onChange(partsChanged);
         if (onClick) onClick(id);
+        console.log('test');
+        event.currentTarget.scroll({
+            top: event.currentTarget.scrollHeight,
+            behavior: 'smooth',
+        });
     };
 
     const svgElements = {
@@ -576,5 +583,25 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
         },
     };
 
-    return <Wrapper className="human-body">{svgElements.render()}</Wrapper>;
+    return (
+        <div>
+            <Wrapper>{svgElements.render()}</Wrapper>
+            <div className="w-full">
+                <Chip
+                    color="warning"
+                    variant="flat"
+                    className=" sticky px-2 left-16 bottom-1"
+                >
+                    正面
+                </Chip>
+                <Chip
+                    color="warning"
+                    variant="flat"
+                    className=" sticky px-2 left-60 bottom-1"
+                >
+                    背面
+                </Chip>
+            </div>
+        </div>
+    );
 };
