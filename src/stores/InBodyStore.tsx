@@ -1,9 +1,10 @@
 import { DocumentData, collection, doc, getDocs, orderBy, query, setDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { auth, db } from '../firebase';
 interface InBodyStore {
-    measureTime: Date;
+    measureTime: Date | null;
     inBodyScore: number;
     height: number;
     weight: number;
@@ -39,7 +40,7 @@ export const getformatTime = (timestamp: TimeStamp) => {
 };
 export const InBodyStore = create<InBodyStore>()(
     immer((set, get) => ({
-        measureTime: new Date(),
+        measureTime: null,
         inBodyScore: 0,
         height: 0,
         weight: 0,
@@ -65,7 +66,7 @@ export const InBodyStore = create<InBodyStore>()(
             return fatRatio;
         },
         setInBodyStatus: (inBodyData) => {
-            set({ measureTime: inBodyData[0].measureTime });
+            // set({ measureTime: inBodyData[0].measureTime });
             set({ inBodyScore: inBodyData[0].inBodyScore });
             set({ height: inBodyData[0].height });
             set({ weight: inBodyData[0].weight });
@@ -93,11 +94,16 @@ export const InBodyStore = create<InBodyStore>()(
                     obj.formatTime = getformatTime(obj.measureTime);
                 });
                 get().setInBodyStatus(inBodyData);
+
                 return inBodyData;
             }
         },
 
         addInBodyData: async () => {
+            if (!get().measureTime) {
+                toast.error('請輸入InBody數據');
+                return;
+            }
             if (auth.currentUser) {
                 get().calculateBMI();
                 get().calculateFatRatio();
@@ -122,6 +128,7 @@ export const InBodyStore = create<InBodyStore>()(
                     bmi: get().fatRatio,
                 };
                 await setDoc(newDocRef, { ...inBodyData, id }, { merge: true });
+                toast.success('InBody數據上傳成功');
             }
         },
         setInputNumberToState: (targetState, value) => {

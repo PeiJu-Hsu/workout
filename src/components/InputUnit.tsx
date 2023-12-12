@@ -13,6 +13,13 @@ interface PropsInputType {
     label: string;
     className?: { input: string; label: string };
 }
+interface PropsInputInBodyType {
+    id: string;
+    type: string;
+    label: string;
+    // defaultValues: number | Date;
+    onChange: (e: any) => void;
+}
 // export default function InputUnit(type: string, labelText: string) {
 //   return (
 //     <div className="col">
@@ -123,6 +130,28 @@ export function InputLoadingNumber({ id, type, label }: PropsInputType) {
             onChange={(e) => {
                 setLoading(Number(e.target.value));
             }}
+        />
+    );
+}
+export function InputInBodyNumber({ id, type, label, onChange }: PropsInputInBodyType) {
+    return (
+        <Input
+            type={type}
+            min={0}
+            isRequired
+            className=" w-36"
+            label={label}
+            placeholder={label}
+            id={id}
+            labelPlacement="outside-left"
+            endContent={
+                <div className="pointer-events-none flex items-center">
+                    <span className="text-default-400 text-small">
+                        {type === 'number' ? (id === 'height' ? 'cm' : id !== 'inBodyScore' ? 'kg' : '') : ''}
+                    </span>
+                </div>
+            }
+            onChange={onChange}
         />
     );
 }
