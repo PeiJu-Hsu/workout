@@ -32,12 +32,11 @@ export default function LogIn() {
         <div
             className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat px-5 sm:px-0"
             style={{
-                backgroundImage: `url(https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
+                backgroundImage: `url(https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg)`,
             }}
         >
-            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border  shadow-lg backdrop-blur-sm lg:max-w-4xl">
-                <div className="md:block lg:w-1/2"></div>
-                <div className="w-full p-8 lg:w-1/2">
+            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-500/30">
+                <div className="w-full p-8 ">
                     <p className="text-center text-xl font-extrabold text-white">
                         Join <strong className={`${yellow}`}>WorkOut</strong>
                     </p>
@@ -82,7 +81,10 @@ export default function LogIn() {
                         >
                             <Radio
                                 classNames={{
-                                    label: signUpRole === 1 ? yellow : 'text-white',
+                                    label:
+                                        signUpRole === 1
+                                            ? yellow
+                                            : 'text-white',
                                 }}
                                 color="warning"
                                 value="1"
@@ -94,7 +96,10 @@ export default function LogIn() {
                             </Radio>
                             <Radio
                                 classNames={{
-                                    label: signUpRole === 2 ? yellow : 'text-white',
+                                    label:
+                                        signUpRole === 2
+                                            ? yellow
+                                            : 'text-white',
                                 }}
                                 color="warning"
                                 value="2"
@@ -142,15 +147,34 @@ export default function LogIn() {
                             variant={'solid'}
                             children={'Sign Up'}
                             onClick={async () => {
-                                if (signUpRole === 1 && signUpName && coachCalender && coachReserve) {
+                                if (
+                                    signUpRole === 1 &&
+                                    signUpName &&
+                                    coachCalender &&
+                                    coachReserve
+                                ) {
                                     await uploadImage(signUpImage, signUpEmail);
-                                    await getUploadImage(signUpImage, signUpEmail);
-                                    await signUp(auth, signUpEmail, signUpPassword);
+                                    await getUploadImage(
+                                        signUpImage,
+                                        signUpEmail
+                                    );
+                                    await signUp(
+                                        auth,
+                                        signUpEmail,
+                                        signUpPassword
+                                    );
                                     await getAuth(auth, db);
                                 } else if (signUpRole === 2 && signUpName) {
                                     await uploadImage(signUpImage, signUpEmail);
-                                    await getUploadImage(signUpImage, signUpEmail);
-                                    await signUp(auth, signUpEmail, signUpPassword);
+                                    await getUploadImage(
+                                        signUpImage,
+                                        signUpEmail
+                                    );
+                                    await signUp(
+                                        auth,
+                                        signUpEmail,
+                                        signUpPassword
+                                    );
                                     await getAuth(auth, db);
                                 } else {
                                     toast.error('請填寫完整資料');
@@ -162,9 +186,15 @@ export default function LogIn() {
                         <div className="flex w-full justify-center"></div>
                     </div>
                     <div className="mt-4 flex w-full items-center text-center">
-                        <a href="/login" className="w-full text-center text-xs capitalize text-white">
+                        <a
+                            href="/login"
+                            className="w-full text-center text-xs capitalize text-white"
+                        >
                             Already have an account?
-                            <span className={`font-bold ${yellow}`}> Log in</span>
+                            <span className={`font-bold ${yellow}`}>
+                                {' '}
+                                Log in
+                            </span>
                         </a>
                     </div>
                 </div>
