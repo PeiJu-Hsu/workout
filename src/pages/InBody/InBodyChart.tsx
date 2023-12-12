@@ -1,5 +1,5 @@
 import { Select, SelectItem } from '@nextui-org/react';
-import { InBodyLineChart } from '../../charts/InbodyLineChart';
+import { InBodyLineChart } from '../../charts/InBodyLineChart';
 // import { InBodyStore } from '../../stores/InBodyStore';
 import { useState } from 'react';
 interface labelTexts {

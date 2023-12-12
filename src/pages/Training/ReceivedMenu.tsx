@@ -1,3 +1,4 @@
+import { DocumentData } from '@firebase/firestore';
 import {
     Button,
     Modal,
@@ -16,7 +17,7 @@ import {
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import SendIcon from '../../icons/send.png';
-import { MenuStore } from '../../stores/MenuStore';
+import { MenuList, MenuStore } from '../../stores/MenuStore';
 import { useUserStore } from '../../stores/UserStore';
 
 export default function ReceivedMenu() {
@@ -38,26 +39,38 @@ export default function ReceivedMenu() {
 
     return (
         <>
-            {waitingMenus.map((item, index) => {
+            {waitingMenus.map((item: DocumentData, index: number) => {
                 return (
-                    <Tooltip key={item.id} placement="bottom" content={`日期:${item.formatTime}`}>
+                    <Tooltip
+                        key={item.id}
+                        placement="bottom"
+                        content={`日期:${item.formatTime}`}
+                    >
                         <Button
                             className="rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
                             onPress={() => {
                                 handleOpen(index);
                             }}
-                            startContent={<img className=" h-2/3 w-2/3" src={SendIcon} />}
+                            startContent={
+                                <img className=" h-2/3 w-2/3" src={SendIcon} />
+                            }
                         >
                             {`教練說:${item.message}`}
                         </Button>
                     </Tooltip>
                 );
             })}
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="bottom-center">
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                placement="bottom-center"
+            >
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className=" flex flex-col gap-1 pb-1">訓練菜單內容</ModalHeader>
+                            <ModalHeader className=" flex flex-col gap-1 pb-1">
+                                訓練菜單內容
+                            </ModalHeader>
                             <ModalBody>
                                 <Table
                                     classNames={{
@@ -75,15 +88,26 @@ export default function ReceivedMenu() {
                                         <TableColumn>目標重量</TableColumn>
                                     </TableHeader>
                                     <TableBody>
-                                        {waitingMenus[openItem]?.content.map((item, index) => {
-                                            return (
-                                                <TableRow key={index} className="">
-                                                    <TableCell className=" min-w-[90px]">{item.itemName}</TableCell>
-                                                    <TableCell>{item.runCount}</TableCell>
-                                                    <TableCell>{item.loading}</TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
+                                        {waitingMenus[openItem]?.content.map(
+                                            (item: MenuList, index: number) => {
+                                                return (
+                                                    <TableRow
+                                                        key={index}
+                                                        className=""
+                                                    >
+                                                        <TableCell className=" min-w-[90px]">
+                                                            {item.itemName}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {item.runCount}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {item.loading}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                );
+                                            }
+                                        )}
                                     </TableBody>
                                 </Table>
 

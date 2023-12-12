@@ -1,11 +1,20 @@
-import { collection, deleteDoc, doc, getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    query,
+    serverTimestamp,
+    setDoc,
+    where,
+} from 'firebase/firestore';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import { auth, db } from '../firebase';
 interface maxValue {
     [key: string]: number | undefined;
 }
-interface MenuList {
+export interface MenuList {
     itemName: string;
     loading: number;
     runCount: number;
@@ -39,11 +48,17 @@ interface MenuStore {
     setMenuPublic: () => void;
     addMenuRecord: () => Promise<void>;
     clearMenuList: () => void;
-    sentToStudent: (currentUserName: string, target: string, message: string) => Promise<void>;
+    sentToStudent: (
+        currentUserName: string,
+        target: string,
+        message: string
+    ) => Promise<void>;
     deleteReceivedMenu: (id: string) => Promise<void>;
 }
 
-const menuListString = localStorage.getItem('menuList') ? JSON.parse(localStorage.getItem('menuList')!) : [];
+const menuListString = localStorage.getItem('menuList')
+    ? JSON.parse(localStorage.getItem('menuList')!)
+    : [];
 export const MenuStore = create<MenuStore>()((set, get) => ({
     itemGroup: 'default',
     itemGroupIndex: 0,
@@ -81,7 +96,9 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
                     itemName: get().itemName,
                     loading: Number(get().loading),
                     runCount: Number(get().runCount),
-                    records: new Array(Number(get().runCount)).fill(Number(get().loading)),
+                    records: new Array(Number(get().runCount)).fill(
+                        Number(get().loading)
+                    ),
                 },
             ],
         }));
@@ -99,7 +116,12 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     addMenuRecord: async () => {
         if (auth.currentUser) {
             const CurrentUserId = auth.currentUser.uid;
-            const docMenuRecordsCol = collection(db, 'users', CurrentUserId, 'menuRecords');
+            const docMenuRecordsCol = collection(
+                db,
+                'users',
+                CurrentUserId,
+                'menuRecords'
+            );
             const newDocRef = doc(docMenuRecordsCol);
             const { id } = newDocRef;
             const maxValue: maxValue = {};
@@ -116,7 +138,11 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
                 isPublic: get().menuPublic,
                 MaxSummary: maxValue,
             };
-            await setDoc(newDocRef, { ...MenuRecord, id, trainingTime: serverTimestamp() }, { merge: true });
+            await setDoc(
+                newDocRef,
+                { ...MenuRecord, id, trainingTime: serverTimestamp() },
+                { merge: true }
+            );
             localStorage.removeItem('menuList');
             get().resetMenuList([]);
             toast.success('上傳記錄完成');
@@ -145,7 +171,12 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
             return;
         }
         const targetStudentID = docStudentSnap.docs[0].data().id;
-        const docMenuRecordsCol = collection(db, 'users', targetStudentID, 'receivedMenu');
+        const docMenuRecordsCol = collection(
+            db,
+            'users',
+            targetStudentID,
+            'receivedMenu'
+        );
         const newDocRef = doc(docMenuRecordsCol);
         const { id } = newDocRef;
         const newMenu = {
@@ -154,11 +185,20 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
             senderName: currentUserName,
             message: message,
         };
-        await setDoc(newDocRef, { ...newMenu, id, sendTime: serverTimestamp() }, { merge: true });
+        await setDoc(
+            newDocRef,
+            { ...newMenu, id, sendTime: serverTimestamp() },
+            { merge: true }
+        );
         toast.success('已傳送');
     },
     deleteReceivedMenu: async (id) => {
-        const docMenuRecordsCol = collection(db, 'users', auth.currentUser?.uid ?? '', 'receivedMenu');
+        const docMenuRecordsCol = collection(
+            db,
+            'users',
+            auth.currentUser?.uid ?? '',
+            'receivedMenu'
+        );
         const docRef = doc(docMenuRecordsCol, id);
         await deleteDoc(docRef);
     },

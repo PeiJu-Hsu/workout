@@ -60,11 +60,17 @@ interface userState {
     setInputTextToState: (targetState: string, value: string | File) => void;
     signUp: (auth: Auth, email: string, password: string) => Promise<void>;
     signOut: (auth: Auth) => Promise<void>;
-    googleLogin: (auth: Auth, googleProvider: GoogleAuthProvider) => Promise<void>;
+    googleLogin: (
+        auth: Auth,
+        googleProvider: GoogleAuthProvider
+    ) => Promise<void>;
     nativeLogin: (auth: Auth, email: string, password: string) => Promise<void>;
     getAuth: (auth: Auth, db: Firestore) => Promise<void>;
     getName: (currentUserId: string) => Promise<string | undefined>;
-    sendInvitation: (coachId: string | null, currentUserId: string) => Promise<void>;
+    sendInvitation: (
+        coachId: string | null,
+        currentUserId: string
+    ) => Promise<void>;
     sendInvitationAtHome: () => Promise<void>;
     replyInvitation: (e: any, state: string) => Promise<void>;
     deleteInvitation: () => Promise<void>;
@@ -132,7 +138,11 @@ export const useUserStore = create<userState>()((set, get) => ({
     },
     signUp: async (auth, email, password) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             console.log('userCredential', userCredential);
         } catch (e: any) {
             console.error(e);
@@ -156,7 +166,11 @@ export const useUserStore = create<userState>()((set, get) => ({
     },
     nativeLogin: async (auth, email, password) => {
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
             toast(`👋 Welcome Back`);
             console.log(userCredential);
         } catch (e: any) {
@@ -171,7 +185,10 @@ export const useUserStore = create<userState>()((set, get) => ({
                 localStorage.setItem('UID', user.uid);
                 const userRef = doc(userCol, user.uid);
                 const docSnap = await getDoc(userRef);
-                if (docSnap.exists() && docSnap.data()?.role !== get().signUpRole) {
+                if (
+                    docSnap.exists() &&
+                    docSnap.data()?.role !== get().signUpRole
+                ) {
                     set({ signUpRole: docSnap.data()?.role });
                     set({ isLogin: true });
                     return;
@@ -221,7 +238,11 @@ export const useUserStore = create<userState>()((set, get) => ({
             senderName: await get().getName(currentUserId),
             state: 'waiting',
         };
-        await setDoc(newInvitationRef, { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
+        await setDoc(
+            newInvitationRef,
+            { ...invitationData, id, sendTime: serverTimestamp() },
+            { merge: true }
+        );
         console.log('EndSendCoachId', coachId);
     },
     sendInvitationAtHome: async () => {
@@ -239,7 +260,11 @@ export const useUserStore = create<userState>()((set, get) => ({
             senderName: await get().getName(UID!),
             state: 'waiting',
         };
-        await setDoc(newInvitationRef, { ...invitationData, id, sendTime: serverTimestamp() }, { merge: true });
+        await setDoc(
+            newInvitationRef,
+            { ...invitationData, id, sendTime: serverTimestamp() },
+            { merge: true }
+        );
     },
     replyInvitation: async (e: any, state) => {
         const invitationId = e.target.dataset.id;
@@ -259,7 +284,12 @@ export const useUserStore = create<userState>()((set, get) => ({
     deleteInvitation: async () => {
         console.log('myCoach', get().myCoach);
         const UID = localStorage.getItem('UID');
-        const docMenuRecordsCol = collection(db, 'users', get().myCoach, 'invitation');
+        const docMenuRecordsCol = collection(
+            db,
+            'users',
+            get().myCoach,
+            'invitation'
+        );
         const docRef = doc(docMenuRecordsCol, UID!);
         await deleteDoc(docRef);
     },
@@ -324,14 +354,20 @@ export const useUserStore = create<userState>()((set, get) => ({
 
     uploadImage: async (image, signUpEmail) => {
         if (!image) return;
-        const imageRef = ref(storage, `signUpImages/${signUpEmail}_${image.name}`);
+        const imageRef = ref(
+            storage,
+            `signUpImages/${signUpEmail}_${image.name}`
+        );
         await uploadBytes(imageRef, image).then(() => {
             toast.success('Image upload success!', { duration: 3000 });
         });
     },
     getUploadImage: async (image, signUpEmail) => {
         if (!image) return;
-        const imageRef = ref(storage, `signUpImages/${signUpEmail}_${image.name}`);
+        const imageRef = ref(
+            storage,
+            `signUpImages/${signUpEmail}_${image.name}`
+        );
         getDownloadURL(imageRef)
             .then((url) => {
                 set({ signUpImageURL: url });
@@ -339,7 +375,9 @@ export const useUserStore = create<userState>()((set, get) => ({
             })
             .catch((error) => {
                 console.error('getURLError:', error);
-                toast.error('Error happen during getYour image', { duration: 3000 });
+                toast.error('Error happen during getYour image', {
+                    duration: 3000,
+                });
             });
     },
     updateProfile: async () => {
@@ -377,7 +415,10 @@ export const useUserStore = create<userState>()((set, get) => ({
             where('state', '==', 'waiting'),
             orderBy('sendTime', 'desc')
         );
-        const receivedMenu = query(collection(db, 'users', UID, 'receivedMenu'), orderBy('sendTime', 'desc'));
+        const receivedMenu = query(
+            collection(db, 'users', UID, 'receivedMenu'),
+            orderBy('sendTime', 'desc')
+        );
         const user = query(collection(db, 'users'), where('id', '==', UID));
         onSnapshot(receivedMenu, (querySnapshot) => {
             const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
@@ -393,7 +434,7 @@ export const useUserStore = create<userState>()((set, get) => ({
             set({ invitations: Invitations });
         });
         onSnapshot(user, (querySnapshot) => {
-            const newUserData = querySnapshot.docs.map((doc) => doc.data());
+            querySnapshot.docs.map((doc) => doc.data());
             //   set({ calenderURL: Invitations });
             get().getCurrentUserInfo();
         });

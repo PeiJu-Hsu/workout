@@ -25,16 +25,9 @@ interface PropsType {
     itemPointer: number;
 }
 export default function Menu({ itemPointer }: PropsType) {
-    const {
-        menuList,
-        resetMenuList,
-        addMenuRecord,
-        deleteReceivedMenu,
-        menuMessage,
-    } = MenuStore();
+    const { menuList, resetMenuList, addMenuRecord } = MenuStore();
     const getStudentList = useUserStore((state) => state.getStudentList);
     const currentUserRole = useUserStore((state) => state.currentUserRole);
-    const waitingMenus = useUserStore((state) => state.waitingMenus);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const topContent = useMemo(() => {
