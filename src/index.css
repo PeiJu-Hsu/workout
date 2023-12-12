@@ -7,8 +7,8 @@
     color: black;
 }
 .myBlack {
-    background-color: #262626;
-    color: #8a8a8a;
+    background-color: #000000;
+    color: #ffffff;
 }
 .myDropdownItem {
     height: 28px;
@@ -26,15 +26,14 @@
 }
 .myPageContainer {
     overflow: hidden;
-    height: calc(100vh - 44px);
+    /* height: calc(100vh - 44px); */
+    height: 100vh;
     padding: 10px 0px 0px 10px;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    /* box-sizing: border-box; */
+    /* margin-left: 0.5rem;
+    margin-right: 0.5rem; */
     border-radius: 1rem;
     border: 0.3125rem solid #f9c809;
-    overflow-x: hidden;
-    /* bg-gray-100 */
+    overflow: hidden;
     background-color: #f3f4f6;
     @media (min-width: 640px) {
         margin-left: 12.8125rem;
@@ -42,8 +41,9 @@
 }
 .myPageInnerPadding {
     overflow-x: auto;
-    height: calc(100vh - 74px);
-    margin-bottom: 20px;
+    /* height: calc(100vh - 74px); */
+    height: 100%;
+    /* margin-bottom: 20px; */
     padding-right: 10px;
 }
 .myChartBoard {

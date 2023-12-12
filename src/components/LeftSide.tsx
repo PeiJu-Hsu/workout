@@ -14,15 +14,22 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { InputText } from '../components/InputUnit';
 import HomeIcon from '../icons/home.png';
+import inBodyIcon from '../icons/inbody.png';
+import LogOut from '../icons/logout.png';
 import RecordIcon from '../icons/records.png';
 import Task from '../icons/task.png';
 import SelectCoach from '../pages/SignUp/SelectCoach';
 import { useUserStore } from '../stores/UserStore';
+import Logo from './Logo';
 interface leftSideProps {
     isShowsSideBar: boolean;
+    handleToggleSidebar: () => void;
 }
 
-export default function LeftSide({ isShowsSideBar }: leftSideProps) {
+export default function LeftSide({
+    isShowsSideBar,
+    handleToggleSidebar,
+}: leftSideProps) {
     const navigate = useNavigate();
     const signUpName = useUserStore((state) => state.signUpName);
     const currentUserImg = useUserStore((state) => state.currentUserImg);
@@ -32,23 +39,30 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
     const updateCoach = useUserStore((state) => state.updateCoach);
     const getCoachList = useUserStore((state) => state.getCoachList);
     const deleteInvitation = useUserStore((state) => state.deleteInvitation);
-    const sendInvitationAtHome = useUserStore((state) => state.sendInvitationAtHome);
+    const sendInvitationAtHome = useUserStore(
+        (state) => state.sendInvitationAtHome
+    );
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const pages = [
         {
-            name: 'Home',
+            name: '我的首頁',
             path: '/',
             icon: HomeIcon,
         },
         {
-            name: 'Training',
+            name: '健身菜單',
             path: '/training',
             icon: Task,
         },
         {
-            name: 'Record',
+            name: '健身紀錄',
             path: '/record',
             icon: RecordIcon,
+        },
+        {
+            name: 'InBody數據',
+            path: '/inbody',
+            icon: inBodyIcon,
         },
     ];
     useEffect(() => {
@@ -56,23 +70,27 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
     }, []);
     return (
         <aside
-            className={`myBlack absolute left-0 top-[44px] z-50 ${
+            className={`myBlack  absolute left-0 flex-shrink-0  z-50 ${
                 isShowsSideBar ? 'block' : 'hidden'
-            }  h-[calc(100vh-44px)] w-[200px] flex-col justify-center gap-4  sm:block`}
+            }  h-full w-[200px] pt-2 flex-col justify-center gap-4 sm:block`}
         >
-            <div className=" mt-2 flex w-full flex-col">
+            <div className=" flex w-full h-full flex-col">
+                <Logo
+                    isShowsSideBar={isShowsSideBar}
+                    handleToggleSidebar={handleToggleSidebar}
+                />
                 <Avatar
                     isBordered
                     src={currentUserImg ? currentUserImg : ''}
                     color="warning"
                     size="lg"
-                    className="m-auto h-20 w-20 text-large"
+                    className="m-auto mt-2 h-20 w-20 text-large"
                 />
                 <p className="m-auto mt-2 text-large font-bold">
                     {currentUserName} {currentUserRole === 1 ? '教練' : '學員'}
                 </p>
                 <Chip
-                    className="m-auto text-white"
+                    className="m-auto cursor-pointer text-white"
                     size="sm"
                     radius="full"
                     variant="flat"
@@ -82,11 +100,17 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                 >
                     修改個人資料
                 </Chip>
-                <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="bottom-center">
+                <Modal
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    placement="bottom-center"
+                >
                     <ModalContent>
                         {(onClose) => (
                             <>
-                                <ModalHeader className=" flex flex-col gap-1 pb-1">修改使用者名稱</ModalHeader>
+                                <ModalHeader className=" flex flex-col gap-1 pb-1">
+                                    修改使用者名稱
+                                </ModalHeader>
                                 <ModalBody>
                                     <InputText
                                         id="signUpName"
@@ -115,7 +139,9 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                                 </ModalBody>
                                 {currentUserRole === 2 && (
                                     <>
-                                        <ModalHeader className=" flex flex-col gap-1 pb-1">更換教練</ModalHeader>
+                                        <ModalHeader className=" flex flex-col gap-1 pb-1">
+                                            更換教練
+                                        </ModalHeader>
                                         <ModalBody>
                                             <SelectCoach />
                                             <Button
@@ -138,26 +164,33 @@ export default function LeftSide({ isShowsSideBar }: leftSideProps) {
                         )}
                     </ModalContent>
                 </Modal>
-            </div>
-
-            <ul className=" ml-7">
-                {pages.map((page) => {
-                    return (
-                        <div
-                            key={page.name}
-                            className="myDropdownItem mt-3 cursor-pointer text-white"
-                            onClick={() => {
-                                navigate(page.path);
-                            }}
-                        >
-                            <div className="myDropdownIcon">
-                                <img src={page.icon} />
+                <ul className="ml-5">
+                    {pages.map((page) => {
+                        return (
+                            <div
+                                key={page.name}
+                                className="myDropdownItem pl-2 mt-3 mr-6 cursor-pointer text-white hover:border-l-2"
+                                onClick={() => {
+                                    navigate(page.path);
+                                }}
+                            >
+                                <div className="myDropdownIcon">
+                                    <img src={page.icon} />
+                                </div>
+                                <span className="pt-[4px] leading-none">
+                                    {page.name}
+                                </span>
                             </div>
-                            <span className="pt-[4px] leading-none">{page.name}</span>
-                        </div>
-                    );
-                })}
-            </ul>
+                        );
+                    })}
+                </ul>
+                <div className="flex flex-grow mx-10">
+                    <div className="self-end flex justify-between items-center px-3 border rounded-full text-center bg-gray-300  my-2 text-black w-full">
+                        <img className="w-6 h-6" src={LogOut} />
+                        Log Out
+                    </div>
+                </div>
+            </div>
         </aside>
     );
 }
