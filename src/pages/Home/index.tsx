@@ -7,14 +7,20 @@ export default function Home() {
     const currentUserRole = useUserStore((state) => state.currentUserRole);
     const calenderURL = useUserStore((state) => state.calenderURL);
     const reserveURL = useUserStore((state) => state.reserveURL);
-    const getCurrentUserInfo = useUserStore((state) => state.getCurrentUserInfo);
-    const sendInvitationAtHome = useUserStore((state) => state.sendInvitationAtHome);
+    const getCurrentUserInfo = useUserStore(
+        (state) => state.getCurrentUserInfo
+    );
+    const sendInvitationAtHome = useUserStore(
+        (state) => state.sendInvitationAtHome
+    );
     const fetchInBodyData = InBodyStore((state) => state.fetchInBodyData);
+    const InBodyHistory = InBodyStore((state) => state.InBodyHistory);
 
     useEffect(() => {
         getCurrentUserInfo();
         fetchInBodyData();
         sendInvitationAtHome();
+        console.log('InBodyHistory', InBodyHistory);
     }, []);
 
     return (
@@ -29,9 +35,15 @@ export default function Home() {
             <div className="m-2  bg-white "></div>
             <div className="myChartBoard">
                 {calenderURL && currentUserRole === 1 ? (
-                    <iframe className="mt-2 h-[400px] w-full rounded-[10px] bg-white" src={calenderURL}></iframe>
+                    <iframe
+                        className="mt-2 h-[400px] w-full rounded-[10px] bg-white"
+                        src={calenderURL}
+                    ></iframe>
                 ) : reserveURL && currentUserRole === 2 ? (
-                    <iframe className=" mt-2 h-[400px] w-full rounded-[10px] bg-white" src={reserveURL}></iframe>
+                    <iframe
+                        className=" mt-2 h-[400px] w-full rounded-[10px] bg-white"
+                        src={reserveURL}
+                    ></iframe>
                 ) : (
                     <h1>還沒有教練</h1>
                 )}

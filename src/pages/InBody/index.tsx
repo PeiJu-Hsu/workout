@@ -1,8 +1,8 @@
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import { InputInBodyNumber } from '../../components/InputUnit';
-import uploadIcon from '../../icons/upload.png';
 import { InBodyStore } from '../../stores/InBodyStore';
+import InBodyChart from './InBodyChart';
 interface labelTexts {
     type: string;
     labelText: string;
@@ -76,19 +76,24 @@ const labelTextsOptional: labelTexts[] = [
     },
 ];
 export default function InBody() {
-    const height = InBodyStore((state) => state.height);
-    const weight = InBodyStore((state) => state.weight);
-    const bodyFat = InBodyStore((state) => state.bodyFat);
+    // const height = InBodyStore((state) => state.height);
+    // const weight = InBodyStore((state) => state.weight);
+    // const bodyFat = InBodyStore((state) => state.bodyFat);
     const addInBodyData = InBodyStore((state) => state.addInBodyData);
-    const setInputNumberToState = InBodyStore((state) => state.setInputNumberToState);
-    const calculateBMI = InBodyStore((state) => state.calculateBMI);
+    const setInputNumberToState = InBodyStore(
+        (state) => state.setInputNumberToState
+    );
+    // const calculateBMI = InBodyStore((state) => state.calculateBMI);
 
-    const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
+    // const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
     const [ShowMore, setShowMore] = useState('hidden');
     const [divWidth, setDivWidth] = useState('w-80');
+
     return (
-        <>
-            <div className={`flex flex-col ${divWidth} max-w-2xl m-auto gap-y-2 border bg-white p-3 rounded-2xl `}>
+        <div className="flex flex-wrap gap-2">
+            <div
+                className={`flex flex-col ${divWidth} max-w-2xl m-auto gap-y-2 border bg-white p-3 rounded-2xl `}
+            >
                 <div className="flex justify-between items-center">
                     <h3 className="font-bold leading-none ">InBody數據</h3>
                     <svg
@@ -98,7 +103,9 @@ export default function InBody() {
                         className="w-6 h-6 stroke-gray-400"
                         onClick={() => {
                             setShowMore(ShowMore === 'hidden' ? '' : 'hidden');
-                            setDivWidth(divWidth === 'w-80' ? 'w-full' : 'w-80');
+                            setDivWidth(
+                                divWidth === 'w-80' ? 'w-full' : 'w-80'
+                            );
                         }}
                     >
                         {ShowMore === 'hidden' ? (
@@ -169,56 +176,44 @@ export default function InBody() {
                         ))}
                     </div>
                 </div>
-                {/* {labelTexts.map((obj) => (
-                    <div key={obj.id} className="flex items-center">
-                        <div className=" w-28">
-                            <p>{obj.labelText}</p>
-                        </div>
-                        <div className=" flex-grow">
-                            <InputInBodyNumber
-                                type={obj.type}
-                                id={obj.id}
-                                label=""
-                                onChange={(e) => {
-                                    setInputNumberToState(
-                                        e.target.id,
-                                        obj.type === 'number' ? Number(e.target.value) : new Date(e.target.value)
-                                    );
-                                    console.log(Number(e.target.value));
-                                }}
-                            />
-                        </div>
-                    </div>
-                ))} */}
                 <Button
                     className=" w-full rounded-full bg-gray-400 text-lg font-bold text-white hover:bg-yellow-300"
                     onClick={() => {
                         addInBodyData();
                     }}
-                    endContent={<img className=" w-9" src={uploadIcon} />}
+                    endContent={
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                            />
+                        </svg>
+                    }
                 >
                     上傳紀錄
                 </Button>
-
-                {/* <button
-                    type="button"
-                    className="btn btn-primary btn-block mb-4"
-                    onClick={() => {
-                        addInBodyData();
-                    }}
-                >
-                    Place order
-                </button> */}
             </div>
-            <h3>體脂率 (%) = {calculateFatRatio() === 'NaN' ? 'TBD' : ((100 * bodyFat) / weight).toFixed(2)}</h3>
-            <h3>
-                BMI (kg/m^2) ={calculateBMI() === 'NaN' ? 'TBD' : ((weight * 10000) / height / height).toFixed(2)}
-                {/* {(
-          dummyData.weight /
-          (dummyData.height / 100) /
-          (dummyData.height / 100)
-        ).toFixed(2)} */}
+            <InBodyChart />
+            {/* <h3>
+                體脂率 (%) ={' '}
+                {calculateFatRatio() === 'NaN'
+                    ? 'TBD'
+                    : ((100 * bodyFat) / weight).toFixed(2)}
             </h3>
-        </>
+            <h3>
+                BMI (kg/m^2) =
+                {calculateBMI() === 'NaN'
+                    ? 'TBD'
+                    : ((weight * 10000) / height / height).toFixed(2)}
+            </h3> */}
+        </div>
     );
 }

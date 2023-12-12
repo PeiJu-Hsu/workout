@@ -30,7 +30,6 @@ export default function Record() {
 
                 <BodyComponent />
             </div>
-
             {itemGroup !== 'default' && (
                 <>
                     <div className="w-full h-full flex flex-col bg-white ">
@@ -64,48 +63,4 @@ export default function Record() {
             )}
         </div>
     );
-}
-{
-    /* <select
-                    value={itemGroup}
-                    onChange={(e) => {
-                        setItemGroup(e.target.value);
-                        setItemGroupIndex(groupList.indexOf(e.target.value));
-                        setItemName('default');
-                        console.log('item', itemName);
-                    }}
-                >
-                    <option value={'default'} disabled>
-                        Choose a section
-                    </option>
-                    {group.map((item) => {
-                        return (
-                            <option
-                                key={item.sectionName}
-                                value={item.sectionName}
-                            >
-                                {item.sectionName}
-                            </option>
-                        );
-                    })}
-                </select>
-                <select
-                    value={itemName}
-                    onChange={(e) => {
-                        setItemName(e.target.value);
-                        getItemMaxRecords();
-                        getItemHistory();
-                    }}
-                >
-                    <option value={'default'} disabled>
-                        Choose an option
-                    </option>
-                    {group[itemGroupIndex].sectionItems.map((item, index) => {
-                        return (
-                            <option key={index} value={item}>
-                                {item}
-                            </option>
-                        );
-                    })}
-                </select> */
 }

@@ -1,4 +1,12 @@
-import { DocumentData, collection, doc, getDocs, orderBy, query, setDoc } from 'firebase/firestore';
+import {
+    DocumentData,
+    collection,
+    doc,
+    getDocs,
+    orderBy,
+    query,
+    setDoc,
+} from 'firebase/firestore';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
@@ -32,7 +40,9 @@ interface TimeStamp {
     nanoseconds: number;
 }
 export const getformatTime = (timestamp: TimeStamp) => {
-    const newTime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+    const newTime = new Date(
+        timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+    );
     const date = newTime.toLocaleDateString();
     const newTimeString = date;
 
@@ -56,7 +66,11 @@ export const InBodyStore = create<InBodyStore>()(
         bmi: 0,
         InBodyHistory: [],
         calculateBMI: () => {
-            const BMI = ((get().weight * 10000) / get().height / get().height).toFixed(2);
+            const BMI = (
+                (get().weight * 10000) /
+                get().height /
+                get().height
+            ).toFixed(2);
             set({ bmi: Number(BMI) });
             return BMI;
         },
@@ -80,13 +94,17 @@ export const InBodyStore = create<InBodyStore>()(
             set({ controlMuscle: inBodyData[0].controlMuscle });
             set({ fatRatio: inBodyData[0].fatRatio });
             set({ InBodyHistory: inBodyData });
+            console.log('InBodyHistory', get().InBodyHistory);
         },
 
         fetchInBodyData: async () => {
             const UID = localStorage.getItem('UID');
             if (UID) {
                 const docInBodyCol = collection(db, 'users', UID, 'inBody');
-                const orderedQuery = query(docInBodyCol, orderBy('measureTime', 'desc'));
+                const orderedQuery = query(
+                    docInBodyCol,
+                    orderBy('measureTime', 'desc')
+                );
                 const docInBodySnap = await getDocs(orderedQuery);
                 const inBodyData = docInBodySnap.docs.map((doc) => doc.data());
                 if (inBodyData.length === 0) return;
@@ -94,7 +112,6 @@ export const InBodyStore = create<InBodyStore>()(
                     obj.formatTime = getformatTime(obj.measureTime);
                 });
                 get().setInBodyStatus(inBodyData);
-
                 return inBodyData;
             }
         },
@@ -108,7 +125,12 @@ export const InBodyStore = create<InBodyStore>()(
                 get().calculateBMI();
                 get().calculateFatRatio();
                 const CurrentUserId = auth.currentUser.uid;
-                const docInBodyCol = collection(db, 'users', CurrentUserId, 'inBody');
+                const docInBodyCol = collection(
+                    db,
+                    'users',
+                    CurrentUserId,
+                    'inBody'
+                );
                 const newDocRef = doc(docInBodyCol);
                 const { id } = newDocRef;
                 const inBodyData = {

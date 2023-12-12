@@ -5,25 +5,7 @@ export const BarChart = () => {
     const itemHistory = RecordStore((state) => state.itemHistory);
     const xAxisData = itemHistory.map((item) => item.date).reverse();
     const yAxisData = itemHistory.map((item) => item.weight).reverse();
-    const option = {
-        // xAxis: {
-        //   type: "category",
-        //   data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        // },
-        xAxis: {
-            type: 'category',
-            data: xAxisData,
-        },
-        yAxis: {
-            type: 'value',
-        },
-        series: [
-            {
-                data: yAxisData,
-                type: 'bar',
-            },
-        ],
-    };
+
     const optionNew = {
         title: {
             text: '負重紀錄',
