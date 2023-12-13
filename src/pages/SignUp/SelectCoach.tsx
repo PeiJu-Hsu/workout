@@ -18,12 +18,11 @@ export default function SelectCoach() {
     return (
         <Select
             items={coachList}
-            aria-label="Select a coach"
-            placeholder="Select a coach"
+            aria-label="選擇教練"
+            placeholder="選擇教練"
             id=""
             labelPlacement="outside"
             classNames={{
-                base: 'max-w-xs',
                 trigger: 'h-12',
             }}
             onChange={(e) => {
@@ -32,22 +31,40 @@ export default function SelectCoach() {
             renderValue={(items) => {
                 return items.map((item) => (
                     <div key={item.key} className="flex items-center gap-2">
-                        <Avatar alt={item.data!.name} className="flex-shrink-0" size="sm" src={item.data!.userImage} />
+                        <Avatar
+                            alt={item.data!.name}
+                            className="flex-shrink-0"
+                            size="sm"
+                            src={item.data!.userImage}
+                        />
                         <div className="flex flex-col">
                             <span>{item.data!.name}</span>
-                            <span className="text-tiny text-default-500">({item.data!.email})</span>
+                            <span className="text-tiny text-default-500">
+                                ({item.data!.email})
+                            </span>
                         </div>
                     </div>
                 ));
             }}
         >
             {(coachList) => (
-                <SelectItem key={coachList.id} textValue={coachList.name} value={coachList.id}>
+                <SelectItem
+                    key={coachList.id}
+                    textValue={coachList.name}
+                    value={coachList.id}
+                >
                     <div className="flex items-center gap-2">
-                        <Avatar alt={coachList.name} className="flex-shrink-0" size="sm" src={coachList.userImage} />
+                        <Avatar
+                            alt={coachList.name}
+                            className="flex-shrink-0"
+                            size="sm"
+                            src={coachList.userImage}
+                        />
                         <div className="flex flex-col">
                             <span className="text-small">{coachList.name}</span>
-                            <span className="text-tiny text-default-400">{coachList.email}</span>
+                            <span className="text-tiny text-default-400">
+                                {coachList.email}
+                            </span>
                         </div>
                     </div>
                 </SelectItem>

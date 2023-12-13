@@ -31,11 +31,11 @@ export default function Menu({ itemPointer }: PropsType) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const topContent = (
-        <div className="mx-4 my-2 flex h-7 w-7 items-center justify-center rounded-full">
+        <div className="mx-4 my-1 flex h-7 w-7 items-center justify-center rounded-full">
             <Button
-                className="rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                className="rounded-full h-8 bg-gray-400 text-lg text-white hover:bg-yellow-300"
                 onPress={onOpen}
-                endContent={<img className=" h-2/3 w-2/3" src={SendIcon} />}
+                endContent={<img className=" h-6 w-6" src={SendIcon} />}
             ></Button>
 
             <Modal
@@ -46,7 +46,7 @@ export default function Menu({ itemPointer }: PropsType) {
                 <ModalContent>
                     <>
                         <ModalHeader className=" flex flex-col gap-1 pb-1">
-                            Write Message & Send to Student
+                            發送菜單給學生
                         </ModalHeader>
                         <ModalBody>
                             <SelectStudentReceiver />
@@ -172,7 +172,7 @@ export default function Menu({ itemPointer }: PropsType) {
                                         {item.itemName}
                                     </TableCell>
                                     <TableCell>
-                                        <div className="flex flex-col justify-start gap-x-1  md:flex-row">
+                                        <div className="flex flex-col justify-center gap-x-1  md:flex-row">
                                             {item.records.map((load, index) => {
                                                 return (
                                                     <input
@@ -231,8 +231,6 @@ export default function Menu({ itemPointer }: PropsType) {
                     </TableBody>
                 )}
             </Table>
-            {/* {currentUserRole === 1 && topContent}
-            {bottomContent} */}
         </div>
     );
 }

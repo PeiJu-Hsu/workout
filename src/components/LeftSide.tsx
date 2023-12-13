@@ -149,7 +149,7 @@ export default function LeftSide({
                                 {currentUserRole === 2 && (
                                     <>
                                         <ModalHeader className=" flex flex-col gap-1 pb-1">
-                                            更換教練
+                                            申請更換教練
                                         </ModalHeader>
                                         <ModalBody>
                                             <SelectCoach />
@@ -186,7 +186,7 @@ export default function LeftSide({
                                 <div className="myDropdownIcon">
                                     <img src={page.icon} />
                                 </div>
-                                <span className="pt-[4px] leading-none">
+                                <span className="pt-[4px] font-bold leading-none">
                                     {page.name}
                                 </span>
                             </div>
@@ -214,15 +214,19 @@ export default function LeftSide({
                                 />
                             </svg>
                         </div>
-                        <span className="pt-[4px] leading-none items-center">
+                        <span className="pt-[4px] leading-none font-bold items-center">
                             收件匣
                         </span>
-                        <span className=" absolute right-0 bottom-0 leading-2 text-sm leading w-6 h-6 badge rounded-pill badge-notification rounded-bl-full border bg-gray-300 text-black">
+                        <span className=" absolute right-0 bottom-0 align-text-bottom leading-[1.2] text-sm w-6 h-6 badge rounded-pill badge-notification rounded-bl-full border bg-gray-300 text-black">
                             {messageCount !== 0 ? messageCount : null}
                         </span>
+
+                        {isMessageShow && (
+                            <Invitation messageCount={messageCount} />
+                        )}
                     </div>
                 </ul>
-                {isMessageShow && <Invitation messageCount={messageCount} />}
+
                 <div className="flex flex-grow mx-10">
                     <div
                         className="self-end flex justify-between items-center px-3 border rounded-full text-center bg-gray-300  my-2 text-black w-full cursor-pointer"

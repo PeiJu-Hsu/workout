@@ -1,6 +1,10 @@
 import { Accordion, AccordionItem, Button } from '@nextui-org/react';
 import { InputLoadingNumber } from '../../components/InputUnit';
-import { SelectMuscle, SelectNumber, SelectWorkOutItem } from '../../components/SelectionUnits';
+import {
+    SelectMuscle,
+    SelectNumber,
+    SelectWorkOutItem,
+} from '../../components/SelectionUnits';
 import AddIcon from '../../icons/add.png';
 import { MenuStore } from '../../stores/MenuStore';
 export default function MenuSetup() {
@@ -11,13 +15,23 @@ export default function MenuSetup() {
     const setMenuList = MenuStore((state) => state.setMenuList);
 
     return (
-        <div className=" my-2 ">
-            <Accordion variant="splitted">
-                <AccordionItem key="1" aria-label="Accordion 1" title="開始建立菜單">
-                    <div className=" flex flex-col items-start justify-between gap-y-2">
+        <div className="flex-shrink-0 min-w-[230px]">
+            <Accordion className="bg-white px-2 w-full" variant="shadow">
+                <AccordionItem
+                    classNames={{
+                        trigger: 'py-2',
+                        title: 'text-center font-bold',
+                    }}
+                    key="1"
+                    aria-label="Accordion 1"
+                    title="建立新菜單"
+                >
+                    <div className=" flex flex-col items-start justify-between gap-y-3">
                         <div
                             className={` w-full border-l-5 px-2 ${
-                                itemGroup === 'default' ? 'border-yellow-300' : 'border-gray-300'
+                                itemGroup === 'default'
+                                    ? 'border-yellow-300'
+                                    : 'border-gray-300'
                             }`}
                         >
                             <SelectMuscle />
@@ -53,16 +67,22 @@ export default function MenuSetup() {
                                       : ' border-transparent'
                             }`}
                         >
-                            <InputLoadingNumber id={'loading'} type={'number'} label={'target-load'} />
+                            <InputLoadingNumber
+                                id={'loading'}
+                                type={'number'}
+                                label={'設定目標重量'}
+                            />
                         </div>
                         {/* <div className=" m-auto flex  items-center justify-center rounded-full bg-gray-400 hover:bg-yellow-400"> */}
                         <div className="flex-end flex w-full justify-end pr-2 ">
                             <Button
-                                className=" items-center justify-center rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
-                                endContent={<img className=" h-2/3 w-2/3" src={AddIcon} />}
+                                className=" ml-2 w-full items-center justify-center rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                                endContent={
+                                    <img className=" h-5 w-5" src={AddIcon} />
+                                }
                                 onClick={setMenuList}
                             >
-                                Add item
+                                新增項目
                             </Button>
                         </div>
 

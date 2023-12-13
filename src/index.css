@@ -26,8 +26,8 @@
 }
 .myPageContainer {
     overflow: hidden;
-    /* height: calc(100vh - 44px); */
-    height: 100vh;
+    height: calc(100vh - 44px);
+    /* height: 100vh; */
     padding: 10px 0px 0px 10px;
     /* margin-left: 0.5rem;
     margin-right: 0.5rem; */
@@ -36,6 +36,7 @@
     background-color: #f3f4f6;
     @media (min-width: 640px) {
         margin-left: 12.8125rem;
+        height: 100vh;
     }
 }
 .myChartBoard {

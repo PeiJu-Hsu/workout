@@ -6,7 +6,6 @@ import { MenuStore } from '../../stores/MenuStore';
 import Menu from './Menu';
 import MenuSetup from './MenuSetup';
 import ProgressCard from './ProgressCard';
-import ReceivedMenu from './ReceivedMenu';
 
 export default function Training() {
     const menuList = MenuStore((state) => state.menuList);
@@ -68,13 +67,8 @@ export default function Training() {
 
     return (
         <>
-            <MenuSetup />
-            <Card
-                isBlurred
-                className=" m-auto max-w-xl border-none bg-background/60"
-                shadow="sm"
-            >
-                <CardBody>
+            <Card isBlurred className="m-2 p-2 border-none" shadow="sm">
+                <CardBody className="m-auto max-w-xl  rounded-xl">
                     <div className="grid grid-cols-12 items-center justify-center gap-6 ">
                         <div className="relative col-span-4 flex h-full items-center justify-center object-contain">
                             <ProgressCard
@@ -151,10 +145,12 @@ export default function Training() {
                     </div>
                 </CardBody>
             </Card>
-            <ReceivedMenu />
-            itemPointer : {itemPointer}
-            runCount: {runCount}
-            <Menu itemPointer={itemPointer} />
+
+            <div className="flex flex-col gap-2 p-2 ">
+                <MenuSetup />
+                {/* <ReceivedMenu /> */}
+                <Menu itemPointer={itemPointer} />
+            </div>
         </>
     );
 }

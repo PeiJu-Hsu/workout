@@ -16,7 +16,6 @@ import {
 } from '@nextui-org/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import SendIcon from '../../icons/send.png';
 import { MenuList, MenuStore } from '../../stores/MenuStore';
 import { useUserStore } from '../../stores/UserStore';
 
@@ -45,17 +44,17 @@ export default function ReceivedMenu() {
                         placement="bottom"
                         content={`日期:${item.formatTime}`}
                     >
-                        <Button
-                            className="rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
-                            onPress={() => {
+                        <div
+                            className=" text-center cursor-pointer w-full rounded-full bg-gray-100 text-lg text-black hover:bg-gray-300 hover:text-white"
+                            onClick={() => {
                                 handleOpen(index);
                             }}
-                            startContent={
-                                <img className=" h-2/3 w-2/3" src={SendIcon} />
-                            }
+                            // startContent={
+                            //     <img className=" h-6 w-6" src={SendIcon} />
+                            // }
                         >
-                            {`教練說:${item.message}`}
-                        </Button>
+                            {item.message || '新的菜單'}
+                        </div>
                     </Tooltip>
                 );
             })}

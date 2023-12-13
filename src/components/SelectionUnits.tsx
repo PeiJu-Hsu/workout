@@ -20,10 +20,10 @@ export function SelectMuscle() {
         <Select
             isRequired
             data-filled:after="OK"
-            label="Select a section"
-            placeholder="Select a section"
+            label="選擇訓練部位"
+            placeholder="選擇訓練部位"
             defaultSelectedKeys=""
-            className="  max-w-xs"
+            // className=" max-w-xs"
             onChange={(e) => {
                 setItemGroup(e.target.value);
                 setItemGroupIndex(groupList.indexOf(e.target.value));
@@ -44,10 +44,10 @@ export function SelectWorkOutItem() {
     return (
         <Select
             isRequired
-            label="Select an item"
-            placeholder="Select an item"
+            label="選擇訓練項目"
+            placeholder="選擇訓練項目"
             defaultSelectedKeys=""
-            className="max-w-xs"
+            // className="max-w-xs"
             onChange={(e) => {
                 setItemName(e.target.value);
             }}
@@ -66,10 +66,10 @@ export function SelectNumber({ max }: { max: number }) {
     return (
         <Select
             isRequired
-            label="Set run count"
-            placeholder="Set run count"
+            label="設定組數"
+            placeholder="設定組數"
             defaultSelectedKeys=""
-            className="max-w-xs"
+            // className="max-w-xs"
             onChange={(e) => {
                 setRunCount(Number(e.target.value));
             }}
@@ -100,10 +100,10 @@ export function SelectStudentReceiver() {
                 }}
             />
             <Select
-                label="Choose a student"
-                placeholder="Choose a student"
+                label="選擇學員"
+                placeholder="選擇學員"
                 defaultSelectedKeys=""
-                className="  max-w-xs"
+                // className="  max-w-xs"
                 onChange={(e) => {
                     setReceiver(e.target.value);
                 }}
@@ -116,13 +116,14 @@ export function SelectStudentReceiver() {
             </Select>
             <div className=" flex justify-end">
                 <Button
-                    className=" w-3/5 rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
-                    endContent={<img className=" h-2/3 w-2/3" src={SendIcon} />}
+                    className=" rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                    // className="text-white"
+                    endContent={<img className=" h-6 w-6" src={SendIcon} />}
                     onClick={() => {
                         sentToStudent(currentUserName, receiver, menuMessage);
                     }}
                 >
-                    Send to student
+                    傳送
                 </Button>
             </div>
         </>

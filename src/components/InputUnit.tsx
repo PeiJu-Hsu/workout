@@ -33,7 +33,9 @@ interface PropsInputInBodyType {
 //   );
 // }
 export function InputText({ id, type, label, className }: PropsInputType) {
-    const setInputTextToState = useUserStore((state) => state.setInputTextToState);
+    const setInputTextToState = useUserStore(
+        (state) => state.setInputTextToState
+    );
     return (
         <Input
             classNames={className}
@@ -48,7 +50,9 @@ export function InputText({ id, type, label, className }: PropsInputType) {
     );
 }
 export function InputEmail({ id, type }: PropsInputType) {
-    const setInputTextToState = useUserStore((state) => state.setInputTextToState);
+    const setInputTextToState = useUserStore(
+        (state) => state.setInputTextToState
+    );
     return (
         <Input
             classNames={{
@@ -66,7 +70,9 @@ export function InputEmail({ id, type }: PropsInputType) {
     );
 }
 export function InputPassword({ id }: PropInput) {
-    const setInputTextToState = useUserStore((state) => state.setInputTextToState);
+    const setInputTextToState = useUserStore(
+        (state) => state.setInputTextToState
+    );
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
@@ -83,7 +89,11 @@ export function InputPassword({ id }: PropInput) {
                 setInputTextToState(e.target.id, e.target.value);
             }}
             endContent={
-                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                <button
+                    className="focus:outline-none"
+                    type="button"
+                    onClick={toggleVisibility}
+                >
                     {isVisible ? (
                         <EyeSlashFilledIcon className="pointer-events-none text-2xl text-default-400" />
                     ) : (
@@ -96,7 +106,9 @@ export function InputPassword({ id }: PropInput) {
     );
 }
 export function InputFile({ id }: PropInput) {
-    const setInputTextToState = useUserStore((state) => state.setInputTextToState);
+    const setInputTextToState = useUserStore(
+        (state) => state.setInputTextToState
+    );
     return (
         <Input
             classNames={{
@@ -124,7 +136,7 @@ export function InputLoadingNumber({ id, type, label }: PropsInputType) {
         <Input
             type={type}
             min={0}
-            className="max-w-xs"
+            // className="max-w-xs"
             label={label}
             id={id}
             onChange={(e) => {
@@ -133,7 +145,12 @@ export function InputLoadingNumber({ id, type, label }: PropsInputType) {
         />
     );
 }
-export function InputInBodyNumber({ id, type, label, onChange }: PropsInputInBodyType) {
+export function InputInBodyNumber({
+    id,
+    type,
+    label,
+    onChange,
+}: PropsInputInBodyType) {
     return (
         <Input
             type={type}
@@ -147,7 +164,13 @@ export function InputInBodyNumber({ id, type, label, onChange }: PropsInputInBod
             endContent={
                 <div className="pointer-events-none flex items-center">
                     <span className="text-default-400 text-small">
-                        {type === 'number' ? (id === 'height' ? 'cm' : id !== 'inBodyScore' ? 'kg' : '') : ''}
+                        {type === 'number'
+                            ? id === 'height'
+                                ? 'cm'
+                                : id !== 'inBodyScore'
+                                  ? 'kg'
+                                  : ''
+                            : ''}
                     </span>
                 </div>
             }
