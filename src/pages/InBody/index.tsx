@@ -76,21 +76,15 @@ const labelTextsOptional: labelTexts[] = [
     },
 ];
 export default function InBody() {
-    // const height = InBodyStore((state) => state.height);
-    // const weight = InBodyStore((state) => state.weight);
-    // const bodyFat = InBodyStore((state) => state.bodyFat);
     const addInBodyData = InBodyStore((state) => state.addInBodyData);
     const setInputNumberToState = InBodyStore(
         (state) => state.setInputNumberToState
     );
-    // const calculateBMI = InBodyStore((state) => state.calculateBMI);
-
-    // const calculateFatRatio = InBodyStore((state) => state.calculateFatRatio);
     const [ShowMore, setShowMore] = useState('hidden');
     const [divWidth, setDivWidth] = useState('w-80');
 
     return (
-        <div className="flex flex-wrap gap-2">
+        <div className=" h-full flex flex-wrap items-center gap-2">
             <div
                 className={`flex flex-col ${divWidth} max-w-2xl m-auto gap-y-2 border bg-white p-3 rounded-2xl `}
             >

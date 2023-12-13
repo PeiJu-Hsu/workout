@@ -83,7 +83,7 @@ export default function Training() {
                                         {menuList[itemPointer]?.itemName
                                             ? menuList[itemPointer]?.itemName
                                             : menuList.length === 0 &&
-                                              `🏋️該健新菜單了`}
+                                              `🏋️該建新菜單了`}
                                     </h1>
                                     <p className="text-small font-semibold text-foreground/80 text-gray-400">
                                         {menuList[itemPointer + 1]?.itemName

@@ -5,6 +5,12 @@ export const BarChart = () => {
     const itemHistory = RecordStore((state) => state.itemHistory);
     const xAxisData = itemHistory.map((item) => item.date).reverse();
     const yAxisData = itemHistory.map((item) => item.weight).reverse();
+    const historyLength = itemHistory.length;
+    const chartMemo = (
+        <p className="font-bold text-gray-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            目前沒有紀錄
+        </p>
+    );
 
     const optionNew = {
         title: {
@@ -27,12 +33,15 @@ export const BarChart = () => {
             },
         },
         yAxis: {
+            axisLine: {
+                show: true,
+            },
             type: 'value',
             name: '訓練重量 (kg)',
             nameLocation: 'center',
-            nameGap: 30,
+            nameGap: 25,
             nameTextStyle: {
-                fontSize: 18,
+                fontSize: 16,
                 fontFamily: 'Roboto',
             },
         },
@@ -44,5 +53,10 @@ export const BarChart = () => {
             },
         ],
     };
-    return <ReactECharts option={optionNew} />;
+    return (
+        <div className="pt-3 bg-white rounded-2xl w-full border relative">
+            {historyLength === 0 && chartMemo}
+            <ReactECharts option={optionNew} />
+        </div>
+    );
 };

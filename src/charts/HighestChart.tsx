@@ -116,8 +116,8 @@ export const HighestChart = () => {
         ],
     };
     return (
-        <div>
-            <ReactECharts className="pt-3 w-full" option={option} />
+        <div className="pt-3 w-full">
+            <ReactECharts option={option} />
         </div>
     );
 };

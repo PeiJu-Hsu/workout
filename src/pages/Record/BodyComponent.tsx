@@ -590,14 +590,14 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
                 <Chip
                     color="warning"
                     variant="flat"
-                    className=" sticky px-2 left-16 bottom-1"
+                    className=" sticky px-2 left-16"
                 >
                     正面
                 </Chip>
                 <Chip
                     color="warning"
                     variant="flat"
-                    className=" sticky px-2 left-60 bottom-1"
+                    className=" sticky px-2 left-60"
                 >
                     背面
                 </Chip>

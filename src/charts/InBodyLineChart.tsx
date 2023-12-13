@@ -35,7 +35,7 @@ export const InBodyLineChart = ({ targetItem, unit }: PropType) => {
         },
         yAxis: {
             type: 'value',
-            name: '量測數值 ' + '_' + unit,
+            name: '量測數值 ' + ' ' + unit,
             nameLocation: 'center',
             nameGap: 30,
             nameTextStyle: {
