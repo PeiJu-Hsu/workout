@@ -44,14 +44,16 @@ export default function Menu({ itemPointer }: PropsType) {
                 placement="bottom-center"
             >
                 <ModalContent>
-                    <>
-                        <ModalHeader className=" flex flex-col gap-1 pb-1">
-                            發送菜單給學生
-                        </ModalHeader>
-                        <ModalBody>
-                            <SelectStudentReceiver />
-                        </ModalBody>
-                    </>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className=" flex flex-col gap-1 pb-1">
+                                發送菜單給學生
+                            </ModalHeader>
+                            <ModalBody>
+                                <SelectStudentReceiver onClose={onClose} />
+                            </ModalBody>
+                        </>
+                    )}
                 </ModalContent>
             </Modal>
         </div>

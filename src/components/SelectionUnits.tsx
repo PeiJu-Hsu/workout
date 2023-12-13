@@ -82,7 +82,7 @@ export function SelectNumber({ max }: { max: number }) {
         </Select>
     );
 }
-export function SelectStudentReceiver() {
+export function SelectStudentReceiver({ onClose }) {
     const studentList = useUserStore((state) => state.studentList);
     const currentUserName = useUserStore((state) => state.currentUserName);
     // const setTargetStudent = MenuStore((state) => state.setTargetStudent);
@@ -121,6 +121,9 @@ export function SelectStudentReceiver() {
                     endContent={<img className=" h-6 w-6" src={SendIcon} />}
                     onClick={() => {
                         sentToStudent(currentUserName, receiver, menuMessage);
+                        if (receiver !== 'default') {
+                            onClose();
+                        }
                     }}
                 >
                     傳送
