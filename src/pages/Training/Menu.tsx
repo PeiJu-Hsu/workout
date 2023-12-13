@@ -129,9 +129,7 @@ export default function Menu({ itemPointer }: PropsType) {
                     <TableColumn>刪除</TableColumn>
                 </TableHeader>
                 {menuList.length === 0 ? (
-                    <TableBody emptyContent={'No rows to display.'}>
-                        {[]}
-                    </TableBody>
+                    <TableBody emptyContent={'尚未新增項目'}>{[]}</TableBody>
                 ) : (
                     <TableBody>
                         {menuList.map((item, index) => {

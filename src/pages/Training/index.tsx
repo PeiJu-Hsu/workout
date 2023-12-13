@@ -67,7 +67,7 @@ export default function Training() {
 
     return (
         <>
-            <Card isBlurred className="m-2 p-2 border-none" shadow="sm">
+            <Card isBlurred className="mx-2 p-2 border-none" shadow="sm">
                 <CardBody className="m-auto max-w-xl  rounded-xl">
                     <div className="grid grid-cols-12 items-center justify-center gap-6 ">
                         <div className="relative col-span-4 flex h-full items-center justify-center object-contain">
