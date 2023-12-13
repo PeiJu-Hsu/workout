@@ -1,26 +1,27 @@
 import { Avatar, Button } from '@nextui-org/react';
 import { useUserStore } from '../stores/UserStore';
-export default function MyCoachCard() {
+interface InvitationProps {
+    messageCount: number;
+}
+export default function Invitation({ messageCount }: InvitationProps) {
     const invitations = useUserStore((state) => state.invitations);
     const replyInvitation = useUserStore((state) => state.replyInvitation);
     return (
-        <>
-            <p>New Invitation</p>
-            {/* 這行放進map會有TS error */}
-            {/* <DropdownItem className=" my-1 flex items-center gap-x-1 "> */}
+        <div className="ml-1 mt-1 p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2">
+            {messageCount ? '新的通知' : '沒有新的通知'}
             {invitations.map((invitation, index) => {
                 return (
-                    <div key={index} className="my-2 mt-1 flex items-center  gap-x-1">
-                        {/* <DropdownItem
-                            key="myCoach"
-                            textValue="myCoach"
-                            className="my-2 mt-1 flex items-center  gap-x-1"
-                        > */}
-                        <Avatar isBordered color="default" size="sm" className="m-1" />
+                    <div key={index} className="flex items-center gap-x-1">
+                        <Avatar
+                            isBordered
+                            color="default"
+                            size="sm"
+                            className="m-1"
+                        />
                         <div className=" flex flex-col gap-y-1">
                             <p className=" text-sm">
                                 {invitation.senderName}
-                                <span className=" text-xs">想成為你的學員</span>
+                                {/* <span className=" text-xs">想成為你的學員</span> */}
                             </p>
                             <div className="flex gap-x-1">
                                 <Button
@@ -49,11 +50,9 @@ export default function MyCoachCard() {
                                 </Button>
                             </div>
                         </div>
-                        {/* </DropdownItem> */}
                     </div>
                 );
             })}
-            {/* </DropdownItem> */}
-        </>
+        </div>
     );
 }

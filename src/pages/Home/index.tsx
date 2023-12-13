@@ -63,9 +63,6 @@ export default function Home() {
     }, []);
 
     return (
-        // <div className=" ml-2 mr-2  box-border rounded-2xl border-5 border-yellow-400 bg-gray-100 sm:ml-[205px]">
-        // <div className=" myPageContainer">
-        //   <div className="myPageInnerPadding">
         <div className="relative">
             <div className={`myChartBoard ${isInBodyMaskShow && 'blur-sm'}`}>
                 <ScoreChart />
@@ -81,15 +78,12 @@ export default function Home() {
                     ></iframe>
                 ) : reserveURL && currentUserRole === 2 ? (
                     <iframe
-                        className=" mt-2 h-[400px] w-full rounded-[10px] bg-white"
+                        className=" mt-2 h-[calc(100vh-340px)] w-full rounded-[10px] bg-white"
                         src={reserveURL}
                     ></iframe>
                 ) : null}
             </div>
             {isCoachMaskShow && coachMask}
         </div>
-
-        //   </div>
-        // </div>
     );
 }
