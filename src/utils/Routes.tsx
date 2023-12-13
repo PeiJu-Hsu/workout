@@ -16,8 +16,8 @@ export const Routes = [
         // 將所有需要保護的路由，用 <ProtectedRoute> 包起來
         element: (
             <ProtectedRoute>
-                <div className=" myPageContainer">
-                    <div className="myPageInnerPadding">
+                <div className="myPageContainer">
+                    <div className="overflow-x-auto h-full pr-2">
                         <Outlet />
                     </div>
                 </div>

@@ -33,18 +33,10 @@
     margin-right: 0.5rem; */
     border-radius: 1rem;
     border: 0.3125rem solid #f9c809;
-    overflow: hidden;
     background-color: #f3f4f6;
     @media (min-width: 640px) {
         margin-left: 12.8125rem;
     }
-}
-.myPageInnerPadding {
-    overflow-x: auto;
-    /* height: calc(100vh - 74px); */
-    height: 100%;
-    /* margin-bottom: 20px; */
-    padding-right: 10px;
 }
 .myChartBoard {
     display: flex;
