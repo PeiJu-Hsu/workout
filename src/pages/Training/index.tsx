@@ -38,7 +38,10 @@ export default function Training() {
         const totalSeconds = Math.floor(milliseconds / 1000);
         const minutes = Math.floor(totalSeconds / 60);
         const remainingSeconds = totalSeconds % 60;
-        const formattedMilliseconds = String(milliseconds % 1000).padStart(3, '0');
+        const formattedMilliseconds = String(milliseconds % 1000).padStart(
+            3,
+            '0'
+        );
 
         const formattedMinutes = String(minutes).padStart(2, '0');
         const formattedSeconds = String(remainingSeconds).padStart(2, '0');
@@ -66,11 +69,18 @@ export default function Training() {
     return (
         <>
             <MenuSetup />
-            <Card isBlurred className=" m-auto max-w-xl border-none bg-background/60" shadow="sm">
+            <Card
+                isBlurred
+                className=" m-auto max-w-xl border-none bg-background/60"
+                shadow="sm"
+            >
                 <CardBody>
                     <div className="grid grid-cols-12 items-center justify-center gap-6 ">
                         <div className="relative col-span-4 flex h-full items-center justify-center object-contain">
-                            <ProgressCard itemPointer={itemPointer} runCount={runCount} />
+                            <ProgressCard
+                                itemPointer={itemPointer}
+                                runCount={runCount}
+                            />
                         </div>
                         <div className="col-span-8 flex flex-col gap-y-2">
                             <div className="mb- flex items-start justify-between">
@@ -78,16 +88,23 @@ export default function Training() {
                                     <h1 className="text-xl font-semibold text-foreground/90">
                                         {menuList[itemPointer]?.itemName
                                             ? menuList[itemPointer]?.itemName
-                                            : menuList.length === 0 && `🏋️該健新菜單了`}
+                                            : menuList.length === 0 &&
+                                              `🏋️該健新菜單了`}
                                     </h1>
                                     <p className="text-small font-semibold text-foreground/80 text-gray-400">
                                         {menuList[itemPointer + 1]?.itemName
-                                            ? menuList[itemPointer + 1]?.itemName
-                                            : menuList.length > 0 && `🎉這是最後一項🎉`}
+                                            ? menuList[itemPointer + 1]
+                                                  ?.itemName
+                                            : menuList.length > 0 &&
+                                              `🎉這是最後一項🎉`}
                                     </p>
                                 </div>
                                 <div className="mx-2 flex items-center justify-center">
-                                    <img className=" w-11" onClick={handleStartStop} src={isRunning ? Stop : Start} />
+                                    <img
+                                        className=" w-11"
+                                        onClick={handleStartStop}
+                                        src={isRunning ? Stop : Start}
+                                    />
                                 </div>
                             </div>
                             <div className="item-center flex justify-between">
@@ -96,7 +113,9 @@ export default function Training() {
                                         {formatTime(time).min}
                                     </span>
                                     <span className="text-sm font-bold leading-none text-gray-400">
-                                        {formatTime(time).min === '01' ? 'min' : 'mins'}
+                                        {formatTime(time).min === '01'
+                                            ? 'min'
+                                            : 'mins'}
                                     </span>
                                 </div>
                                 <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
@@ -108,7 +127,9 @@ export default function Training() {
                                         {formatTime(time).sec}
                                     </span>
                                     <span className="text-sm font-bold leading-none text-gray-400">
-                                        {formatTime(time).sec === '01' ? 'sec' : 'secs'}
+                                        {formatTime(time).sec === '01'
+                                            ? 'sec'
+                                            : 'secs'}
                                     </span>
                                 </div>
                                 <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
@@ -117,9 +138,13 @@ export default function Training() {
                                 </p>
                                 <div className="flex flex-col items-center justify-center gap-1">
                                     <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
-                                        {formatTime(time).milliseconds.substring(0, 2)}
+                                        {formatTime(
+                                            time
+                                        ).milliseconds.substring(0, 2)}
                                     </span>
-                                    <span className="text-sm font-bold leading-none text-gray-400">{'msecs'}</span>
+                                    <span className="text-sm font-bold leading-none text-gray-400">
+                                        {'msecs'}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -127,6 +152,8 @@ export default function Training() {
                 </CardBody>
             </Card>
             <ReceivedMenu />
+            itemPointer : {itemPointer}
+            runCount: {runCount}
             <Menu itemPointer={itemPointer} />
         </>
     );

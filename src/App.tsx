@@ -31,7 +31,7 @@ function App() {
         return () => {
             unsubscribeInvitations();
         };
-    }, []);
+    }, [isLogin]);
     return (
         <>
             <GlobalStyle />

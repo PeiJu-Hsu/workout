@@ -36,7 +36,6 @@ export default function ReceivedMenu() {
     const handleRejectMenu = () => {
         deleteReceivedMenu(waitingMenus[openItem].id);
     };
-
     return (
         <>
             {waitingMenus.map((item: DocumentData, index: number) => {

@@ -422,12 +422,14 @@ export const useUserStore = create<userState>()((set, get) => ({
         const user = query(collection(db, 'users'), where('id', '==', UID));
         onSnapshot(receivedMenu, (querySnapshot) => {
             const waitingMenus = querySnapshot.docs.map((doc) => doc.data());
-            if (waitingMenus.length === 0) return;
-            waitingMenus.map((obj) => {
-                obj.formatTime = getformatTime(obj.sendTime);
-            });
-            console.log('waitingMenus', waitingMenus);
-            set({ waitingMenus: waitingMenus });
+            if (waitingMenus.length === 0) {
+                set({ waitingMenus: [] });
+            } else {
+                waitingMenus.map((obj) => {
+                    obj.formatTime = getformatTime(obj.sendTime);
+                });
+                set({ waitingMenus: waitingMenus });
+            }
         });
         onSnapshot(waitingInvitation, (querySnapshot) => {
             const Invitations = querySnapshot.docs.map((doc) => doc.data());

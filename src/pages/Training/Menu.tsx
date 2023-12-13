@@ -13,7 +13,7 @@ import {
     TableRow,
     useDisclosure,
 } from '@nextui-org/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { SelectStudentReceiver } from '../../components/SelectionUnits';
 import SendIcon from '../../icons/send.png';
@@ -30,67 +30,63 @@ export default function Menu({ itemPointer }: PropsType) {
     const currentUserRole = useUserStore((state) => state.currentUserRole);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const topContent = useMemo(() => {
-        if (currentUserRole !== 1) return null;
-        return (
-            <div className="mx-4 my-2 flex h-7 w-7 items-center justify-center rounded-full">
-                <Button
-                    className="rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
-                    onPress={onOpen}
-                    endContent={<img className=" h-2/3 w-2/3" src={SendIcon} />}
-                ></Button>
-
-                <Modal
-                    isOpen={isOpen}
-                    onOpenChange={onOpenChange}
-                    placement="bottom-center"
-                >
-                    <ModalContent>
-                        <>
-                            <ModalHeader className=" flex flex-col gap-1 pb-1">
-                                Write Message & Send to Student
-                            </ModalHeader>
-                            <ModalBody>
-                                <SelectStudentReceiver />
-                            </ModalBody>
-                        </>
-                    </ModalContent>
-                </Modal>
-            </div>
-        );
-    }, [isOpen]);
-    const bottomContent = useMemo(() => {
-        return (
+    const topContent = (
+        <div className="mx-4 my-2 flex h-7 w-7 items-center justify-center rounded-full">
             <Button
-                className=" w-full rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
-                onClick={() => {
-                    if (itemPointer < menuList.length) {
-                        toast.error('請先完成目前項目');
-                        return;
-                    }
-                    addMenuRecord();
-                }}
-                endContent={
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                        />
-                    </svg>
-                }
+                className="rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                onPress={onOpen}
+                endContent={<img className=" h-2/3 w-2/3" src={SendIcon} />}
+            ></Button>
+
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                placement="bottom-center"
             >
-                上傳紀錄
-            </Button>
-        );
-    }, []);
+                <ModalContent>
+                    <>
+                        <ModalHeader className=" flex flex-col gap-1 pb-1">
+                            Write Message & Send to Student
+                        </ModalHeader>
+                        <ModalBody>
+                            <SelectStudentReceiver />
+                        </ModalBody>
+                    </>
+                </ModalContent>
+            </Modal>
+        </div>
+    );
+
+    const bottomContent = (
+        <Button
+            className=" w-full rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+            onClick={() => {
+                if (itemPointer < menuList.length) {
+                    toast.error('請先完成目前項目');
+                    return;
+                }
+                addMenuRecord();
+            }}
+            endContent={
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                    />
+                </svg>
+            }
+        >
+            上傳紀錄
+        </Button>
+    );
 
     function changeItemRecord(
         objIndex: number,
@@ -235,6 +231,8 @@ export default function Menu({ itemPointer }: PropsType) {
                     </TableBody>
                 )}
             </Table>
+            {/* {currentUserRole === 1 && topContent}
+            {bottomContent} */}
         </div>
     );
 }
