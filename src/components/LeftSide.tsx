@@ -49,9 +49,10 @@ export default function LeftSide({
         (state) => state.sendInvitationAtHome
     );
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const messageCount = invitations.length + waitingMenus.length;
-
     const [isMessageShow, setIsMessageShow] = useState(false);
+    const messageCount = invitations.length + waitingMenus.length;
+    const isOverSmallDevice = Boolean(window.innerWidth >= 640);
+    const asideHide = isOverSmallDevice ? 'h-full' : 'h-[calc(100vh-44px)]';
     const pages = [
         {
             name: '我的首頁',
@@ -81,13 +82,16 @@ export default function LeftSide({
         <aside
             className={`myBlack  absolute left-0 flex-shrink-0  z-50 ${
                 isShowsSideBar ? 'block' : 'hidden'
-            }  h-full w-[200px] pt-2 flex-col justify-center gap-4 sm:block`}
+            }  ${asideHide} w-[200px] pt-2 flex-col justify-center gap-4 sm:block`}
         >
             <div className=" flex w-full h-full flex-col">
-                <Logo
-                    isShowsSideBar={isShowsSideBar}
-                    handleToggleSidebar={handleToggleSidebar}
-                />
+                {isOverSmallDevice && (
+                    <Logo
+                        isShowsSideBar={isShowsSideBar}
+                        handleToggleSidebar={handleToggleSidebar}
+                    />
+                )}
+
                 <Avatar
                     isBordered
                     src={currentUserImg ? currentUserImg : ''}
@@ -217,8 +221,12 @@ export default function LeftSide({
                         <span className="pt-[4px] leading-none font-bold items-center">
                             收件匣
                         </span>
-                        <span className=" absolute right-0 bottom-0 align-text-bottom leading-[1.2] text-sm w-6 h-6 badge rounded-pill badge-notification rounded-bl-full border bg-gray-300 text-black">
-                            {messageCount !== 0 ? messageCount : null}
+                        <span
+                            className={` ${
+                                messageCount === 0 && `hidden`
+                            } w-4 h-4 mt-1 text-center leading-tight text-xs rounded-full absolute right-3 bg-gray-300 text-black`}
+                        >
+                            {messageCount}
                         </span>
 
                         {isMessageShow && (

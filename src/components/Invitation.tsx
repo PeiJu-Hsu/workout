@@ -9,7 +9,7 @@ export default function Invitation({ messageCount }: InvitationProps) {
     const invitations = useUserStore((state) => state.invitations);
     const replyInvitation = useUserStore((state) => state.replyInvitation);
     return (
-        <div className="p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute -left-4 bottom-8  bg-black w-[194px]">
+        <div className="p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute -left-4 bottom-8  bg-black w-[192px]">
             {messageCount ? '新的訊息' : '沒有新的通知'}
             {currentUserRole === 1 ? (
                 <>

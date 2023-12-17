@@ -7,9 +7,7 @@ import { BodyComponent } from './BodyComponent';
 
 export default function Record() {
     const {
-        itemGroup,
         itemGroupIndex,
-        itemHistory,
         fetchRecordData,
         setItemName,
         getItemMaxRecords,

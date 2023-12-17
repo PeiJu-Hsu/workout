@@ -82,7 +82,7 @@ export function SelectNumber({ max }: { max: number }) {
         </Select>
     );
 }
-export function SelectStudentReceiver({ onClose }) {
+export function SelectStudentReceiver({ onClose }: { onClose: () => void }) {
     const studentList = useUserStore((state) => state.studentList);
     const currentUserName = useUserStore((state) => state.currentUserName);
     // const setTargetStudent = MenuStore((state) => state.setTargetStudent);

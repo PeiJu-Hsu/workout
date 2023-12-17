@@ -12,7 +12,7 @@ export const ScoreChart = () => {
                 center: ['50%', '75%'],
                 radius: '90%',
                 min: 0,
-                max: 100,
+                max: 1,
                 splitNumber: 8,
                 axisLine: {
                     lineStyle: {
@@ -54,13 +54,14 @@ export const ScoreChart = () => {
                     distance: -60,
                     rotate: 'tangential',
                     formatter: function (value: number) {
-                        if (value === 90) {
-                            return '無與倫比的完美';
-                        } else if (value === 70) {
-                            return '很棒的分數，繼續保持';
-                        } else if (value === 50) {
-                            return '繼續加油，往70分前進';
-                        } else return '';
+                        if (value === 0.9) {
+                            return '完美';
+                        } else if (value === 0.7) {
+                            return '很棒 ';
+                        } else if (value === 0.5) {
+                            return '';
+                        }
+                        return '';
                     },
                 },
                 title: {
@@ -72,14 +73,14 @@ export const ScoreChart = () => {
                     offsetCenter: [0, '-25%'],
                     valueAnimation: true,
                     formatter: function (value: number) {
-                        return Math.round(value) + '';
+                        return Math.round(value * 100) + '';
                     },
                     color: 'inherit',
                 },
                 data: [
                     {
-                        value: inBodyScore,
-                        name: 'InBody Score',
+                        value: inBodyScore / 100,
+                        name: 'InBody 評分',
                     },
                 ],
             },
