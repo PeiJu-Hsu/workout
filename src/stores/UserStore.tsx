@@ -80,9 +80,10 @@ interface userState {
     uploadImage: (image: File | null, path: string) => Promise<void>;
     getUploadImage: (image: File | null, path: string) => Promise<void>;
     unsubscribeInvitations: () => void;
-    updateProfile: () => Promise<void>;
+    updateCoachURL: () => Promise<void>;
     updateUserName: () => Promise<void>;
     updateCoach: () => Promise<void>;
+    updateRole: () => Promise<void>;
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
@@ -382,16 +383,25 @@ export const useUserStore = create<userState>()((set, get) => ({
                 });
             });
     },
-    updateProfile: async () => {
+    updateCoachURL: async () => {
         const UID = localStorage.getItem('UID');
         const userRef = doc(db, 'users', UID!);
-        await updateDoc(userRef, {
-            name: get().signUpName,
-            role: get().signUpRole,
-            coachCalender: get().coachCalender,
-            coachReserve: get().coachReserve,
-            myCoach: get().signUpWithCoach,
-        });
+        const REGEX = /^https:\/\/[^\s$.?#].[^\s]*$/;
+        if (
+            !REGEX.test(get().coachCalender) ||
+            !REGEX.test(get().coachReserve)
+        ) {
+            toast.error('請輸入正確的網址', { duration: 3000 });
+            return;
+        } else {
+            await updateDoc(userRef, {
+                role: get().signUpRole,
+                coachCalender: get().coachCalender,
+                coachReserve: get().coachReserve,
+                myCoach: get().signUpWithCoach,
+            });
+            toast.success('身分註冊完成', { duration: 3000 });
+        }
     },
     updateUserName: async () => {
         const UID = localStorage.getItem('UID');
@@ -404,10 +414,22 @@ export const useUserStore = create<userState>()((set, get) => ({
     updateCoach: async () => {
         const UID = localStorage.getItem('UID');
         const userRef = doc(db, 'users', UID!);
+        if (!get().signUpWithCoach.coachId) {
+            toast.error('請選擇教練', { duration: 3000 });
+            return;
+        }
         await updateDoc(userRef, {
+            role: get().signUpRole,
             myCoach: get().signUpWithCoach,
         });
         toast.success('申請修改完成', { duration: 3000 });
+    },
+    updateRole: async () => {
+        const UID = localStorage.getItem('UID');
+        const userRef = doc(db, 'users', UID!);
+        await updateDoc(userRef, {
+            role: get().signUpRole,
+        });
     },
     unsubscribeInvitations: () => {
         const UID = localStorage.getItem('UID');

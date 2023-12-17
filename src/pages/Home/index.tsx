@@ -5,6 +5,7 @@ import { ScoreChart } from '../../charts/ScoreChart';
 import { WeightChart } from '../../charts/WeightChart';
 import { InBodyStore } from '../../stores/InBodyStore';
 import { useUserStore } from '../../stores/UserStore';
+import RoleSetting from './RoleSetting';
 export default function Home() {
     const navigate = useNavigate();
     const currentUserRole = useUserStore((state) => state.currentUserRole);
@@ -69,6 +70,7 @@ export default function Home() {
                 <WeightChart />
             </div>
             {isInBodyMaskShow && directToInbody}
+            <RoleSetting />
 
             <div className={`myChartBoard ${isCoachMaskShow && 'blur-sm'}`}>
                 {calenderURL && currentUserRole === 1 ? (
