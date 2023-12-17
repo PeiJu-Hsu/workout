@@ -150,10 +150,10 @@ export default function LeftSide({
                                         確認修改
                                     </Button>
                                 </ModalBody>
-                                {currentUserRole === 2 && (
+                                {currentUserRole !== 1 && (
                                     <>
                                         <ModalHeader className=" flex flex-col gap-1 pb-1">
-                                            申請更換教練
+                                            申請教練
                                         </ModalHeader>
                                         <ModalBody>
                                             <SelectCoach />

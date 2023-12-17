@@ -185,6 +185,7 @@ export const useUserStore = create<userState>()((set, get) => ({
                 localStorage.setItem('UID', user.uid);
                 const userRef = doc(userCol, user.uid);
                 const docSnap = await getDoc(userRef);
+                console.log('onAuthChange', get().signUpRole);
                 if (
                     docSnap.exists() &&
                     docSnap.data()?.role !== get().signUpRole
@@ -209,6 +210,7 @@ export const useUserStore = create<userState>()((set, get) => ({
                     );
                     set({ isLogin: true });
                 }
+                set({ isLogin: true });
             }
         });
     },
@@ -441,26 +443,4 @@ export const useUserStore = create<userState>()((set, get) => ({
             get().getCurrentUserInfo();
         });
     },
-
-    // getCoachInfo: async () => {
-    //   if (!auth.currentUser) return;
-    //   const userCol = collection(db, "users");
-    //   let calenderOwnerId = "";
-    //   if (get().currentUserRole === 1) {
-    //     calenderOwnerId = auth.currentUser.uid;
-    //   } else if (get().currentUserRole === 2) {
-    //     const docUserSnap = await getDoc(
-    //       doc(userCol, "users", auth.currentUser.uid)
-    //     );
-    //     const currentUserInfo = docUserSnap.data();
-    //     calenderOwnerId = currentUserInfo?.myCoach.coachId;
-    //   }
-    //   const calenderRef = doc(userCol, calenderOwnerId);
-    //   const docSnap = await getDoc(calenderRef);
-    //   const calenderInfo = docSnap.data();
-    //   set({ calenderURL: calenderInfo?.coachCalender });
-    //   set({ reserveURL: calenderInfo?.coachReserve });
-    //   console.log("calenderURL", get().calenderURL);
-    //   console.log("reserveURL", get().reserveURL);
-    // },
 }));
