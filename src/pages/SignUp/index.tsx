@@ -23,7 +23,7 @@ export default function LogIn() {
         getAuth,
         getUploadImage,
     } = useUserStore();
-
+    const REGEX = /^https:\/\/[^\s$.?#].[^\s]*$/;
     useEffect(() => {
         console.log('signUp');
         getCoachList();
@@ -147,23 +147,31 @@ export default function LogIn() {
                             variant={'solid'}
                             children={'Sign Up'}
                             onClick={async () => {
-                                if (
-                                    signUpRole === 1 &&
-                                    signUpName &&
-                                    coachCalender &&
-                                    coachReserve
-                                ) {
-                                    await uploadImage(signUpImage, signUpEmail);
-                                    await getUploadImage(
-                                        signUpImage,
-                                        signUpEmail
-                                    );
-                                    await signUp(
-                                        auth,
-                                        signUpEmail,
-                                        signUpPassword
-                                    );
-                                    await getAuth(auth, db);
+                                if (signUpRole === 1 && signUpName) {
+                                    if (
+                                        REGEX.test(coachCalender) &&
+                                        REGEX.test(coachReserve)
+                                    ) {
+                                        await uploadImage(
+                                            signUpImage,
+                                            signUpEmail
+                                        );
+                                        await getUploadImage(
+                                            signUpImage,
+                                            signUpEmail
+                                        );
+                                        await signUp(
+                                            auth,
+                                            signUpEmail,
+                                            signUpPassword
+                                        );
+                                        await getAuth(auth, db);
+                                    } else {
+                                        toast.error('請輸入正確的網址', {
+                                            duration: 3000,
+                                        });
+                                        return;
+                                    }
                                 } else if (signUpRole === 2 && signUpName) {
                                     await uploadImage(signUpImage, signUpEmail);
                                     await getUploadImage(
