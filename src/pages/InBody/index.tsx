@@ -1,5 +1,6 @@
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { InputInBodyNumber } from '../../components/InputUnit';
 import { InBodyStore } from '../../stores/InBodyStore';
 import InBodyChart from './InBodyChart';
@@ -123,14 +124,21 @@ export default function InBody() {
                         {labelTexts.map((obj) => (
                             <div key={obj.id} className="flex items-center">
                                 <div className=" w-28">
-                                    <p>{obj.labelText}</p>
+                                    <p>
+                                        {obj.labelText}
+                                        <sup className="text-red-400"> *</sup>
+                                    </p>
                                 </div>
-                                <div className=" flex-grow">
+                                <div className="flex-grow">
                                     <InputInBodyNumber
                                         type={obj.type}
                                         id={obj.id}
                                         label=""
                                         onChange={(e) => {
+                                            if (Number(e.target.value) < 0) {
+                                                toast.error('數值必須大於0');
+                                                return;
+                                            }
                                             setInputNumberToState(
                                                 e.target.id,
                                                 obj.type === 'number'
@@ -170,8 +178,8 @@ export default function InBody() {
                 </div>
                 <Button
                     className=" w-full rounded-full bg-gray-400 text-lg font-bold text-white hover:bg-black"
-                    onClick={() => {
-                        addInBodyData();
+                    onClick={async () => {
+                        await addInBodyData();
                     }}
                     endContent={
                         <svg
@@ -194,18 +202,6 @@ export default function InBody() {
                 </Button>
             </div>
             <InBodyChart />
-            {/* <h3>
-                體脂率 (%) ={' '}
-                {calculateFatRatio() === 'NaN'
-                    ? 'TBD'
-                    : ((100 * bodyFat) / weight).toFixed(2)}
-            </h3>
-            <h3>
-                BMI (kg/m^2) =
-                {calculateBMI() === 'NaN'
-                    ? 'TBD'
-                    : ((weight * 10000) / height / height).toFixed(2)}
-            </h3> */}
         </div>
     );
 }

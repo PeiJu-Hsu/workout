@@ -11,8 +11,9 @@ import toast from 'react-hot-toast';
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { auth, db } from '../firebase';
+
 interface InBodyStore {
-    measureTime: Date | null;
+    measureTime: Date | null | undefined;
     inBodyScore: number;
     height: number;
     weight: number;
@@ -80,7 +81,6 @@ export const InBodyStore = create<InBodyStore>()(
             return fatRatio;
         },
         setInBodyStatus: (inBodyData) => {
-            // set({ measureTime: inBodyData[0].measureTime });
             set({ inBodyScore: inBodyData[0].inBodyScore });
             set({ height: inBodyData[0].height });
             set({ weight: inBodyData[0].weight });
@@ -116,8 +116,15 @@ export const InBodyStore = create<InBodyStore>()(
         },
 
         addInBodyData: async () => {
-            if (!get().measureTime) {
-                toast.error('請輸入InBody數據');
+            if (
+                !get().measureTime ||
+                !get().inBodyScore ||
+                !get().height ||
+                !get().weight ||
+                !get().bodyFat ||
+                !get().bodyMuscle
+            ) {
+                toast.error('請輸入InBody數據(*欄位為必填)');
                 return;
             }
             if (auth.currentUser) {

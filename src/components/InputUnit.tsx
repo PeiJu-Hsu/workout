@@ -18,7 +18,6 @@ interface PropsInputInBodyType {
     id: string;
     type: string;
     label: string;
-    // defaultValues: number | Date;
     onChange: (e: any) => void;
 }
 // export default function InputUnit(type: string, labelText: string) {
@@ -165,7 +164,6 @@ export function InputInBodyNumber({
         <Input
             type={type}
             min={0}
-            isRequired
             className=" w-36"
             label={label}
             placeholder={label}
