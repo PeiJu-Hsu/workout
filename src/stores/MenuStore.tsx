@@ -22,7 +22,7 @@ export interface MenuList {
 }
 interface MenuStore {
     itemGroup: string;
-    itemGroupIndex: number | null;
+    itemGroupIndex: number;
     itemName: string;
     loading: string | number;
     runCount: string | number;
@@ -61,7 +61,7 @@ const menuListString = localStorage.getItem('menuList')
     : [];
 export const MenuStore = create<MenuStore>()((set, get) => ({
     itemGroup: '',
-    itemGroupIndex: null,
+    itemGroupIndex: 0,
     itemName: '',
     loading: 'default',
     runCount: 'default',

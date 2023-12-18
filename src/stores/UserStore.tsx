@@ -142,6 +142,7 @@ export const useUserStore = create<userState>()((set, get) => ({
                 email,
                 password
             );
+            console.log(userCredential);
         } catch (e: any) {
             console.error(e);
             toast.error(e.message, { duration: 3000 });

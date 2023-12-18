@@ -9,8 +9,6 @@ interface ProtectRoute {
     redirectPath?: string;
 }
 export const PublicRoute = ({ children }: PublicRoute) => {
-    const signUpRole = useUserStore((state) => state.signUpRole);
-    const currentUserRole = useUserStore((state) => state.currentUserRole);
     const isLogin = useUserStore((state) => state.isLogin);
     // 登入情況下，如果輸入了 /login，會跳轉回首頁
     if (isLogin) return <Navigate to="/" replace />;
