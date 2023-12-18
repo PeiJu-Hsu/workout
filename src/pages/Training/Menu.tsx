@@ -67,6 +67,10 @@ export default function Menu({ itemPointer }: PropsType) {
                     toast.error('請先完成目前項目');
                     return;
                 }
+                if (menuList.length === 0) {
+                    toast.error('沒有紀錄可以上傳');
+                    return;
+                }
                 addMenuRecord();
             }}
             endContent={
@@ -177,6 +181,7 @@ export default function Menu({ itemPointer }: PropsType) {
                                                     <input
                                                         className=" w-10 border-b-1 text-center"
                                                         min={0}
+                                                        max={200}
                                                         key={index}
                                                         type="number"
                                                         defaultValue={load}
