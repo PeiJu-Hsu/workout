@@ -5,7 +5,6 @@ import {
     Modal,
     ModalBody,
     ModalContent,
-    ModalFooter,
     ModalHeader,
     useDisclosure,
 } from '@nextui-org/react';
@@ -99,7 +98,7 @@ export default function LeftSide({
                     size="lg"
                     className="m-auto mt-2 h-20 w-20 text-large flex-shrink-0"
                 />
-                <p className="m-auto mt-2 text-large font-bold">
+                <p className="m-auto mt-2 text-large font-bold w-full truncate text-center">
                     {currentUserName} {currentUserRole === 1 ? '教練' : '學員'}
                 </p>
                 <Chip
@@ -134,7 +133,6 @@ export default function LeftSide({
                                             label: 'text-black',
                                         }}
                                     />
-                                    {signUpName}
                                     <Button
                                         size="sm"
                                         onClick={async () => {
@@ -171,8 +169,6 @@ export default function LeftSide({
                                         </ModalBody>
                                     </>
                                 )}
-
-                                <ModalFooter></ModalFooter>
                             </>
                         )}
                     </ModalContent>

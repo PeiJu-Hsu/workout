@@ -38,11 +38,13 @@ export function InputText({ id, type, label, className }: PropsInputType) {
     );
     return (
         <Input
+            maxLength={id === 'signUpName' ? 8 : undefined}
             classNames={className}
             type={type}
             variant="underlined"
             label={label}
             id={id}
+            description={id === 'signUpName' ? '長度限制8個字元' : undefined}
             onChange={(e) => {
                 setInputTextToState(e.target.id, e.target.value);
             }}
