@@ -29,7 +29,7 @@ export default function MenuSetup() {
                     <div className=" flex flex-col items-start justify-between gap-y-3">
                         <div
                             className={` w-full border-l-5 px-2 ${
-                                itemGroup === 'default'
+                                itemGroup === ''
                                     ? 'border-yellow-300'
                                     : 'border-gray-300'
                             }`}
@@ -38,11 +38,11 @@ export default function MenuSetup() {
                         </div>
                         <div
                             className={`w-full border-l-5 px-2 ${
-                                itemName !== 'default'
-                                    ? 'border-gray-300'
-                                    : itemGroup !== 'default'
+                                itemGroup === '' && itemName === ''
+                                    ? ' border-transparent'
+                                    : itemName === ''
                                       ? 'border-yellow-300'
-                                      : ' border-transparent'
+                                      : 'border-gray-300'
                             }`}
                         >
                             <SelectWorkOutItem />
@@ -51,7 +51,7 @@ export default function MenuSetup() {
                             className={`w-full border-l-5 px-2 ${
                                 runCount !== 'default'
                                     ? 'border-gray-300'
-                                    : itemName !== 'default'
+                                    : itemName !== ''
                                       ? 'border-yellow-300'
                                       : ' border-transparent'
                             }`}
@@ -73,10 +73,9 @@ export default function MenuSetup() {
                                 label={'設定目標重量'}
                             />
                         </div>
-                        {/* <div className=" m-auto flex  items-center justify-center rounded-full bg-gray-400 hover:bg-yellow-400"> */}
                         <div className="flex-end flex w-full justify-end pr-2 ">
                             <Button
-                                className=" ml-2 w-full items-center justify-center rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                                className=" ml-2 w-full items-center justify-center rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                                 endContent={
                                     <img className=" h-5 w-5" src={AddIcon} />
                                 }
@@ -85,8 +84,6 @@ export default function MenuSetup() {
                                 新增項目
                             </Button>
                         </div>
-
-                        {/* </div> */}
                     </div>
                 </AccordionItem>
             </Accordion>

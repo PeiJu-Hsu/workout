@@ -22,7 +22,7 @@ export interface MenuList {
 }
 interface MenuStore {
     itemGroup: string;
-    itemGroupIndex: number;
+    itemGroupIndex: number | null;
     itemName: string;
     loading: string | number;
     runCount: string | number;
@@ -60,9 +60,9 @@ const menuListString = localStorage.getItem('menuList')
     ? JSON.parse(localStorage.getItem('menuList')!)
     : [];
 export const MenuStore = create<MenuStore>()((set, get) => ({
-    itemGroup: 'default',
-    itemGroupIndex: 0,
-    itemName: 'default',
+    itemGroup: '',
+    itemGroupIndex: null,
+    itemName: '',
     loading: 'default',
     runCount: 'default',
     targetStudent: 'default',
@@ -89,6 +89,14 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     },
 
     setMenuList: () => {
+        if (get().itemName === '') {
+            toast.error('請選擇訓練項目');
+            return;
+        }
+        if (get().loading === 'default' || get().runCount === 'default') {
+            toast.error('請設定訓練組數與重量');
+            return;
+        }
         set((state) => ({
             menuList: [
                 ...state.menuList,
@@ -103,6 +111,7 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
             ],
         }));
         localStorage.setItem('menuList', JSON.stringify(get().menuList));
+
         toast.success('新增訓練項目成功');
     },
     resetMenuList: (value) => {

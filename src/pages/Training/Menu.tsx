@@ -31,7 +31,7 @@ export default function Menu({ itemPointer }: PropsType) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const topContent = (
-        <div className="mx-4 my-1 flex h-7 w-7 items-center justify-center rounded-full">
+        <div className="mx-8 my-1 flex h-7 w-7 items-center justify-center rounded-full">
             <Button
                 className="rounded-full h-8 bg-gray-400 text-lg text-white hover:bg-yellow-300"
                 onPress={onOpen}

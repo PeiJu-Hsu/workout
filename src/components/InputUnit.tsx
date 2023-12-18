@@ -131,8 +131,10 @@ export function InputFile({ id }: PropInput) {
 }
 export function InputLoadingNumber({ id, type, label }: PropsInputType) {
     const setLoading = MenuStore((state) => state.setLoading);
+    const itemName = MenuStore((state) => state.itemName);
     return (
         <Input
+            isDisabled={itemName === ''}
             type={type}
             min={0}
             // className="max-w-xs"

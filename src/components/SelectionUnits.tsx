@@ -27,7 +27,7 @@ export function SelectMuscle() {
             onChange={(e) => {
                 setItemGroup(e.target.value);
                 setItemGroupIndex(groupList.indexOf(e.target.value));
-                setItemName('default');
+                setItemName('');
             }}
         >
             {group.map((item) => (
@@ -47,12 +47,11 @@ export function SelectWorkOutItem() {
             label="選擇訓練項目"
             placeholder="選擇訓練項目"
             defaultSelectedKeys=""
-            // className="max-w-xs"
             onChange={(e) => {
                 setItemName(e.target.value);
             }}
         >
-            {group[itemGroupIndex].sectionItems.map((item) => (
+            {group[itemGroupIndex]?.sectionItems.map((item) => (
                 <SelectItem key={item} value={item}>
                     {item}
                 </SelectItem>
@@ -63,13 +62,14 @@ export function SelectWorkOutItem() {
 export function SelectNumber({ max }: { max: number }) {
     const optionArray = new Array(max).fill(0).map((_item, index) => index + 1);
     const setRunCount = MenuStore((state) => state.setRunCount);
+    const itemName = MenuStore((state) => state.itemName);
     return (
         <Select
             isRequired
+            isDisabled={itemName === ''}
             label="設定組數"
             placeholder="設定組數"
             defaultSelectedKeys=""
-            // className="max-w-xs"
             onChange={(e) => {
                 setRunCount(Number(e.target.value));
             }}
@@ -85,7 +85,6 @@ export function SelectNumber({ max }: { max: number }) {
 export function SelectStudentReceiver({ onClose }: { onClose: () => void }) {
     const studentList = useUserStore((state) => state.studentList);
     const currentUserName = useUserStore((state) => state.currentUserName);
-    // const setTargetStudent = MenuStore((state) => state.setTargetStudent);
     const sentToStudent = MenuStore((state) => state.sentToStudent);
     const [receiver, setReceiver] = useState('default');
     const [menuMessage, setMenuMessage] = useState('');
@@ -103,7 +102,6 @@ export function SelectStudentReceiver({ onClose }: { onClose: () => void }) {
                 label="選擇學員"
                 placeholder="選擇學員"
                 defaultSelectedKeys=""
-                // className="  max-w-xs"
                 onChange={(e) => {
                     setReceiver(e.target.value);
                 }}
