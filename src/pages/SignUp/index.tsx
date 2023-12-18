@@ -1,12 +1,14 @@
 import { Radio, RadioGroup } from '@nextui-org/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import ButtonBlack from '../../components/Button';
 import { InputPassword, InputText } from '../../components/InputUnit';
 import { auth, db } from '../../firebase';
 import { useUserStore } from '../../stores/UserStore';
 import SelectCoach from './SelectCoach';
 export default function LogIn() {
+    const navigate = useNavigate();
     const yellow = ' text-[#F9C809]';
     const {
         signUpRole,
@@ -25,29 +27,27 @@ export default function LogIn() {
     } = useUserStore();
     const REGEX = /^https:\/\/[^\s$.?#].[^\s]*$/;
     useEffect(() => {
-        console.log('signUp');
         getCoachList();
     }, []);
     return (
         <div
-            className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat px-5 sm:px-0"
+            className="flex h-screen w-full items-center justify-center bg-cover bg-no-repeat px-5 sm:px-0 "
             style={{
                 backgroundImage: `url(https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg)`,
             }}
         >
             <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-500/30">
-                <div className="w-full p-8 ">
+                <div className="w-full p-4 ">
                     <p className="text-center text-xl font-extrabold text-white">
-                        Join <strong className={`${yellow}`}>WorkOut</strong>
+                        加入 <strong className={`${yellow}`}>WorkOut</strong>
                     </p>
                     <p className="w-full text-center text-xs capitalize text-white">
-                        Get started with your free account
+                        免費註冊
                     </p>
                     <div className="mt-2">
                         <InputText
                             className={{
-                                input: ' text-white',
-                                label: 'text-white',
+                                label: 'text-gray-500',
                             }}
                             id={'signUpEmail'}
                             type={'email'}
@@ -60,23 +60,19 @@ export default function LogIn() {
                     <div className="mt-2">
                         <InputText
                             className={{
-                                input: ' text-white',
-                                label: 'text-white',
+                                label: 'text-gray-500',
                             }}
                             id={'signUpName'}
                             type={'text'}
                             label={'Name'}
                         />
                     </div>
-                    {/* <div className="mt-2">
-            <InputFile id={"signUpImage"} />
-          </div> */}
                     <div className="mt-3 ">
                         <RadioGroup
                             classNames={{
                                 label: 'text-white',
                             }}
-                            label="Select your role"
+                            label="選擇註冊身分"
                             orientation="horizontal"
                         >
                             <Radio
@@ -92,7 +88,7 @@ export default function LogIn() {
                                     selectRole(Number(e.target.value));
                                 }}
                             >
-                                Coach
+                                教練
                             </Radio>
                             <Radio
                                 classNames={{
@@ -107,32 +103,29 @@ export default function LogIn() {
                                     selectRole(Number(e.target.value));
                                 }}
                             >
-                                Student
+                                學員
                             </Radio>
                         </RadioGroup>
                     </div>
                     {signUpRole === 1 ? (
-                        <>
+                        <div className="flex flex-col gap-y-2">
                             <InputText
                                 className={{
-                                    input: ' text-white',
-                                    label: 'text-white',
+                                    label: 'text-gray-500',
                                 }}
                                 id={'coachCalender'}
                                 type={'url'}
-                                label={'CalenderURL'}
+                                label={'Google日曆 URL'}
                             />
-
                             <InputText
                                 className={{
-                                    input: ' text-white',
-                                    label: 'text-white',
+                                    label: 'text-gray-500',
                                 }}
                                 id={'coachReserve'}
                                 type={'url'}
-                                label={'ReserveURL'}
+                                label={'Google預約表 URL'}
                             />
-                        </>
+                        </div>
                     ) : null}
                     {signUpRole === 2 ? (
                         <div className="mt-2">
@@ -140,12 +133,12 @@ export default function LogIn() {
                         </div>
                     ) : null}
 
-                    <div className="mt-8">
+                    <div className="mt-4">
                         <ButtonBlack
                             size={'lg'}
                             radius={'full'}
                             variant={'solid'}
-                            children={'Sign Up'}
+                            children={'註冊'}
                             onClick={async () => {
                                 if (signUpRole === 1 && signUpName) {
                                     if (
@@ -190,20 +183,20 @@ export default function LogIn() {
                             }}
                         />
                     </div>
-                    <div className=" mt-4 flex items-center justify-center rounded-full text-white shadow-md hover:bg-gray-100">
-                        <div className="flex w-full justify-center"></div>
-                    </div>
                     <div className="mt-4 flex w-full items-center text-center">
-                        <a
-                            href="/login"
+                        <div
+                            onClick={() => {
+                                navigate('/login');
+                            }}
                             className="w-full text-center text-xs capitalize text-white"
                         >
-                            Already have an account?
-                            <span className={`font-bold ${yellow}`}>
-                                {' '}
-                                Log in
+                            已經有帳號了嗎?
+                            <span
+                                className={`font-bold cursor-pointer ${yellow}`}
+                            >
+                                立即登入
                             </span>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

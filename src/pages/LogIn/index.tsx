@@ -1,11 +1,12 @@
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import ButtonBlack, { ButtonDefault } from '../../components/Button';
 import { InputPassword, InputText } from '../../components/InputUnit';
 import { auth, db, googleProvider } from '../../firebase';
 import { useUserStore } from '../../stores/UserStore';
 export default function LogIn() {
     const yellow = ' text-[#F9C809]';
-    const hoverYellow = ' hover:text-[#F9C809]';
+    const navigate = useNavigate();
     const { signUpEmail, signUpPassword, getAuth, nativeLogin, googleLogin } =
         useUserStore();
     const handleLogin = async () => {
@@ -30,14 +31,14 @@ export default function LogIn() {
             <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-500/30">
                 <div className="w-full p-8">
                     <p className="text-center text-xl font-extrabold text-white">
-                        Welcome <strong className={`${yellow}`}>WorkOut</strong>
+                        歡迎使用{' '}
+                        <strong className={`${yellow}`}>WorkOut</strong>
                     </p>
 
                     <div className="mt-4">
                         <InputText
                             className={{
-                                input: ' text-white',
-                                label: 'text-white',
+                                label: 'text-gray-500',
                             }}
                             id={'signUpEmail'}
                             type={'email'}
@@ -46,19 +47,13 @@ export default function LogIn() {
                     </div>
                     <div className="mt-4 flex flex-col justify-between">
                         <InputPassword id={'signUpPassword'} />
-                        <a
-                            href="#"
-                            className={`mt-2 w-full text-end text-xs text-gray-500 ${hoverYellow}`}
-                        >
-                            Forget Password?
-                        </a>
                     </div>
                     <div className="mt-8">
                         <ButtonBlack
                             size={'lg'}
                             radius={'full'}
                             variant={'solid'}
-                            children={'Log In'}
+                            children={'登入'}
                             onClick={handleLogin}
                         />
                     </div>
@@ -94,7 +89,7 @@ export default function LogIn() {
                                             </svg>
                                         </div>
                                         <span className="ml-2">
-                                            Log in with Google
+                                            使用Google登入
                                         </span>
                                     </div>
                                 }
@@ -103,16 +98,18 @@ export default function LogIn() {
                         </div>
                     </div>
                     <div className="mt-4 flex w-full items-center text-center">
-                        <a
-                            href="/signup"
-                            className="w-full text-center text-xs capitalize text-white"
+                        <div
+                            onClick={() => {
+                                navigate('/signup');
+                            }}
+                            className="w-full text-center cursor-pointer text-xs capitalize text-white"
                         >
-                            Don&apos;t have any account yet?
+                            還沒有帳號嗎?
                             <span className={`font-bold ${yellow}`}>
                                 {' '}
-                                Sign Up
+                                立即註冊
                             </span>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

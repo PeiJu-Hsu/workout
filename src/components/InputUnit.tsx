@@ -11,7 +11,7 @@ interface PropsInputType {
     id: string;
     type: string;
     label: string;
-    className?: { input: string; label: string };
+    className?: { label: string };
 }
 interface PropsInputInBodyType {
     id: string;
@@ -41,7 +41,6 @@ export function InputText({ id, type, label, className }: PropsInputType) {
             maxLength={id === 'signUpName' ? 8 : undefined}
             classNames={className}
             type={type}
-            variant="underlined"
             label={label}
             id={id}
             description={id === 'signUpName' ? '長度限制8個字元' : undefined}
@@ -58,7 +57,7 @@ export function InputEmail({ id, type }: PropsInputType) {
     return (
         <Input
             classNames={{
-                input: ' text-white',
+                input: 'text-white',
                 label: 'text-white',
             }}
             variant="underlined"
@@ -81,11 +80,9 @@ export function InputPassword({ id }: PropInput) {
     return (
         <Input
             classNames={{
-                input: ' text-white',
-                label: 'text-white',
+                label: 'text-gray-500',
             }}
             label="Password"
-            variant="underlined"
             id={id}
             onChange={(e) => {
                 setInputTextToState(e.target.id, e.target.value);
