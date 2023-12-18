@@ -129,7 +129,6 @@ export default function LeftSide({
                                         type="text"
                                         label="姓名/暱稱"
                                         className={{
-                                            input: ' text-black',
                                             label: 'text-black',
                                         }}
                                     />
@@ -178,7 +177,10 @@ export default function LeftSide({
                         return (
                             <div
                                 key={page.name}
-                                className="myDropdownItem pl-2 mt-3 mr-6 cursor-pointer text-white hover:border-l-2"
+                                className={`myDropdownItem pl-2 mt-3 mr-6 cursor-pointer text-white hover:border-l-2 ${
+                                    window.location.pathname === page.path &&
+                                    `border-l-2`
+                                }`}
                                 onClick={() => {
                                     navigate(page.path);
                                 }}
