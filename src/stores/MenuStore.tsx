@@ -33,7 +33,7 @@ interface MenuStore {
     setItemGroup: (value: string) => void;
     setItemGroupIndex: (value: number) => void;
     setItemName: (value: string) => void;
-    setLoading: (value: number) => void;
+    setLoading: (value: number | string) => void;
     setRunCount: (value: number) => void;
     setTargetStudent: (value: string) => void;
     setMenuList: () => void;

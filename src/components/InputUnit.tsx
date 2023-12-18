@@ -1,5 +1,6 @@
 import { Input } from '@nextui-org/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { MenuStore } from '../stores/MenuStore';
 import { useUserStore } from '../stores/UserStore';
 import { EyeFilledIcon, EyeSlashFilledIcon } from './EyeIcon';
@@ -137,10 +138,18 @@ export function InputLoadingNumber({ id, type, label }: PropsInputType) {
             isDisabled={itemName === ''}
             type={type}
             min={0}
-            // className="max-w-xs"
+            max={200}
             label={label}
             id={id}
             onChange={(e) => {
+                if (
+                    Number(e.target.value) < 0 ||
+                    Number(e.target.value) > 200
+                ) {
+                    toast.error('目標重量需介於0~200kg之間');
+                    setLoading('default');
+                    return;
+                }
                 setLoading(Number(e.target.value));
             }}
         />

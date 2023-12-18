@@ -42,7 +42,7 @@ export default function MenuSetup() {
                                     ? ' border-transparent'
                                     : itemName === ''
                                       ? 'border-yellow-300'
-                                      : ' border-transparent'
+                                      : ' border-gray-300'
                             }`}
                         >
                             <SelectWorkOutItem />
