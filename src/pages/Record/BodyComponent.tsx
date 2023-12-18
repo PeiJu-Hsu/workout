@@ -315,7 +315,6 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
         setParts(partsChanged);
         if (onChange) onChange(partsChanged);
         if (onClick) onClick(id);
-        console.log('test');
         event.currentTarget.scroll({
             top: event.currentTarget.scrollHeight,
             behavior: 'smooth',

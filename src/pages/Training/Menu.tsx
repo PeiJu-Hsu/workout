@@ -102,7 +102,6 @@ export default function Menu({ itemPointer }: PropsType) {
             index === objIndex ? { ...item, records: newItemRecord } : item
         );
         resetMenuList(newMenuList);
-        console.log('newMenuList:', menuList);
     }
 
     useEffect(() => {
@@ -208,10 +207,6 @@ export default function Menu({ itemPointer }: PropsType) {
                                                         e.target as HTMLButtonElement;
                                                     const indexRemove =
                                                         target.id;
-                                                    console.log(
-                                                        'indexRemove',
-                                                        indexRemove
-                                                    );
                                                     const newMenuList =
                                                         menuList.filter(
                                                             (_, index) =>

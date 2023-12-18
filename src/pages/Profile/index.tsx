@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 import { useUserStore } from '../../stores/UserStore';
 export default function Profile() {
     useEffect(() => {
-        console.log('Profile');
-        getCoachList().then((res) => {
-            if (res) console.log(res);
-        });
+        getCoachList();
     }, []);
     const {
         signUpRole,
@@ -132,11 +129,19 @@ export default function Profile() {
             <Button
                 size="md"
                 onClick={async () => {
-                    if (signUpRole === 1 && signUpName && coachCalender && coachReserve) {
+                    if (
+                        signUpRole === 1 &&
+                        signUpName &&
+                        coachCalender &&
+                        coachReserve
+                    ) {
                         await updateProfile();
                     } else if (signUpRole === 2 && signUpName) {
                         await updateProfile();
-                        sendInvitation(signUpWithCoach.coachId, localStorage.getItem('UID')!);
+                        sendInvitation(
+                            signUpWithCoach.coachId,
+                            localStorage.getItem('UID')!
+                        );
                     } else {
                         alert('Plz fill in all the blanks');
                     }

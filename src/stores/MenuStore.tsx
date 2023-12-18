@@ -163,7 +163,6 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
     },
 
     sentToStudent: async (currentUserName, target, message) => {
-        console.log('message: ', get().menuMessage);
         if (get().menuList.length === 0) {
             toast.error(`請建立訓練項目`);
             return;

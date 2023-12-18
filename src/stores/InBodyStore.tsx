@@ -94,7 +94,6 @@ export const InBodyStore = create<InBodyStore>()(
             set({ controlMuscle: inBodyData[0].controlMuscle });
             set({ fatRatio: inBodyData[0].fatRatio });
             set({ InBodyHistory: inBodyData });
-            console.log('InBodyHistory', get().InBodyHistory);
         },
 
         fetchInBodyData: async () => {

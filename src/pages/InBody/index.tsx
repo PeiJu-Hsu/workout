@@ -137,7 +137,6 @@ export default function InBody() {
                                                     ? Number(e.target.value)
                                                     : new Date(e.target.value)
                                             );
-                                            console.log(Number(e.target.value));
                                         }}
                                     />
                                 </div>
@@ -162,7 +161,6 @@ export default function InBody() {
                                                     ? Number(e.target.value)
                                                     : new Date(e.target.value)
                                             );
-                                            console.log(Number(e.target.value));
                                         }}
                                     />
                                 </div>

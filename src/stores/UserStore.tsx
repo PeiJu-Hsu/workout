@@ -134,8 +134,6 @@ export const useUserStore = create<userState>()((set, get) => ({
     },
     setInputTextToState: (targetState, value) => {
         set({ [targetState]: value });
-        console.log('targetState', targetState);
-        console.log('value', value);
     },
     signUp: async (auth, email, password) => {
         try {
@@ -144,7 +142,6 @@ export const useUserStore = create<userState>()((set, get) => ({
                 email,
                 password
             );
-            console.log('userCredential', userCredential);
         } catch (e: any) {
             console.error(e);
             toast.error(e.message, { duration: 3000 });
@@ -186,7 +183,6 @@ export const useUserStore = create<userState>()((set, get) => ({
                 localStorage.setItem('UID', user.uid);
                 const userRef = doc(userCol, user.uid);
                 const docSnap = await getDoc(userRef);
-                console.log('onAuthChange', get().signUpRole);
                 if (
                     docSnap.exists() &&
                     docSnap.data()?.role !== get().signUpRole
@@ -223,9 +219,7 @@ export const useUserStore = create<userState>()((set, get) => ({
         return name;
     },
     sendInvitation: async (coachId, currentUserId) => {
-        console.log('StartSendCoachId', coachId);
         if (!coachId) return;
-        console.log('coachId2', coachId);
         const invitationCol = collection(db, 'users', coachId, 'invitation');
         const newInvitationRef = doc(invitationCol, currentUserId);
         const docSnap = await getDoc(newInvitationRef);
@@ -246,7 +240,6 @@ export const useUserStore = create<userState>()((set, get) => ({
             { ...invitationData, id, sendTime: serverTimestamp() },
             { merge: true }
         );
-        console.log('EndSendCoachId', coachId);
     },
     sendInvitationAtHome: async () => {
         const UID = localStorage.getItem('UID');
@@ -271,7 +264,6 @@ export const useUserStore = create<userState>()((set, get) => ({
     },
     replyInvitation: async (e: any, state) => {
         const invitationId = e.target.dataset.id;
-        console.log('invitationId', invitationId);
         const UID = localStorage.getItem('UID');
         const invitationCol = collection(db, 'users', UID!, 'invitation');
         const invitationRef = doc(invitationCol, invitationId);
@@ -285,7 +277,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         });
     },
     deleteInvitation: async () => {
-        console.log('myCoach', get().myCoach);
         const UID = localStorage.getItem('UID');
         const docMenuRecordsCol = collection(
             db,
