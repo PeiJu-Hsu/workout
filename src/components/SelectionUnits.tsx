@@ -114,7 +114,7 @@ export function SelectStudentReceiver({ onClose }: { onClose: () => void }) {
             </Select>
             <div className=" flex justify-end">
                 <Button
-                    className=" rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                    className=" rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                     // className="text-white"
                     endContent={<img className=" h-6 w-6" src={SendIcon} />}
                     onClick={() => {

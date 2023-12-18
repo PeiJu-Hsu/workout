@@ -33,7 +33,7 @@ export default function Menu({ itemPointer }: PropsType) {
     const topContent = (
         <div className="mx-8 my-1 flex h-7 w-7 items-center justify-center rounded-full">
             <Button
-                className="rounded-full h-8 bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                className="rounded-full h-8 bg-gray-400 text-lg text-white hover:bg-black"
                 onPress={onOpen}
                 endContent={<img className=" h-6 w-6" src={SendIcon} />}
             ></Button>
@@ -61,7 +61,7 @@ export default function Menu({ itemPointer }: PropsType) {
 
     const bottomContent = (
         <Button
-            className=" w-full rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+            className=" w-full rounded-full bg-gray-400 text-lg text-white hover:bg-black"
             onClick={() => {
                 if (itemPointer < menuList.length) {
                     toast.error('請先完成目前項目');
@@ -198,7 +198,7 @@ export default function Menu({ itemPointer }: PropsType) {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="m-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 hover:bg-yellow-400">
+                                        <div className="m-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 hover:bg-black">
                                             <img
                                                 className=" h-2/3 w-2/3"
                                                 id={objIndex.toString()}

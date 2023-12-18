@@ -171,7 +171,7 @@ export default function InBody() {
                     </div>
                 </div>
                 <Button
-                    className=" w-full rounded-full bg-gray-400 text-lg font-bold text-white hover:bg-yellow-300"
+                    className=" w-full rounded-full bg-gray-400 text-lg font-bold text-white hover:bg-black"
                     onClick={() => {
                         addInBodyData();
                     }}

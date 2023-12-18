@@ -111,7 +111,7 @@ export default function ReceivedMenu() {
 
                                 <div className="flex justify-center">
                                     <Button
-                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                                         onClick={() => {
                                             handleAcceptMenu();
                                             toast.success('更新訓練菜單完成');
@@ -121,7 +121,7 @@ export default function ReceivedMenu() {
                                         接受
                                     </Button>
                                     <Button
-                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-yellow-300"
+                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                                         onClick={() => {
                                             handleRejectMenu();
                                             onClose();
