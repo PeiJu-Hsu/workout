@@ -177,9 +177,9 @@ export default function LeftSide({
                         return (
                             <div
                                 key={page.name}
-                                className={`myDropdownItem pl-2 mt-3 mr-6 cursor-pointer text-white hover:border-l-2 ${
+                                className={`myDropdownItem pl-2 mt-3 mr-6 cursor-pointer border-transparent border-l-2 text-white hover:border-white ${
                                     window.location.pathname === page.path &&
-                                    `border-l-2`
+                                    `border-white`
                                 }`}
                                 onClick={() => {
                                     navigate(page.path);
@@ -195,7 +195,7 @@ export default function LeftSide({
                         );
                     })}
                     <div
-                        className="myDropdownItem relative pl-2 mt-3 mr-6 cursor-pointer text-white hover:border-l-2"
+                        className="myDropdownItem relative flex pl-2 mt-3 mr-6 cursor-pointer border-transparent border-l-2 text-white  hover:border-white"
                         onClick={() => {
                             setIsMessageShow(!isMessageShow);
                         }}
@@ -226,7 +226,6 @@ export default function LeftSide({
                         >
                             {messageCount}
                         </span>
-
                         {isMessageShow && (
                             <Invitation messageCount={messageCount} />
                         )}

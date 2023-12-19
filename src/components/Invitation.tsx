@@ -1,4 +1,4 @@
-import { Avatar, Button } from '@nextui-org/react';
+import { Avatar, Button, ScrollShadow } from '@nextui-org/react';
 import ReceivedMenu from '../pages/Training/ReceivedMenu';
 import { useUserStore } from '../stores/UserStore';
 interface InvitationProps {
@@ -9,7 +9,11 @@ export default function Invitation({ messageCount }: InvitationProps) {
     const invitations = useUserStore((state) => state.invitations);
     const replyInvitation = useUserStore((state) => state.replyInvitation);
     return (
-        <div className="p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute -left-4 bottom-8  bg-black w-[192px]">
+        <ScrollShadow
+            hideScrollBar
+            isEnabled={false}
+            className=" overflow-y-auto max-h-[200px] p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute top-8 -left-4 bg-black w-[192px]"
+        >
             {messageCount ? '新的訊息' : '沒有新的通知'}
             {currentUserRole === 1 ? (
                 <>
@@ -64,6 +68,6 @@ export default function Invitation({ messageCount }: InvitationProps) {
             ) : (
                 <ReceivedMenu />
             )}
-        </div>
+        </ScrollShadow>
     );
 }

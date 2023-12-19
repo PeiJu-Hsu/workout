@@ -45,7 +45,7 @@ export default function ReceivedMenu() {
                         content={`日期:${item.formatTime}`}
                     >
                         <div
-                            className=" text-center cursor-pointer w-full rounded-full bg-gray-100 text-lg text-black hover:bg-gray-300 hover:text-white"
+                            className="text-center cursor-pointer w-full rounded-full bg-gray-100 text-lg text-black hover:bg-gray-300 hover:text-white"
                             onClick={() => {
                                 handleOpen(index);
                             }}
