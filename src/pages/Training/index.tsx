@@ -93,10 +93,12 @@ export default function Training() {
                                               `🎉這是最後一項🎉`}
                                     </p>
                                 </div>
-                                <div className="mx-2 flex items-center justify-center">
+                                <div
+                                    className="mx-2 flex items-center justify-center cursor-pointer"
+                                    onClick={handleStartStop}
+                                >
                                     <img
-                                        className=" w-11"
-                                        onClick={handleStartStop}
+                                        className="w-11"
                                         src={isRunning ? Stop : Start}
                                     />
                                 </div>

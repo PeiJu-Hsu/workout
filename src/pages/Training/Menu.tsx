@@ -179,7 +179,7 @@ export default function Menu({ itemPointer }: PropsType) {
                                             {item.records.map((load, index) => {
                                                 return (
                                                     <input
-                                                        className=" w-10 border-b-1 text-center"
+                                                        className="w-10 border-b-1 text-center"
                                                         min={0}
                                                         max={200}
                                                         key={index}
@@ -202,7 +202,7 @@ export default function Menu({ itemPointer }: PropsType) {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="m-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 hover:bg-black">
+                                        <div className="cursor-pointer  m-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 hover:bg-black">
                                             <img
                                                 className=" h-2/3 w-2/3"
                                                 id={objIndex.toString()}
