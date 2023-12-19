@@ -13,6 +13,7 @@ import SelectCoach from '../SignUp/SelectCoach';
 export default function RoleSetting() {
     const { onOpenChange } = useDisclosure();
     const currentUserRole = useUserStore((state) => state.currentUserRole);
+    const isFirstTime = useUserStore((state) => state.isFirstTime);
     const updateCoachURL = useUserStore((state) => state.updateCoachURL);
     const updateCoach = useUserStore((state) => state.updateCoach);
     const updateRole = useUserStore((state) => state.updateRole);
@@ -24,7 +25,7 @@ export default function RoleSetting() {
 
     return (
         <Modal
-            isOpen={currentUserRole === 0}
+            isOpen={currentUserRole === 0 && isFirstTime}
             onOpenChange={onOpenChange}
             placement="bottom-center"
         >

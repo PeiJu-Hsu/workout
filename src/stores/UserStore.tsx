@@ -29,6 +29,7 @@ import { create } from 'zustand';
 import { db, storage } from '../firebase';
 import { getformatTime } from './InBodyStore';
 interface userState {
+    isFirstTime: boolean;
     isLogin: boolean;
     signUpRole: number;
     signUpEmail: string;
@@ -87,6 +88,7 @@ interface userState {
 }
 
 export const useUserStore = create<userState>()((set, get) => ({
+    isFirstTime: false,
     isLogin: Boolean(window.localStorage.getItem('UID')),
     signUpRole: 0,
     signUpEmail: '',
@@ -206,7 +208,7 @@ export const useUserStore = create<userState>()((set, get) => ({
                         },
                         { merge: true }
                     );
-                    set({ isLogin: true });
+                    set({ isLogin: true, isFirstTime: true });
                 }
                 set({ isLogin: true });
             }
@@ -392,6 +394,7 @@ export const useUserStore = create<userState>()((set, get) => ({
                 coachReserve: get().coachReserve,
                 myCoach: get().signUpWithCoach,
             });
+            set({ isFirstTime: false });
             toast.success('身分註冊完成', { duration: 3000 });
         }
     },
@@ -422,6 +425,7 @@ export const useUserStore = create<userState>()((set, get) => ({
         await updateDoc(userRef, {
             role: get().signUpRole,
         });
+        set({ isFirstTime: false });
     },
     unsubscribeInvitations: () => {
         const UID = localStorage.getItem('UID');
