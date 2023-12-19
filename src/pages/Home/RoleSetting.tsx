@@ -65,18 +65,29 @@ export default function RoleSetting() {
                             </Radio>
                         </RadioGroup>
                         {signUpRole === 1 ? (
-                            <>
+                            <div className="flex flex-col justify-center items-center">
                                 <InputText
+                                    className={{
+                                        label: 'text-black',
+                                        input: 'text-black',
+                                        description: 'text-black',
+                                    }}
                                     id={'coachCalender'}
                                     type={'url'}
                                     label={'CalenderURL'}
                                 />
                                 <InputText
+                                    className={{
+                                        label: 'text-black',
+                                        input: 'text-black',
+                                        description: 'text-black',
+                                    }}
                                     id={'coachReserve'}
                                     type={'url'}
                                     label={'ReserveURL'}
                                 />
                                 <Button
+                                    className="mt-2"
                                     size="sm"
                                     onClick={async () => {
                                         await updateCoachURL();
@@ -85,12 +96,13 @@ export default function RoleSetting() {
                                 >
                                     完成
                                 </Button>
-                            </>
+                            </div>
                         ) : null}
                         {signUpRole === 2 ? (
-                            <div className="mt-2">
+                            <div className="mt-2 flex flex-col justify-center items-center ">
                                 <SelectCoach />
                                 <Button
+                                    className="mt-2"
                                     size="sm"
                                     onClick={async () => {
                                         await updateRole();

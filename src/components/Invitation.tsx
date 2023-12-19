@@ -12,7 +12,7 @@ export default function Invitation({ messageCount }: InvitationProps) {
         <ScrollShadow
             hideScrollBar
             isEnabled={false}
-            className=" overflow-y-auto max-h-[200px] p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute top-8 -left-4 bg-black w-[192px]"
+            className=" overflow-y-auto max-h-[150px] p-2 border border-white rounded flex flex-col text-lg items-center gap-y-2 font-bold absolute top-8 -left-4 bg-black w-[192px]"
         >
             {messageCount ? '新的訊息' : '沒有新的通知'}
             {currentUserRole === 1 ? (

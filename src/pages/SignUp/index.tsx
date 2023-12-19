@@ -36,7 +36,7 @@ export default function LogIn() {
                 backgroundImage: `url(https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg)`,
             }}
         >
-            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-500/30">
+            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-200/30">
                 <div className="w-full p-4 ">
                     <p className="text-center text-xl font-extrabold text-white">
                         加入 <strong className={`${yellow}`}>WorkOut</strong>
@@ -47,7 +47,9 @@ export default function LogIn() {
                     <div className="mt-2">
                         <InputText
                             className={{
-                                label: 'text-gray-500',
+                                label: 'text-white',
+                                input: 'text-white',
+                                description: 'text-white',
                             }}
                             id={'signUpEmail'}
                             type={'email'}
@@ -60,7 +62,9 @@ export default function LogIn() {
                     <div className="mt-2">
                         <InputText
                             className={{
-                                label: 'text-gray-500',
+                                label: 'text-white',
+                                input: 'text-white',
+                                description: 'text-white',
                             }}
                             id={'signUpName'}
                             type={'text'}
@@ -111,7 +115,9 @@ export default function LogIn() {
                         <div className="flex flex-col gap-y-2">
                             <InputText
                                 className={{
-                                    label: 'text-gray-500',
+                                    label: 'text-white',
+                                    input: 'text-white',
+                                    description: 'text-white',
                                 }}
                                 id={'coachCalender'}
                                 type={'url'}
@@ -119,7 +125,9 @@ export default function LogIn() {
                             />
                             <InputText
                                 className={{
-                                    label: 'text-gray-500',
+                                    label: 'text-white',
+                                    input: 'text-white',
+                                    description: 'text-white',
                                 }}
                                 id={'coachReserve'}
                                 type={'url'}

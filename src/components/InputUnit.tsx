@@ -12,7 +12,11 @@ interface PropsInputType {
     id: string;
     type: string;
     label: string;
-    className?: { label: string };
+    className?: {
+        label: string;
+        input: string;
+        description: string | undefined;
+    };
 }
 interface PropsInputInBodyType {
     id: string;
@@ -20,18 +24,7 @@ interface PropsInputInBodyType {
     label: string;
     onChange: (e: any) => void;
 }
-// export default function InputUnit(type: string, labelText: string) {
-//   return (
-//     <div className="col">
-//       <div className="form-outline">
-//         <input type={type} id={labelText} className="form-control" />
-//         <label className="form-label" htmlFor={labelText}>
-//           {labelText}
-//         </label>
-//       </div>
-//     </div>
-//   );
-// }
+
 export function InputText({ id, type, label, className }: PropsInputType) {
     const setInputTextToState = useUserStore(
         (state) => state.setInputTextToState
@@ -43,6 +36,9 @@ export function InputText({ id, type, label, className }: PropsInputType) {
             type={type}
             label={label}
             id={id}
+            className="text-white"
+            variant="underlined"
+            color="warning"
             description={id === 'signUpName' ? '長度限制8個字元' : undefined}
             onChange={(e) => {
                 setInputTextToState(e.target.id, e.target.value);
@@ -79,8 +75,11 @@ export function InputPassword({ id }: PropInput) {
     const toggleVisibility = () => setIsVisible(!isVisible);
     return (
         <Input
+            variant="underlined"
+            color="warning"
             classNames={{
-                label: 'text-gray-500',
+                label: 'text-white',
+                input: 'text-white',
             }}
             label="Password"
             id={id}

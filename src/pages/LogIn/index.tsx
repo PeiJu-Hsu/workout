@@ -28,7 +28,7 @@ export default function LogIn() {
                 backgroundImage: `url('https://images.pexels.com/photos/791763/pexels-photo-791763.jpeg')`,
             }}
         >
-            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-500/30">
+            <div className="flex w-full max-w-sm overflow-hidden rounded-lg border shadow-lg backdrop-blur-sm bg-gray-200/30">
                 <div className="w-full p-8">
                     <p className="text-center text-xl font-extrabold text-white">
                         歡迎使用{' '}
@@ -38,7 +38,9 @@ export default function LogIn() {
                     <div className="mt-4">
                         <InputText
                             className={{
-                                label: 'text-gray-500',
+                                label: 'text-white',
+                                input: 'text-white',
+                                description: 'text-white',
                             }}
                             id={'signUpEmail'}
                             type={'email'}

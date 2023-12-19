@@ -130,6 +130,8 @@ export default function LeftSide({
                                         label="姓名/暱稱"
                                         className={{
                                             label: 'text-black',
+                                            input: 'text-black',
+                                            description: undefined,
                                         }}
                                     />
                                     <Button

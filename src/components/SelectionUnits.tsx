@@ -93,7 +93,6 @@ export function SelectStudentReceiver({ onClose }: { onClose: () => void }) {
             <Input
                 maxLength={8}
                 description="最多輸入8個字"
-                color="warning"
                 type="text"
                 variant="underlined"
                 label="你的留言"
