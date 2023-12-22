@@ -8,12 +8,14 @@ interface ProtectRoute {
     children: ReactNode;
     redirectPath?: string;
 }
+
 export const PublicRoute = ({ children }: PublicRoute) => {
     const isLogin = useUserStore((state) => state.isLogin);
     // 登入情況下，如果輸入了 /login，會跳轉回首頁
     if (isLogin) return <Navigate to="/" replace />;
     return children;
 };
+
 export const ProtectedRoute = ({
     children,
     redirectPath = '/login',

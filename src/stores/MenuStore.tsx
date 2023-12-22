@@ -134,11 +134,13 @@ export const MenuStore = create<MenuStore>()((set, get) => ({
             const newDocRef = doc(docMenuRecordsCol);
             const { id } = newDocRef;
             const maxValue: maxValue = {};
+            //menuList = [{itemName: "胸肌", loading: 50, runCount: 5, records: [50, 50, 55, 50, 50]}, ...]
             get().menuList.forEach((item) => {
                 const { itemName, records } = item;
                 const maxRecord = Math.max(...records);
-
-                if (!maxValue[itemName] || maxRecord > maxValue[itemName]!) {
+                const isRepeatItem = Boolean(maxValue[itemName]);
+                const isLagerThanMaxValue = maxRecord > maxValue[itemName]!;
+                if (!isRepeatItem || isLagerThanMaxValue) {
                     maxValue[itemName] = maxRecord;
                 }
             });

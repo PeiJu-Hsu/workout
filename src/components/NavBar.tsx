@@ -10,8 +10,6 @@ export default function NavBar() {
     };
     return (
         <>
-            {/* //nav & header */}
-
             <Navbar className="myBlack relative h-11 max-w-full sm:hidden">
                 <NavbarBrand className="myBlack  h-11 max-w-full">
                     <Logo

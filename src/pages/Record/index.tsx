@@ -49,9 +49,7 @@ export default function Record() {
                     })}
                 </Select>
                 <div className="w-full">
-                    {/* <HighestChart /> */}
                     <BarChart />
-                    {/* {itemHistory.length > 0 && <BarChart />} */}
                 </div>
             </div>
         </div>
