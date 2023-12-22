@@ -6,6 +6,7 @@ import ButtonBlack from '../../components/Button';
 import { InputPassword, InputText } from '../../components/InputUnit';
 import { auth, db } from '../../firebase';
 import { useUserStore } from '../../stores/UserStore';
+import CoachURLInput from './CoachURLInput';
 import SelectCoach from './SelectCoach';
 export default function LogIn() {
     const navigate = useNavigate();
@@ -26,6 +27,28 @@ export default function LogIn() {
         getUploadImage,
     } = useUserStore();
     const REGEX = /^https:\/\/[^\s$.?#].[^\s]*$/;
+    const validSignUpInfo = (signUpRole: number) => {
+        if (!signUpName) {
+            toast.error('請填寫姓名');
+            return false;
+        }
+        if (signUpRole === 0) {
+            toast.error('請選擇註冊身分');
+            return false;
+        }
+        if (signUpRole === 2) return true;
+
+        const isURLValid = Boolean(
+            REGEX.test(coachCalender) && REGEX.test(coachReserve)
+        );
+        if (!isURLValid) {
+            toast.error('請填寫正確的URL');
+            return false;
+        }
+        return true;
+    };
+    const roles = ['教練', '學員'];
+
     useEffect(() => {
         getCoachList();
     }, []);
@@ -79,68 +102,25 @@ export default function LogIn() {
                             label="選擇註冊身分"
                             orientation="horizontal"
                         >
-                            <Radio
-                                classNames={{
-                                    label:
-                                        signUpRole === 1
-                                            ? yellow
-                                            : 'text-white',
-                                }}
-                                color="warning"
-                                value="1"
-                                onChange={(e) => {
-                                    selectRole(Number(e.target.value));
-                                }}
-                            >
-                                教練
-                            </Radio>
-                            <Radio
-                                classNames={{
-                                    label:
-                                        signUpRole === 2
-                                            ? yellow
-                                            : 'text-white',
-                                }}
-                                color="warning"
-                                value="2"
-                                onChange={(e) => {
-                                    selectRole(Number(e.target.value));
-                                }}
-                            >
-                                學員
-                            </Radio>
+                            {roles.map((role, index) => (
+                                <Radio
+                                    key={role}
+                                    classNames={{
+                                        label: 'text-white',
+                                    }}
+                                    color="warning"
+                                    value={(index + 1).toString()}
+                                    onChange={(e) => {
+                                        selectRole(Number(e.target.value));
+                                    }}
+                                >
+                                    {role}
+                                </Radio>
+                            ))}
                         </RadioGroup>
                     </div>
-                    {signUpRole === 1 ? (
-                        <div className="flex flex-col gap-y-2">
-                            <InputText
-                                className={{
-                                    label: 'text-white',
-                                    input: 'text-white',
-                                    description: 'text-white',
-                                }}
-                                id={'coachCalender'}
-                                type={'url'}
-                                label={'Google日曆 URL'}
-                            />
-                            <InputText
-                                className={{
-                                    label: 'text-white',
-                                    input: 'text-white',
-                                    description: 'text-white',
-                                }}
-                                id={'coachReserve'}
-                                type={'url'}
-                                label={'Google預約表 URL'}
-                            />
-                        </div>
-                    ) : null}
-                    {signUpRole === 2 ? (
-                        <div className="mt-2">
-                            <SelectCoach />
-                        </div>
-                    ) : null}
-
+                    {signUpRole === 1 ? <CoachURLInput /> : null}
+                    {signUpRole === 2 ? <SelectCoach /> : null}
                     <div className="mt-4">
                         <ButtonBlack
                             size={'lg'}
@@ -148,32 +128,7 @@ export default function LogIn() {
                             variant={'solid'}
                             children={'註冊'}
                             onClick={async () => {
-                                if (signUpRole === 1 && signUpName) {
-                                    if (
-                                        REGEX.test(coachCalender) &&
-                                        REGEX.test(coachReserve)
-                                    ) {
-                                        await uploadImage(
-                                            signUpImage,
-                                            signUpEmail
-                                        );
-                                        await getUploadImage(
-                                            signUpImage,
-                                            signUpEmail
-                                        );
-                                        await signUp(
-                                            auth,
-                                            signUpEmail,
-                                            signUpPassword
-                                        );
-                                        await getAuth(auth, db);
-                                    } else {
-                                        toast.error('請輸入正確的網址', {
-                                            duration: 3000,
-                                        });
-                                        return;
-                                    }
-                                } else if (signUpRole === 2 && signUpName) {
+                                if (validSignUpInfo(signUpRole)) {
                                     await uploadImage(signUpImage, signUpEmail);
                                     await getUploadImage(
                                         signUpImage,
@@ -185,8 +140,6 @@ export default function LogIn() {
                                         signUpPassword
                                     );
                                     await getAuth(auth, db);
-                                } else {
-                                    toast.error('請填寫完整資料');
                                 }
                             }}
                         />
