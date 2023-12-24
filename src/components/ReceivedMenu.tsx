@@ -16,14 +16,16 @@ import {
 } from '@nextui-org/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { MenuList, MenuStore } from '../../stores/MenuStore';
-import { useUserStore } from '../../stores/UserStore';
+import { MenuList, MenuStore } from '../stores/MenuStore';
+import { useUserStore } from '../stores/UserStore';
 
 export default function ReceivedMenu() {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const waitingMenus = useUserStore((state) => state.waitingMenus);
     const { resetMenuList, deleteReceivedMenu } = MenuStore();
     const [openItem, setOpenItem] = useState(0);
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    //functions for button
     const handleOpen = (itemIndex: number) => {
         setOpenItem(itemIndex);
         onOpen();
@@ -35,29 +37,43 @@ export default function ReceivedMenu() {
     const handleRejectMenu = () => {
         deleteReceivedMenu(waitingMenus[openItem].id);
     };
+
+    //functions for render
+    const renderWaitingMenus = () => {
+        return waitingMenus.map((item: DocumentData, index: number) => (
+            <Tooltip
+                key={item.id}
+                placement="bottom"
+                content={`日期:${item.formatTime}`}
+            >
+                <div
+                    className="text-center cursor-pointer w-full rounded-full bg-gray-100 text-lg text-black hover:bg-gray-300 hover:text-white"
+                    onClick={() => {
+                        handleOpen(index);
+                    }}
+                >
+                    {item.message || '新的菜單'}
+                </div>
+            </Tooltip>
+        ));
+    };
+    const renderMenuContent = () => {
+        return waitingMenus[openItem]?.content.map(
+            (item: MenuList, index: number) => (
+                <TableRow key={index} className="">
+                    <TableCell className=" min-w-[90px]">
+                        {item.itemName}
+                    </TableCell>
+                    <TableCell>{item.runCount}</TableCell>
+                    <TableCell>{item.loading}</TableCell>
+                </TableRow>
+            )
+        );
+    };
+
     return (
         <>
-            {waitingMenus.map((item: DocumentData, index: number) => {
-                return (
-                    <Tooltip
-                        key={item.id}
-                        placement="bottom"
-                        content={`日期:${item.formatTime}`}
-                    >
-                        <div
-                            className="text-center cursor-pointer w-full rounded-full bg-gray-100 text-lg text-black hover:bg-gray-300 hover:text-white"
-                            onClick={() => {
-                                handleOpen(index);
-                            }}
-                            // startContent={
-                            //     <img className=" h-6 w-6" src={SendIcon} />
-                            // }
-                        >
-                            {item.message || '新的菜單'}
-                        </div>
-                    </Tooltip>
-                );
-            })}
+            {renderWaitingMenus()}
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
@@ -80,38 +96,16 @@ export default function ReceivedMenu() {
                                     aria-label="Example static collection table"
                                 >
                                     <TableHeader>
-                                        {/* <TableColumn>STATUS</TableColumn> */}
                                         <TableColumn>項目名稱</TableColumn>
                                         <TableColumn>目標組數</TableColumn>
                                         <TableColumn>目標重量</TableColumn>
                                     </TableHeader>
-                                    <TableBody>
-                                        {waitingMenus[openItem]?.content.map(
-                                            (item: MenuList, index: number) => {
-                                                return (
-                                                    <TableRow
-                                                        key={index}
-                                                        className=""
-                                                    >
-                                                        <TableCell className=" min-w-[90px]">
-                                                            {item.itemName}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {item.runCount}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {item.loading}
-                                                        </TableCell>
-                                                    </TableRow>
-                                                );
-                                            }
-                                        )}
-                                    </TableBody>
+                                    <TableBody>{renderMenuContent()}</TableBody>
                                 </Table>
 
-                                <div className="flex justify-center">
+                                <div className="flex justify-end gap-x-2">
                                     <Button
-                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-black"
+                                        className="rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                                         onClick={() => {
                                             handleAcceptMenu();
                                             toast.success('更新訓練菜單完成');
@@ -121,7 +115,7 @@ export default function ReceivedMenu() {
                                         接受
                                     </Button>
                                     <Button
-                                        className="  rounded-full bg-gray-400 text-lg text-white hover:bg-black"
+                                        className="rounded-full bg-gray-400 text-lg text-white hover:bg-black"
                                         onClick={() => {
                                             handleRejectMenu();
                                             onClose();

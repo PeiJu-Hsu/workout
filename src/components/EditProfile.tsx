@@ -13,14 +13,15 @@ import { useUserStore } from '../stores/UserStore';
 import { InputText } from './InputUnit';
 
 export default function EditProfile() {
-    const currentUserRole = useUserStore((state) => state.currentUserRole);
-    const signUpName = useUserStore((state) => state.signUpName);
-    const updateUserName = useUserStore((state) => state.updateUserName);
-    const updateCoach = useUserStore((state) => state.updateCoach);
-    const deleteInvitation = useUserStore((state) => state.deleteInvitation);
-    const sendInvitationAtHome = useUserStore(
-        (state) => state.sendInvitationAtHome
-    );
+    const {
+        currentUserRole,
+        signUpName,
+        updateUserName,
+        updateCoach,
+        deleteInvitation,
+        sendInvitationAtHome,
+    } = useUserStore();
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
