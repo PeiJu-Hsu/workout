@@ -76,6 +76,38 @@ const labelTextsOptional: labelTexts[] = [
         id: 'controlMuscle',
     },
 ];
+const svgPath = {
+    rightPath: (
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"
+        />
+    ),
+    leftPath: (
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5"
+        />
+    ),
+    uploadSVG: (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5"
+        >
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+            />
+        </svg>
+    ),
+};
 export default function InBody() {
     const addInBodyData = InBodyStore((state) => state.addInBodyData);
     const setInputNumberToState = InBodyStore(
@@ -83,6 +115,63 @@ export default function InBody() {
     );
     const [ShowMore, setShowMore] = useState('hidden');
     const [divWidth, setDivWidth] = useState('w-80');
+
+    // function for rendering
+    const renderInput = () => {
+        return labelTexts.map((obj) => (
+            <div key={obj.id} className="flex items-center">
+                <div className=" w-28">
+                    <p>
+                        {obj.labelText}
+                        <sup className="text-red-400"> *</sup>
+                    </p>
+                </div>
+                <div className="flex-grow">
+                    <InputInBodyNumber
+                        type={obj.type}
+                        id={obj.id}
+                        label=""
+                        onChange={(e) => {
+                            if (Number(e.target.value) < 0) {
+                                toast.error('數值必須大於0');
+                                return;
+                            }
+                            setInputNumberToState(
+                                e.target.id,
+                                obj.type === 'number'
+                                    ? Number(e.target.value)
+                                    : new Date(e.target.value)
+                            );
+                        }}
+                    />
+                </div>
+            </div>
+        ));
+    };
+    const renderInputOptional = () => {
+        return labelTextsOptional.map((obj) => (
+            <div key={obj.id} className="flex items-center">
+                <div className=" w-28">
+                    <p>{obj.labelText}</p>
+                </div>
+                <div className=" flex-grow">
+                    <InputInBodyNumber
+                        type={obj.type}
+                        id={obj.id}
+                        label=""
+                        onChange={(e) => {
+                            setInputNumberToState(
+                                e.target.id,
+                                obj.type === 'number'
+                                    ? Number(e.target.value)
+                                    : new Date(e.target.value)
+                            );
+                        }}
+                    />
+                </div>
+            </div>
+        ));
+    };
 
     return (
         <div className=" h-full flex flex-wrap items-center gap-2">
@@ -103,77 +192,16 @@ export default function InBody() {
                             );
                         }}
                     >
-                        {ShowMore === 'hidden' ? (
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"
-                            />
-                        ) : (
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5"
-                            />
-                        )}
+                        {ShowMore === 'hidden'
+                            ? svgPath.rightPath
+                            : svgPath.leftPath}
                     </svg>
                 </div>
                 <div className=" border-1 border-gray-300" />
                 <div className=" flex flex-col justify-between gap-2 md:flex-row">
-                    <div className="flex flex-col gap-y-2">
-                        {labelTexts.map((obj) => (
-                            <div key={obj.id} className="flex items-center">
-                                <div className=" w-28">
-                                    <p>
-                                        {obj.labelText}
-                                        <sup className="text-red-400"> *</sup>
-                                    </p>
-                                </div>
-                                <div className="flex-grow">
-                                    <InputInBodyNumber
-                                        type={obj.type}
-                                        id={obj.id}
-                                        label=""
-                                        onChange={(e) => {
-                                            if (Number(e.target.value) < 0) {
-                                                toast.error('數值必須大於0');
-                                                return;
-                                            }
-                                            setInputNumberToState(
-                                                e.target.id,
-                                                obj.type === 'number'
-                                                    ? Number(e.target.value)
-                                                    : new Date(e.target.value)
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <div className="flex flex-col gap-y-2">{renderInput()}</div>
                     <div className={`flex flex-col gap-y-2 ${ShowMore}`}>
-                        {labelTextsOptional.map((obj) => (
-                            <div key={obj.id} className="flex items-center">
-                                <div className=" w-28">
-                                    <p>{obj.labelText}</p>
-                                </div>
-                                <div className=" flex-grow">
-                                    <InputInBodyNumber
-                                        type={obj.type}
-                                        id={obj.id}
-                                        label=""
-                                        onChange={(e) => {
-                                            setInputNumberToState(
-                                                e.target.id,
-                                                obj.type === 'number'
-                                                    ? Number(e.target.value)
-                                                    : new Date(e.target.value)
-                                            );
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                        {renderInputOptional()}
                     </div>
                 </div>
                 <Button
@@ -181,22 +209,7 @@ export default function InBody() {
                     onClick={async () => {
                         await addInBodyData();
                     }}
-                    endContent={
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-5 h-5"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                            />
-                        </svg>
-                    }
+                    endContent={svgPath.uploadSVG}
                 >
                     上傳紀錄
                 </Button>

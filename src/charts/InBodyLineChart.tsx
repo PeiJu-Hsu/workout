@@ -10,7 +10,7 @@ export const InBodyLineChart = ({ targetItem, unit }: PropType) => {
     const xAxisData = InBodyHistory.map((item) => item.formatTime).reverse();
     const yAxisData = InBodyHistory.map((item) => item[targetItem]).reverse();
 
-    const optionNew = {
+    const option = {
         title: {
             text: '歷史記錄',
             left: 'center',
@@ -19,6 +19,9 @@ export const InBodyLineChart = ({ targetItem, unit }: PropType) => {
                 fontSize: 24,
                 fontFamily: 'Roboto',
             },
+        },
+        tooltip: {
+            trigger: 'axis',
         },
         color: ['#00000'],
         grid: { left: '50', bottom: '60', right: '10' },
@@ -43,11 +46,8 @@ export const InBodyLineChart = ({ targetItem, unit }: PropType) => {
                 fontFamily: 'Roboto',
             },
             min: function (value: any) {
-                if (value.min < 20) {
-                    return 0;
-                } else {
-                    return Math.floor((value.min - 20) / 10) * 10;
-                }
+                if (value.min < 20) return 0;
+                return Math.floor((value.min - 20) / 10) * 10;
             },
             max: function (value: any) {
                 return Math.floor((value.max + 20) / 10) * 10;
@@ -63,7 +63,7 @@ export const InBodyLineChart = ({ targetItem, unit }: PropType) => {
     };
     return (
         <div className="w-full justify-end">
-            <ReactECharts option={optionNew} />
+            <ReactECharts option={option} />
         </div>
     );
 };
