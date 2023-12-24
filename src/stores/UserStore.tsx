@@ -280,7 +280,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         });
     },
     deleteInvitation: async () => {
-        console.log(get().myCoach);
         const UID = localStorage.getItem('UID');
         const docMenuRecordsCol = collection(
             db,

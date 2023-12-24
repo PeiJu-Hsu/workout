@@ -1,25 +1,14 @@
-import {
-    Avatar,
-    Button,
-    Chip,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalHeader,
-    useDisclosure,
-} from '@nextui-org/react';
+import { Avatar } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { InputText } from '../components/InputUnit';
 import { auth } from '../firebase';
 import HomeIcon from '../icons/home.png';
 import inBodyIcon from '../icons/inbody.png';
 import LogOut from '../icons/logout.png';
 import RecordIcon from '../icons/records.png';
 import Task from '../icons/task.png';
-import SelectCoach from '../pages/SignUp/SelectCoach';
 import { useUserStore } from '../stores/UserStore';
+import EditProfile from './EditProfile';
 import Invitation from './Invitation';
 import Logo from './Logo';
 interface leftSideProps {
@@ -34,20 +23,12 @@ export default function LeftSide({
     const navigate = useNavigate();
     const logOut = useUserStore((state) => state.logOut);
     const signOut = useUserStore((state) => state.signOut);
-    const signUpName = useUserStore((state) => state.signUpName);
     const currentUserImg = useUserStore((state) => state.currentUserImg);
     const currentUserName = useUserStore((state) => state.currentUserName);
     const currentUserRole = useUserStore((state) => state.currentUserRole);
     const waitingMenus = useUserStore((state) => state.waitingMenus);
     const invitations = useUserStore((state) => state.invitations);
-    const updateUserName = useUserStore((state) => state.updateUserName);
-    const updateCoach = useUserStore((state) => state.updateCoach);
     const getCoachList = useUserStore((state) => state.getCoachList);
-    const deleteInvitation = useUserStore((state) => state.deleteInvitation);
-    const sendInvitationAtHome = useUserStore(
-        (state) => state.sendInvitationAtHome
-    );
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [isMessageShow, setIsMessageShow] = useState(false);
     const messageCount = invitations.length + waitingMenus.length;
     const isOverSmallDevice = Boolean(window.innerWidth >= 640);
@@ -101,79 +82,7 @@ export default function LeftSide({
                 <p className="m-auto mt-2 text-large font-bold w-full truncate text-center">
                     {currentUserName} {currentUserRole === 1 ? '教練' : '學員'}
                 </p>
-                <Chip
-                    className="m-auto cursor-pointer text-white"
-                    size="sm"
-                    radius="full"
-                    variant="flat"
-                    onClick={() => {
-                        onOpen();
-                    }}
-                >
-                    修改個人資料
-                </Chip>
-                <Modal
-                    isOpen={isOpen}
-                    onOpenChange={onOpenChange}
-                    placement="bottom-center"
-                >
-                    <ModalContent>
-                        {(onClose) => (
-                            <>
-                                <ModalHeader className=" flex flex-col gap-1 pb-1">
-                                    修改使用者名稱
-                                </ModalHeader>
-                                <ModalBody>
-                                    <InputText
-                                        id="signUpName"
-                                        type="text"
-                                        label="姓名/暱稱"
-                                        className={{
-                                            label: 'text-black',
-                                            input: 'text-black',
-                                            description: undefined,
-                                        }}
-                                    />
-                                    <Button
-                                        size="sm"
-                                        onClick={async () => {
-                                            if (signUpName === '') {
-                                                toast.error('請輸入名稱');
-                                                return;
-                                            }
-                                            await updateUserName();
-
-                                            onClose();
-                                        }}
-                                    >
-                                        確認修改
-                                    </Button>
-                                </ModalBody>
-                                {currentUserRole !== 1 && (
-                                    <>
-                                        <ModalHeader className=" flex flex-col gap-1 pb-1">
-                                            申請教練
-                                        </ModalHeader>
-                                        <ModalBody>
-                                            <SelectCoach />
-                                            <Button
-                                                size="sm"
-                                                onClick={async () => {
-                                                    await deleteInvitation();
-                                                    await updateCoach();
-                                                    sendInvitationAtHome();
-                                                    onClose();
-                                                }}
-                                            >
-                                                申請更換
-                                            </Button>
-                                        </ModalBody>
-                                    </>
-                                )}
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
+                <EditProfile />
                 <ul className="ml-5">
                     {pages.map((page) => {
                         return (
