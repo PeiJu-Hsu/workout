@@ -3,7 +3,6 @@ import React, { MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import { RecordStore } from '../../stores/RecordStore';
 import { groupList } from '../../utils/TrainingItems';
-// import './BodyComponent.css'
 
 const Wrapper = styled.div`
     & {
@@ -11,9 +10,6 @@ const Wrapper = styled.div`
         height: 500px;
         display: block;
         width: 330px;
-
-        @media (min-width: 640px) {
-        }
     }
 
     & svg:hover {
@@ -581,18 +577,18 @@ export const BodyComponent: React.FC<BodyComponentProps> = ({
     return (
         <div>
             <Wrapper>{svgElements.render()}</Wrapper>
-            <div className="w-full">
+            <div className="w-full relative">
                 <Chip
                     color="warning"
                     variant="flat"
-                    className=" sticky px-2 left-16"
+                    className="absolute px-2 left-16 -top-2 text-xs leading-3 h-5"
                 >
                     正面
                 </Chip>
                 <Chip
                     color="warning"
                     variant="flat"
-                    className=" sticky px-2 left-60"
+                    className="absolute px-2 left-60 -top-2 text-xs leading-3 h-5"
                 >
                     背面
                 </Chip>
