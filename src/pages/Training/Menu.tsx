@@ -15,11 +15,11 @@ import {
 } from '@nextui-org/react';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { SelectStudentReceiver } from '../../components/SelectionUnits';
 import SendIcon from '../../icons/send.png';
 import TrashCan from '../../icons/trash.png';
 import { MenuStore } from '../../stores/MenuStore';
 import { useUserStore } from '../../stores/UserStore';
+import SelectStudentReceiver from './SelectStudentReceiver';
 
 interface PropsType {
     itemPointer: number;

@@ -1,12 +1,10 @@
 import { Accordion, AccordionItem, Button } from '@nextui-org/react';
-import {
-    SelectMuscle,
-    SelectNumber,
-    SelectWorkOutItem,
-} from '../../components/SelectionUnits';
 import AddIcon from '../../icons/add.png';
 import { MenuStore } from '../../stores/MenuStore';
 import InputLoadingNumber from './InputLoadingNumber';
+import SelectMuscle from './SelectMuscle';
+import SelectNumber from './SelectNumber';
+import SelectWorkOutItem from './SelectWorkOutItem';
 export default function MenuSetup() {
     const itemGroup = MenuStore((state) => state.itemGroup);
     const itemName = MenuStore((state) => state.itemName);
