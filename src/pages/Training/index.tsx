@@ -33,6 +33,7 @@ export default function Training() {
             setIsRunning(true);
         }
     };
+    const isMenuListEmpty = menuList.length === 0;
     const formatTime = (milliseconds: number) => {
         const totalSeconds = Math.floor(milliseconds / 1000);
         const minutes = Math.floor(totalSeconds / 60);
@@ -50,6 +51,17 @@ export default function Training() {
             milliseconds: formattedMilliseconds,
         };
         return clock;
+    };
+    const getItemName = () => {
+        if (isMenuListEmpty) return '🏋️該建新菜單了';
+        if (itemPointer >= menuList.length) return '🎉恭喜完成🎉';
+        return menuList[itemPointer].itemName;
+    };
+    const getNextItemName = () => {
+        const isFinalItem = itemPointer === menuList.length - 1;
+        if (isMenuListEmpty) return;
+        if (isFinalItem) return '這是最後一項';
+        return menuList[itemPointer + 1]?.itemName;
     };
     useEffect(() => {
         let timer: NodeJS.Timeout;
@@ -77,20 +89,13 @@ export default function Training() {
                             />
                         </div>
                         <div className="col-span-8 flex flex-col gap-y-2">
-                            <div className="mb- flex items-start justify-between">
+                            <div className="flex items-start justify-between">
                                 <div className="flex flex-col gap-0">
-                                    <h1 className="text-xl font-semibold text-foreground/90">
-                                        {menuList[itemPointer]?.itemName
-                                            ? menuList[itemPointer]?.itemName
-                                            : menuList.length === 0 &&
-                                              `🏋️該建新菜單了`}
-                                    </h1>
+                                    <p className="font-semibold text-foreground/90 text-base sm:text-xl">
+                                        {getItemName()}
+                                    </p>
                                     <p className="text-small font-semibold text-foreground/80 text-gray-400">
-                                        {menuList[itemPointer + 1]?.itemName
-                                            ? menuList[itemPointer + 1]
-                                                  ?.itemName
-                                            : menuList.length > 0 &&
-                                              `🎉這是最後一項🎉`}
+                                        {getNextItemName()}
                                     </p>
                                 </div>
                                 <div
@@ -115,8 +120,7 @@ export default function Training() {
                                     </span>
                                 </div>
                                 <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
-                                    {' '}
-                                    :{' '}
+                                    :
                                 </p>
                                 <div className="flex flex-col items-center justify-center gap-1">
                                     <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
@@ -129,8 +133,7 @@ export default function Training() {
                                     </span>
                                 </div>
                                 <p className="-translate-y-3 self-center text-xl font-semibold text-black sm:text-3xl">
-                                    {' '}
-                                    :{' '}
+                                    :
                                 </p>
                                 <div className="flex flex-col items-center justify-center gap-1">
                                     <span className="rounded-md bg-gray-300 px-3 py-3 text-xl font-semibold text-black sm:text-3xl">
@@ -147,10 +150,8 @@ export default function Training() {
                     </div>
                 </CardBody>
             </Card>
-
             <div className="flex flex-col gap-2 p-2 ">
                 <MenuSetup />
-                {/* <ReceivedMenu /> */}
                 <Menu itemPointer={itemPointer} />
             </div>
         </>

@@ -22,8 +22,7 @@ export default function MenuSetup() {
                         trigger: 'py-2',
                         title: 'text-center font-bold',
                     }}
-                    key="1"
-                    aria-label="Accordion 1"
+                    aria-label="建立新菜單"
                     title="建立新菜單"
                 >
                     <div className=" flex flex-col items-start justify-between gap-y-3">
