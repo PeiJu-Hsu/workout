@@ -4,14 +4,7 @@ import SendIcon from '../icons/send.png';
 import { MenuStore } from '../stores/MenuStore';
 import { useUserStore } from '../stores/UserStore';
 import { group, groupList } from '../utils/TrainingItems';
-// interface GroupItemType {
-//     sectionName: string;
-//     sectionItems: string[];
-//   }
 
-// interface SelectMuscleType {
-//     group: GroupItemType[];
-//   }
 export function SelectMuscle() {
     const setItemGroup = MenuStore((state) => state.setItemGroup);
     const setItemGroupIndex = MenuStore((state) => state.setItemGroupIndex);
@@ -23,7 +16,6 @@ export function SelectMuscle() {
             label="選擇訓練部位"
             placeholder="選擇訓練部位"
             defaultSelectedKeys=""
-            // className=" max-w-xs"
             onChange={(e) => {
                 setItemGroup(e.target.value);
                 setItemGroupIndex(groupList.indexOf(e.target.value));

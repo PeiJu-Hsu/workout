@@ -6,7 +6,7 @@ import {
     RadioGroup,
     useDisclosure,
 } from '@nextui-org/react';
-import { InputText } from '../../components/InputUnit';
+import InputText from '../../components/InputText';
 import { useUserStore } from '../../stores/UserStore';
 import SelectCoach from '../SignUp/SelectCoach';
 

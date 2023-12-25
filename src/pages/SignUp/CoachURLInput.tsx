@@ -1,4 +1,4 @@
-import { InputText } from '../../components/InputUnit';
+import InputText from '../../components/InputText';
 export default function CoachURLInput() {
     return (
         <div className="flex flex-col gap-y-2">

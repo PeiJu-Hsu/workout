@@ -1,7 +1,6 @@
-import { Button } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { InputInBodyNumber } from '../../components/InputUnit';
 import { InBodyStore } from '../../stores/InBodyStore';
 import InBodyChart from './InBodyChart';
 interface labelTexts {
@@ -127,7 +126,7 @@ export default function InBody() {
                     </p>
                 </div>
                 <div className="flex-grow">
-                    <InputInBodyNumber
+                    <Input
                         type={obj.type}
                         id={obj.id}
                         label=""
@@ -155,7 +154,7 @@ export default function InBody() {
                     <p>{obj.labelText}</p>
                 </div>
                 <div className=" flex-grow">
-                    <InputInBodyNumber
+                    <Input
                         type={obj.type}
                         id={obj.id}
                         label=""

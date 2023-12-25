@@ -3,12 +3,13 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import ButtonBlack from '../../components/Button';
-import { InputPassword, InputText } from '../../components/InputUnit';
+import InputPassword from '../../components/InputPassword';
+import InputText from '../../components/InputText';
 import { auth, db } from '../../firebase';
 import { useUserStore } from '../../stores/UserStore';
 import CoachURLInput from './CoachURLInput';
 import SelectCoach from './SelectCoach';
-export default function LogIn() {
+export default function SignUp() {
     const navigate = useNavigate();
     const yellow = ' text-[#F9C809]';
     const {

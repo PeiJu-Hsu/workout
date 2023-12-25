@@ -1,7 +1,8 @@
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import ButtonBlack, { ButtonDefault } from '../../components/Button';
-import { InputPassword, InputText } from '../../components/InputUnit';
+import InputPassword from '../../components/InputPassword';
+import InputText from '../../components/InputText';
 import { auth, db, googleProvider } from '../../firebase';
 import { useUserStore } from '../../stores/UserStore';
 export default function LogIn() {

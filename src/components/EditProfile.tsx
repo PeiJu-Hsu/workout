@@ -8,9 +8,9 @@ import {
     useDisclosure,
 } from '@nextui-org/react';
 import toast from 'react-hot-toast';
+import InputText from '../components/InputText';
 import SelectCoach from '../pages/SignUp/SelectCoach';
 import { useUserStore } from '../stores/UserStore';
-import { InputText } from './InputUnit';
 
 export default function EditProfile() {
     const {

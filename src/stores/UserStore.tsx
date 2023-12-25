@@ -128,9 +128,6 @@ export const useUserStore = create<userState>()((set, get) => ({
     keyInPassWord: (value) => {
         set({ signUpPassword: value });
     },
-    // setSignUpCoach: (value) => {
-    //   set({ signUpWithCoach: value });
-    // },
     setSignUpCoach: (value) => {
         set({ signUpWithCoach: { coachId: value, state: 'waiting' } });
     },
