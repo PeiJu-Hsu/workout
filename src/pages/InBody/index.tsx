@@ -128,6 +128,39 @@ export default function InBody() {
                 <div className="flex-grow">
                     <Input
                         type={obj.type}
+                        min={0}
+                        className="w-36"
+                        label=""
+                        id={obj.id}
+                        labelPlacement="outside-left"
+                        endContent={
+                            <div className="pointer-events-none flex items-center">
+                                <span className="text-default-400 text-small">
+                                    {obj.type === 'number'
+                                        ? obj.id === 'height'
+                                            ? 'cm'
+                                            : obj.id !== 'inBodyScore'
+                                              ? 'kg'
+                                              : ''
+                                        : ''}
+                                </span>
+                            </div>
+                        }
+                        onChange={(e) => {
+                            if (Number(e.target.value) < 0) {
+                                toast.error('數值必須大於0');
+                                return;
+                            }
+                            setInputNumberToState(
+                                e.target.id,
+                                obj.type === 'number'
+                                    ? Number(e.target.value)
+                                    : new Date(e.target.value)
+                            );
+                        }}
+                    />
+                    {/* <Input
+                        type={obj.type}
                         id={obj.id}
                         label=""
                         onChange={(e) => {
@@ -142,7 +175,7 @@ export default function InBody() {
                                     : new Date(e.target.value)
                             );
                         }}
-                    />
+                    /> */}
                 </div>
             </div>
         ));
@@ -156,9 +189,29 @@ export default function InBody() {
                 <div className=" flex-grow">
                     <Input
                         type={obj.type}
-                        id={obj.id}
+                        min={0}
+                        className="w-36"
                         label=""
+                        id={obj.id}
+                        labelPlacement="outside-left"
+                        endContent={
+                            <div className="pointer-events-none flex items-center">
+                                <span className="text-default-400 text-small">
+                                    {obj.type === 'number'
+                                        ? obj.id === 'height'
+                                            ? 'cm'
+                                            : obj.id !== 'inBodyScore'
+                                              ? 'kg'
+                                              : ''
+                                        : ''}
+                                </span>
+                            </div>
+                        }
                         onChange={(e) => {
+                            if (Number(e.target.value) < 0) {
+                                toast.error('數值必須大於0');
+                                return;
+                            }
                             setInputNumberToState(
                                 e.target.id,
                                 obj.type === 'number'
