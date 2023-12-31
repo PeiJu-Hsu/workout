@@ -29,6 +29,30 @@
 -   ECharts
 -   react-hot-toast
 
-### Flow chart
+## Flow chart
 
 ![flow chart](./src/assets/flowchart.drawio.png)
+
+## Demo
+
+-   Built a training plan for yourself or your student
+
+1. Users can built a training plan
+   ![menu](./src/assets/settingMenu.gif)
+2. A training plan can be sent to the user's student with real-time notification
+   ![sent](./src/assets/sendingMenu.gif)
+
+-   Timer will start to count or stop with the play button
+    ![timer](./src/assets/timer.gif)
+
+-   Showed the user's workout record through a bar chart.
+    ![chart](./src/assets/review.gif)
+
+### Contact
+
+  <a href="https://www.linkedin.com/in/pei-ju-hsu2023/" text-decoration="none">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+  <a href="mailto:peijuhsu1993@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+  </a>
