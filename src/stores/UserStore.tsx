@@ -37,7 +37,6 @@ interface userState {
     signUpImage: File | null;
     signUpImageURL: string;
     signUpPassword: string;
-    // signUpWithCoach: string;
     signUpWithCoach: { coachId: string; state: string };
     coachCalender: string;
     coachReserve: string;
@@ -225,12 +224,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docSnap = await getDoc(newInvitationRef);
         if (docSnap.exists()) return;
         const { id } = newInvitationRef;
-        // const getName = async (currentUserId: string) => {
-        //   const userRef = doc(db, "users", currentUserId);
-        //   const docUserSnap = await getDoc(userRef);
-        //   const currentUserInfo = docUserSnap.data();
-        //   return currentUserInfo?.name;
-        // };
         const invitationData = {
             senderName: await get().getName(currentUserId),
             state: 'waiting',
@@ -339,9 +332,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         const docStudentSnap = await getDocs(queryCoach);
         if (!docStudentSnap) return null;
         const studentListData = docStudentSnap.docs.map((doc) => doc.data());
-        // const coachList = coachListData.map((obj) =>
-        //   obj.name ? obj.name : obj.email
-        // );
         set({ studentList: studentListData });
         return studentListData;
     },
@@ -454,7 +444,6 @@ export const useUserStore = create<userState>()((set, get) => ({
         });
         onSnapshot(user, (querySnapshot) => {
             querySnapshot.docs.map((doc) => doc.data());
-            //   set({ calenderURL: Invitations });
             get().getCurrentUserInfo();
         });
     },

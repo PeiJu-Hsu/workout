@@ -8,7 +8,6 @@ export default function Logo({
     isShowsSideBar,
     handleToggleSidebar,
 }: LogoProps) {
-    // const [isShowsSideBar, setIsShowsSideBar] = useState(false);
     const close = (
         <svg
             xmlns="http://www.w3.org/2000/svg"

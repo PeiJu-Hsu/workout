@@ -77,7 +77,6 @@ export const RecordStore = create<RecordStore>()(
         getItemSummary: () => {
             const itemRecords = get().itemRecords;
             const itemName = get().itemName;
-            //[{}, ..., {date: "2021/10/10", summary: {item1: 35, item2: 20}}, ...]
             const maxRecords = itemRecords.map((item) => ({
                 summary: item.MaxSummary,
                 date: item.formatTime,
@@ -88,7 +87,6 @@ export const RecordStore = create<RecordStore>()(
         getItemMaxRecords: () => {
             const itemRecords = get().itemRecords;
             const itemName = get().itemName;
-            //[{}, ..., {date: "2021/10/10", summary: {item1: 35, item2: 20}}, ...]
             const maxRecords = itemRecords.map((item) => ({
                 summary: item.MaxSummary,
                 date: item.formatTime,
@@ -119,7 +117,6 @@ export const RecordStore = create<RecordStore>()(
         getItemHistory: () => {
             const itemRecords = get().itemRecords;
             const itemName = get().itemName;
-            //[{}, ..., {date: "2021/10/10", summary: {item1: 35, item2: 20}}, ...]
             const maxRecords = itemRecords.map((item) => ({
                 summary: item.MaxSummary,
                 date: item.formatTime,
